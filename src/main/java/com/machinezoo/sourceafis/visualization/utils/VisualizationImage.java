@@ -37,9 +37,9 @@ public class VisualizationImage {
 		this.content = content;
 		return this;
 	}
-	private byte[] background;
-	public VisualizationImage background(byte[] background) {
-		this.background = background;
+	private byte[] underlay;
+	public VisualizationImage underlay(byte[] background) {
+		this.underlay = background;
 		return this;
 	}
 	public DomContent fragment() {
@@ -47,7 +47,7 @@ public class VisualizationImage {
 			.add(new EmbeddedImage()
 				.width(width)
 				.height(height)
-				.image(background)
+				.image(underlay)
 				.svg())
 			.add(content);
 	}

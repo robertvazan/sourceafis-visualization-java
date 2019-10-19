@@ -1,40 +1,24 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.markers;
 
+import java.util.function.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
 public class AnglePieMarker {
-	private double angle;
-	public AnglePieMarker angle(double angle) {
-		this.angle = angle;
+	public double angle;
+	public double x;
+	public double y;
+	public double radius = 10;
+	public String color = "yellow";
+	public AnglePieMarker with(Consumer<AnglePieMarker> consumer) {
+		consumer.accept(this);
 		return this;
 	}
-	private double x;
-	public AnglePieMarker x(double x) {
-		this.x = x;
-		return this;
-	}
-	private double y;
-	public AnglePieMarker y(double y) {
-		this.y = y;
-		return this;
-	}
-	private double radius = 10;
-	public AnglePieMarker radius(double radius) {
-		this.radius = radius;
-		return this;
-	}
-	private String color = "yellow";
-	public AnglePieMarker color(String color) {
-		this.color = color;
-		return this;
-	}
-	public AnglePieMarker at(DoublePoint at) {
+	public void at(DoublePoint at) {
 		x = at.x;
 		y = at.y;
-		return this;
 	}
 	public DomContent svg() {
 		double normalized = angle;

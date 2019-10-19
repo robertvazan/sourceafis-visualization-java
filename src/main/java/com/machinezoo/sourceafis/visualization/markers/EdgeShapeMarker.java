@@ -1,83 +1,46 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.markers;
 
+import java.util.function.*;
 import org.apache.sanselan.color.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class EdgeShapeMarker {
-	private double length;
-	public EdgeShapeMarker length(double length) {
-		this.length = length;
+	public double length;
+	public double referenceAngle;
+	public double neighborAngle;
+	public double referenceX;
+	public double referenceY;
+	public double neighborX;
+	public double neighborY;
+	public double width = 1;
+	public EdgeShapeMarker with(Consumer<EdgeShapeMarker> consumer) {
+		consumer.accept(this);
 		return this;
 	}
-	private double referenceAngle;
-	public EdgeShapeMarker referenceAngle(double referenceAngle) {
-		this.referenceAngle = referenceAngle;
-		return this;
+	public void shape(EdgeShape shape) {
+		length = shape.length;
+		referenceAngle = shape.referenceAngle;
+		neighborAngle = shape.neighborAngle;
 	}
-	private double neighborAngle;
-	public EdgeShapeMarker neighborAngle(double neighborAngle) {
-		this.neighborAngle = neighborAngle;
-		return this;
+	public void reference(DoublePoint point) {
+		referenceX = point.x;
+		referenceY = point.y;
 	}
-	private double referenceX;
-	public EdgeShapeMarker referenceX(double referenceX) {
-		this.referenceX = referenceX;
-		return this;
+	public void neighbor(DoublePoint point) {
+		neighborX = point.x;
+		neighborY = point.y;
 	}
-	private double referenceY;
-	public EdgeShapeMarker referenceY(double referenceY) {
-		this.referenceY = referenceY;
-		return this;
+	public void reference(TemplateMinutia minutia) {
+		reference(minutia.center());
 	}
-	private double neighborX;
-	public EdgeShapeMarker neighborX(double neighborX) {
-		this.neighborX = neighborX;
-		return this;
+	public void neighbor(TemplateMinutia minutia) {
+		neighbor(minutia.center());
 	}
-	private double neighborY;
-	public EdgeShapeMarker neighborY(double neighborY) {
-		this.neighborY = neighborY;
-		return this;
-	}
-	private double width = 1;
-	public EdgeShapeMarker width(double width) {
-		this.width = width;
-		return this;
-	}
-	public EdgeShapeMarker shape(EdgeShape shape) {
-		return this
-			.length(shape.length)
-			.referenceAngle(shape.referenceAngle)
-			.neighborAngle(shape.neighborAngle);
-	}
-	public EdgeShapeMarker reference(double x, double y) {
-		return this
-			.referenceX(x)
-			.referenceY(y);
-	}
-	public EdgeShapeMarker neighbor(double x, double y) {
-		return this
-			.neighborX(x)
-			.neighborY(y);
-	}
-	public EdgeShapeMarker reference(DoublePoint point) {
-		return reference(point.x, point.y);
-	}
-	public EdgeShapeMarker neighbor(DoublePoint point) {
-		return neighbor(point.x, point.y);
-	}
-	public EdgeShapeMarker reference(TemplateMinutia minutia) {
-		return reference(minutia.center());
-	}
-	public EdgeShapeMarker neighbor(TemplateMinutia minutia) {
-		return neighbor(minutia.center());
-	}
-	public EdgeShapeMarker minutiae(Template template, IndexedEdge edge) {
-		return this
-			.reference(template.minutiae[edge.reference])
-			.neighbor(template.minutiae[edge.neighbor]);
+	public void minutiae(Template template, IndexedEdge edge) {
+		reference(template.minutiae[edge.reference]);
+		neighbor(template.minutiae[edge.neighbor]);
 	}
 	public DomContent svg() {
 		DoublePoint referencePos = new DoublePoint(referenceX, referenceY);

@@ -1,48 +1,30 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.markers;
 
+import java.util.function.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class MinutiaMarker {
-	private double x;
-	public MinutiaMarker x(double x) {
-		this.x = x;
+	public double x;
+	public double y;
+	public double direction;
+	public MinutiaType type;
+	public String color;
+	public MinutiaMarker with(Consumer<MinutiaMarker> consumer) {
+		consumer.accept(this);
 		return this;
 	}
-	private double y;
-	public MinutiaMarker y(double y) {
-		this.y = y;
-		return this;
+	public MinutiaMarker() {
 	}
-	private double direction;
-	public MinutiaMarker direction(double direction) {
-		this.direction = direction;
-		return this;
+	public MinutiaMarker(DoublePoint point) {
+		x = point.x;
+		y = point.y;
 	}
-	private MinutiaType type;
-	public MinutiaMarker type(MinutiaType type) {
-		this.type = type;
-		return this;
-	}
-	private String color;
-	public MinutiaMarker color(String color) {
-		this.color = color;
-		return this;
-	}
-	public MinutiaMarker at(double x, double y) {
-		return this
-			.x(x)
-			.y(y);
-	}
-	public MinutiaMarker at(DoublePoint point) {
-		return at(point.x, point.y);
-	}
-	public MinutiaMarker minutia(TemplateMinutia minutia) {
-		return this
-			.at(minutia.center())
-			.direction(minutia.direction)
-			.type(minutia.type);
+	public MinutiaMarker(TemplateMinutia minutia) {
+		this(minutia.center());
+		direction = minutia.direction;
+		type = minutia.type;
 	}
 	public DomElement svg() {
 		String stroke = color != null ? color : type == MinutiaType.ENDING ? "blue" : "green";

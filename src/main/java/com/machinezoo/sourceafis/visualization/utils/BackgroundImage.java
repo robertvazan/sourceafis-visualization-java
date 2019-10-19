@@ -6,12 +6,9 @@ import com.machinezoo.sourceafis.transparency.*;
 
 public class BackgroundImage {
 	private double width;
-	public BackgroundImage width(double width) {
-		this.width = width;
-		return this;
-	}
 	private double height;
-	public BackgroundImage height(double height) {
+	public BackgroundImage size(double width, double height) {
+		this.width = width;
 		this.height = height;
 		return this;
 	}
@@ -24,11 +21,6 @@ public class BackgroundImage {
 	public BackgroundImage content(DomContent content) {
 		this.content = content;
 		return this;
-	}
-	public BackgroundImage size(double width, double height) {
-		return this
-			.width(width)
-			.height(height);
 	}
 	public BackgroundImage size(IntPoint size) {
 		return this.size(size.x, size.y);

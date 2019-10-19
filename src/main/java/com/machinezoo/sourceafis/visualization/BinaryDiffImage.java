@@ -6,15 +6,11 @@ import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
 public class BinaryDiffImage {
-	private BooleanMatrix previous;
-	public BinaryDiffImage previous(BooleanMatrix previous) {
+	private final BooleanMatrix previous;
+	private final BooleanMatrix next;
+	public BinaryDiffImage(BooleanMatrix previous, BooleanMatrix next) {
 		this.previous = previous;
-		return this;
-	}
-	private BooleanMatrix next;
-	public BinaryDiffImage next(BooleanMatrix next) {
 		this.next = next;
-		return this;
 	}
 	public WritableImage image() {
 		WritableImage image = new WritableImage(next.size());

@@ -33,7 +33,8 @@ public class BackgroundImage {
 			return content;
 		return new DomFragment()
 			.add(new EmbeddedImage()
-				.size(width, height)
+				.width(width)
+				.height(height)
 				.image(background)
 				.svg())
 			.add(content);

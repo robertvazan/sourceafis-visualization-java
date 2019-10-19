@@ -51,14 +51,16 @@ public class WritableImage {
 	}
 	public DomElement svg() {
 		return new EmbeddedImage()
-			.size(width, height)
+			.width(width)
+			.height(height)
 			.image(png())
 			.mime("image/png")
 			.svg();
 	}
 	public DomElement html() {
-		return new EmbeddedImg()
-			.size(width, height)
+		return new EmbeddedImage()
+			.width(width)
+			.height(height)
 			.image(png())
 			.mime("image/png")
 			.html();

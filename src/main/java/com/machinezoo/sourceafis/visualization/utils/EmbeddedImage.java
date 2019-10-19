@@ -25,28 +25,31 @@ public class EmbeddedImage {
 		this.mime = mime;
 		return this;
 	}
-	public EmbeddedImage size(double width, double height) {
-		return this
-			.width(width)
-			.height(height);
+	public String uri() {
+		return "data:" + Optional.ofNullable(mime).orElseGet(this::guess) + ";base64," + Base64.getEncoder().encodeToString(image);
 	}
 	public DomElement svg() {
 		if (image == null)
 			return null;
+		if (width <= 0 || height <= 0)
+			throw new IllegalStateException("Width and height is required for SVG image element.");
 		return Svg.image()
 			.width(width)
 			.height(height)
-			.href(uri(mime, image));
+			.href(uri());
 	}
-	public static String uri(String mime, byte[] image) {
-		if (mime == null)
-			mime = mime(image);
-		return "data:" + mime + ";base64," + Base64.getEncoder().encodeToString(image);
+	public DomElement html() {
+		if (image == null)
+			return null;
+		DomElement img = Html.img();
+		if (width > 0)
+			img.width(width);
+		if (height > 0)
+			img.width(height);
+		img.src(uri());
+		return img;
 	}
-	public static String uri(byte[] image) {
-		return "data:" + mime(image) + ";base64," + Base64.getEncoder().encodeToString(image);
-	}
-	public static String mime(byte[] image) {
+	private String guess() {
 		if (image[1] == 'P' && image[2] == 'N' && image[3] == 'G')
 			return "image/png";
 		if (image[0] == (byte)0xff && image[1] == (byte)0xd8)

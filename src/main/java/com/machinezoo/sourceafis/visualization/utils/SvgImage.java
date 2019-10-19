@@ -64,17 +64,4 @@ public class SvgImage {
 		root.id(Base64.getUrlEncoder().encodeToString(hash).replace("_", "").replace("-", "").replace("=", ""));
 		return root;
 	}
-	public static DomElement of(double width, double height, DomContent content) {
-		return new SvgImage()
-			.width(width)
-			.height(height)
-			.content(content)
-			.document();
-	}
-	public static DomElement of(IntPoint size, DomContent content) {
-		return new SvgImage()
-			.size(size)
-			.content(content)
-			.document();
-	}
 }

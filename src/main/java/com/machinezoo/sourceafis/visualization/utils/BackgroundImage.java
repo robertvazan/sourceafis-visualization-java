@@ -39,6 +39,6 @@ public class BackgroundImage {
 			.add(content);
 	}
 	public DomElement document() {
-		return SvgContainer.of(width, height, svg());
+		return SvgImage.of(width, height, svg());
 	}
 }

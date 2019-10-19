@@ -8,36 +8,36 @@ import com.machinezoo.noexception.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
-public class SvgContainer {
+public class SvgImage {
 	private double width;
-	public SvgContainer width(double width) {
+	public SvgImage width(double width) {
 		this.width = width;
 		return this;
 	}
 	private double height;
-	public SvgContainer height(double height) {
+	public SvgImage height(double height) {
 		this.height = height;
 		return this;
 	}
 	private double padding;
-	public SvgContainer padding(double padding) {
+	public SvgImage padding(double padding) {
 		this.padding = padding;
 		return this;
 	}
 	private DomContent content;
-	public SvgContainer content(DomContent content) {
+	public SvgImage content(DomContent content) {
 		this.content = content;
 		return this;
 	}
-	public SvgContainer size(double width, double height) {
+	public SvgImage size(double width, double height) {
 		return this
 			.width(width)
 			.height(height);
 	}
-	public SvgContainer size(IntPoint size) {
+	public SvgImage size(IntPoint size) {
 		return this.size(size.x, size.y);
 	}
-	public SvgContainer size(BlockMap blocks) {
+	public SvgImage size(BlockMap blocks) {
 		return size(blocks.pixels);
 	}
 	public DomElement document() {
@@ -58,13 +58,13 @@ public class SvgContainer {
 		return root;
 	}
 	public static DomElement of(double width, double height, DomContent content) {
-		return new SvgContainer()
+		return new SvgImage()
 			.size(width, height)
 			.content(content)
 			.document();
 	}
 	public static DomElement of(IntPoint size, DomContent content) {
-		return new SvgContainer()
+		return new SvgImage()
 			.size(size)
 			.content(content)
 			.document();

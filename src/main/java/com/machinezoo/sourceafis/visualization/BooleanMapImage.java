@@ -32,9 +32,9 @@ public class BooleanMapImage {
 			.add(image.svg());
 	}
 	public DomElement document() {
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(map.size())
 			.content(svg())
-			.document();
+			.svg();
 	}
 }

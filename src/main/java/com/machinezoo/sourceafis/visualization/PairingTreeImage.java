@@ -31,10 +31,10 @@ public class PairingTreeImage {
 				m.color = "blue";
 			})
 			.svg());
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(template.size)
 			.background(background)
 			.content(svg)
-			.document();
+			.svg();
 	}
 }

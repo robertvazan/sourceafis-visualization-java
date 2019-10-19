@@ -34,11 +34,11 @@ public class PixelOrientationImage {
 		if (background == null)
 			return image().html();
 		else {
-			return new SvgImage()
+			return new VisualizationImage()
 				.size(orientations.size())
 				.background(background)
 				.content(image().svg())
-				.document();
+				.svg();
 		}
 	}
 }

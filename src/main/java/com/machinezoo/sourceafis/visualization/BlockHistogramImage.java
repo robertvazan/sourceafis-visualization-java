@@ -39,11 +39,11 @@ public class BlockHistogramImage {
 			points.add(point(block.center().x - stretch, bottom));
 			svg.add(Svg.polygon().points(String.join(" ", points)).fill("green").fillOpacity(0.4).stroke("#080").strokeWidth(0.2));
 		}
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(blocks)
 			.background(background)
 			.content(svg)
-			.document();
+			.svg();
 	}
 	private static String point(double x, double y) {
 		return x + "," + y;

@@ -25,9 +25,9 @@ public class SkeletonImage {
 		return svg;
 	}
 	public DomElement document() {
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(skeleton.size)
 			.content(svg())
-			.document();
+			.svg();
 	}
 }

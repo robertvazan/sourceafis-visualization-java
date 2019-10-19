@@ -42,12 +42,12 @@ public class SkeletonDiffImage {
 					.svg());
 			}
 		}
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(next.size)
 			.background(new BinaryDiffImage(previous.shadow(), next.shadow())
 				.image()
 				.png())
 			.content(svg)
-			.document();
+			.svg();
 	}
 }

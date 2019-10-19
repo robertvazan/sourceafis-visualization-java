@@ -28,9 +28,9 @@ public class SkeletonShadowImage {
 			.svg();
 	}
 	public DomElement document() {
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(map.size())
 			.content(svg())
-			.document();
+			.svg();
 	}
 }

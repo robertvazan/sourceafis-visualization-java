@@ -27,10 +27,10 @@ public class BlockOrientationImage {
 				markers.add(LineMarker.between(center.add(arm), center.minus(arm)).stroke("red"));
 			}
 		}
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(blocks)
 			.background(background)
 			.content(markers)
-			.document();
+			.svg();
 	}
 }

@@ -31,10 +31,10 @@ public class EdgeHashImage {
 		}
 		for (TemplateMinutia minutia : template.minutiae)
 			content.add(new MinutiaPositionMarker(minutia).svg());
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(template.size)
 			.background(background)
 			.content(content)
-			.document();
+			.svg();
 	}
 }

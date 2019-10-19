@@ -27,10 +27,10 @@ public class TemplateDiffImage {
 			}
 		}
 		content.add(new TemplateImage(next).svg());
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(next.size)
 			.background(background)
 			.content(content)
-			.document();
+			.svg();
 	}
 }

@@ -34,7 +34,7 @@ public class RootPairsImage {
 				.fill("red"));
 		}
 		IntPoint totalSize = new IntPoint(probe.size.x + candidate.size.x, Math.max(probe.size.y, candidate.size.y));
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(totalSize)
 			.content(new DomFragment()
 				.add(new EmbeddedImage()
@@ -49,6 +49,6 @@ public class RootPairsImage {
 					.svg()
 					.transform("translate(" + probe.size.x + ",0)"))
 				.add(svg))
-			.document();
+			.svg();
 	}
 }

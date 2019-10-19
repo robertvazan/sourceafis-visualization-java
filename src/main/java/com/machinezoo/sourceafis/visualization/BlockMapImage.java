@@ -23,14 +23,14 @@ public class BlockMapImage {
 			return document(blocks.primary, blocks.secondary, "#00c", background);
 	}
 	private DomElement document(BlockGrid foreground, BlockGrid background, String color, byte[] image) {
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(blocks)
 			.padding(1)
 			.background(image)
 			.content(new DomFragment()
 				.add(grid(background, "#888", 0.1))
 				.add(grid(foreground, color, 0.25)))
-			.document();
+			.svg();
 	}
 	private DomContent grid(BlockGrid grid, String color, double width) {
 		DomFragment svg = new DomFragment();

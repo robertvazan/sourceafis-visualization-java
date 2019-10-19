@@ -26,10 +26,10 @@ public class CircleMapImage {
 				.fill("#0f0")
 				.fillOpacity(0.2));
 		}
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(blocks)
 			.background(background)
 			.content(circles)
-			.document();
+			.svg();
 	}
 }

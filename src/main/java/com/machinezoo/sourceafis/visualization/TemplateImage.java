@@ -27,9 +27,9 @@ public class TemplateImage {
 		return svg;
 	}
 	public DomElement document() {
-		return new SvgImage()
+		return new VisualizationImage()
 			.size(template.size)
 			.content(svg())
-			.document();
+			.svg();
 	}
 }

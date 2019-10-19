@@ -3,6 +3,7 @@ package com.machinezoo.sourceafis.visualization.utils;
 
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
+import com.machinezoo.sourceafis.transparency.*;
 
 public class EmbeddedImage {
 	private double width;
@@ -14,6 +15,14 @@ public class EmbeddedImage {
 	public EmbeddedImage height(double height) {
 		this.height = height;
 		return this;
+	}
+	public EmbeddedImage size(IntPoint size) {
+		width = size.x;
+		height = size.y;
+		return this;
+	}
+	public EmbeddedImage size(BlockMap blocks) {
+		return size(blocks.pixels);
 	}
 	private byte[] image;
 	public EmbeddedImage image(byte[] image) {

@@ -19,6 +19,14 @@ public class SvgImage {
 		this.height = height;
 		return this;
 	}
+	public SvgImage size(IntPoint size) {
+		width = size.x;
+		height = size.y;
+		return this;
+	}
+	public SvgImage size(BlockMap blocks) {
+		return size(blocks.pixels);
+	}
 	private double padding;
 	public SvgImage padding(double padding) {
 		this.padding = padding;
@@ -29,21 +37,20 @@ public class SvgImage {
 		this.content = content;
 		return this;
 	}
-	public SvgImage size(double width, double height) {
-		return this
-			.width(width)
-			.height(height);
-	}
-	public SvgImage size(IntPoint size) {
-		return this.size(size.x, size.y);
-	}
-	public SvgImage size(BlockMap blocks) {
-		return size(blocks.pixels);
+	private byte[] background;
+	public SvgImage background(byte[] background) {
+		this.background = background;
+		return this;
 	}
 	public DomElement document() {
 		DomElement root = Svg.svg()
 			.version("1.1")
 			.viewBox((-padding) + " " + (-padding) + " " + (width + 2 * padding) + " " + (height + 2 * padding))
+			.add(new EmbeddedImage()
+				.width(width)
+				.height(height)
+				.image(background)
+				.svg())
 			.add(content);
 		/*
 		 * Force removing and re-adding of the whole SVG document whenever anything in it changes
@@ -59,7 +66,8 @@ public class SvgImage {
 	}
 	public static DomElement of(double width, double height, DomContent content) {
 		return new SvgImage()
-			.size(width, height)
+			.width(width)
+			.height(height)
 			.content(content)
 			.document();
 	}

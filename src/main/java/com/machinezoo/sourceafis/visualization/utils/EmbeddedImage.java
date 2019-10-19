@@ -29,13 +29,15 @@ public class EmbeddedImage {
 		this.image = image;
 		return this;
 	}
-	private String mime;
-	public EmbeddedImage mime(String mime) {
-		this.mime = mime;
-		return this;
-	}
 	public String uri() {
-		return "data:" + Optional.ofNullable(mime).orElseGet(this::guess) + ";base64," + Base64.getEncoder().encodeToString(image);
+		return "data:" + mime() + ";base64," + Base64.getEncoder().encodeToString(image);
+	}
+	private String mime() {
+		if (image[1] == 'P' && image[2] == 'N' && image[3] == 'G')
+			return "image/png";
+		if (image[0] == (byte)0xff && image[1] == (byte)0xd8)
+			return "image/jpeg";
+		throw new IllegalArgumentException();
 	}
 	public DomElement svg() {
 		if (image == null)
@@ -57,12 +59,5 @@ public class EmbeddedImage {
 			img.width(height);
 		img.src(uri());
 		return img;
-	}
-	private String guess() {
-		if (image[1] == 'P' && image[2] == 'N' && image[3] == 'G')
-			return "image/png";
-		if (image[0] == (byte)0xff && image[1] == (byte)0xd8)
-			return "image/jpeg";
-		throw new IllegalArgumentException();
 	}
 }

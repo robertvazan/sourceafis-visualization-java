@@ -54,7 +54,6 @@ public class WritableImage {
 			.width(width)
 			.height(height)
 			.image(png())
-			.mime("image/png")
 			.svg();
 	}
 	public DomElement html() {
@@ -62,7 +61,6 @@ public class WritableImage {
 			.width(width)
 			.height(height)
 			.image(png())
-			.mime("image/png")
 			.html();
 	}
 	public WritableImage fill(int color) {

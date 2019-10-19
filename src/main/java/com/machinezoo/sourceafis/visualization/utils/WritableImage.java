@@ -3,7 +3,6 @@ package com.machinezoo.sourceafis.visualization.utils;
 
 import java.awt.image.*;
 import java.io.*;
-import java.util.*;
 import javax.imageio.*;
 import com.machinezoo.noexception.*;
 import com.machinezoo.pushmode.dom.*;
@@ -46,22 +45,17 @@ public class WritableImage {
 		Exceptions.sneak().run(() -> ImageIO.write(image, "PNG", stream));
 		return stream.toByteArray();
 	}
-	public String uri() {
-		return "data:image/png;base64," + Base64.getEncoder().encodeToString(png());
+	public EmbeddedImage embedded() {
+		return new EmbeddedImage()
+			.width(width)
+			.height(height)
+			.image(png());
 	}
 	public DomElement svg() {
-		return new EmbeddedImage()
-			.width(width)
-			.height(height)
-			.image(png())
-			.svg();
+		return embedded().svg();
 	}
 	public DomElement html() {
-		return new EmbeddedImage()
-			.width(width)
-			.height(height)
-			.image(png())
-			.html();
+		return embedded().html();
 	}
 	public WritableImage fill(int color) {
 		for (int i = 0; i < pixels.length; ++i)

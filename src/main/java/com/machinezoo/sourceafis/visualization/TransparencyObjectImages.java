@@ -1,5 +1,6 @@
 package com.machinezoo.sourceafis.visualization;
 
+import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
 import static java.util.stream.Collectors.*;
 import java.util.*;
 import java.util.stream.*;
@@ -7,7 +8,6 @@ import org.apache.sanselan.color.*;
 import com.google.common.collect.Streams;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
-import com.machinezoo.sourceafis.visualization.markers.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
 public class TransparencyObjectImages {
@@ -122,31 +122,19 @@ public class TransparencyObjectImages {
 	}
 	public static VisualizationImage visualizeBlockOrientation(DoublePointMatrix orientations, BlockMap blocks, BooleanMatrix mask, byte[] underlay) {
 		DomFragment markers = new DomFragment();
-		for (IntPoint at : blocks.primary.blocks) {
-			if (mask == null || mask.get(at)) {
-				IntBlock block = blocks.primary.block(at);
-				DoublePoint center = block.center();
-				DoublePoint direction = DoubleAngle.toVector(DoubleAngle.fromOrientation(DoubleAngle.atan(orientations.get(at))));
-				DoublePoint arm = direction.multiply(0.5 * Math.min(block.width, block.height));
-				markers.add(LineMarker.between(center.add(arm), center.minus(arm)).stroke("red"));
-			}
-		}
+		for (IntPoint at : blocks.primary.blocks)
+			if (mask == null || mask.get(at))
+				markers.add(markRectOrientation(orientations.get(at), blocks.primary.block(at)));
 		return new VisualizationImage()
 			.size(blocks)
 			.underlay(underlay)
 			.content(markers);
 	}
-	public static VisualizationImage visualizeDoubleBlocks(DoubleMatrix matrix, BlockMap blocks, byte[] underlay) {
+	public static VisualizationImage visualizeBlockWeight(DoubleMatrix matrix, BlockMap blocks, byte[] underlay) {
 		DomFragment markers = new DomFragment();
 		for (IntPoint at : blocks.primary.blocks) {
-			IntBlock block = blocks.primary.block(at);
-			double radius = Math.sqrt((matrix.get(at) - matrix.stats.getMin()) / (matrix.stats.getMax() - matrix.stats.getMin())) * block.radius();
-			markers.add(PointMarker.circle(block.center())
-				.r(radius)
-				.stroke("#080")
-				.strokeWidth(0.3)
-				.fill("#0f0")
-				.fillOpacity(0.2));
+			double weight = (matrix.get(at) - matrix.stats.getMin()) / (matrix.stats.getMax() - matrix.stats.getMin());
+			markers.add(markRectWeight(weight, blocks.primary.block(at)));
 		}
 		return new VisualizationImage()
 			.size(blocks)
@@ -197,11 +185,8 @@ public class TransparencyObjectImages {
 	public static VisualizationImage visualizeSkeleton(SkeletonGraph skeleton, byte[] underlay) {
 		DomFragment markers = new DomFragment();
 		markers.add(visualizeSkeletonShadow(skeleton).svg());
-		for (SkeletonMinutia minutia : skeleton.minutiae) {
-			markers.add(new HollowMinutiaMarker()
-				.with(m -> m.minutia(minutia))
-				.svg());
-		}
+		for (SkeletonMinutia minutia : skeleton.minutiae)
+			markers.add(markSkeletonMinutia(minutia));
 		return new VisualizationImage()
 			.size(skeleton.size)
 			.underlay(underlay)
@@ -211,29 +196,14 @@ public class TransparencyObjectImages {
 		Set<IntPoint> previousMinutiae = previous.minutiae.stream().map(SkeletonMinutia::position).collect(toSet());
 		Set<IntPoint> currentMinutiae = next.minutiae.stream().map(SkeletonMinutia::position).collect(toSet());
 		DomFragment markers = new DomFragment();
-		for (SkeletonMinutia minutia : previous.minutiae) {
-			if (!currentMinutiae.contains(minutia.position())) {
-				markers.add(new HollowMinutiaMarker()
-					.with(m -> {
-						m.minutia(minutia);
-						m.color = "red";
-					})
-					.svg());
-			}
-		}
+		for (SkeletonMinutia minutia : previous.minutiae)
+			if (!currentMinutiae.contains(minutia.position()))
+				markers.add(markRemovedSkeletonMinutia(minutia));
 		for (SkeletonMinutia minutia : next.minutiae) {
-			if (!previousMinutiae.contains(minutia.position())) {
-				markers.add(new HollowMinutiaMarker()
-					.with(m -> {
-						m.minutia(minutia);
-						m.color = "green";
-					})
-					.svg());
-			} else {
-				markers.add(new HollowMinutiaMarker()
-					.with(m -> m.minutia(minutia))
-					.svg());
-			}
+			if (!previousMinutiae.contains(minutia.position()))
+				markers.add(markAddedSkeletonMinutia(minutia));
+			else
+				markers.add(markSkeletonMinutia(minutia));
 		}
 		return new VisualizationImage()
 			.size(next.size)
@@ -241,12 +211,13 @@ public class TransparencyObjectImages {
 			.content(markers);
 	}
 	public static VisualizationImage visualizeTemplate(Template template, byte[] underlay) {
+		DomFragment markers = new DomFragment();
+		for (TemplateMinutia minutia : template.minutiae)
+			markers.add(markTemplateMinutia(minutia));
 		return new VisualizationImage()
 			.size(template.size)
 			.underlay(underlay)
-			.content(new DomFragment()
-				.add(Arrays.stream(template.minutiae)
-					.map(m -> new MinutiaMarker(m).svg())));
+			.content(markers);
 	}
 	public static VisualizationImage visualizeTemplate(Template template) {
 		return visualizeTemplate(template, null);
@@ -254,13 +225,9 @@ public class TransparencyObjectImages {
 	public static VisualizationImage visualizeTemplateDiff(Template previous, Template next, byte[] underlay) {
 		DomFragment markers = new DomFragment();
 		Set<IntPoint> positions = Arrays.stream(next.minutiae).map(TemplateMinutia::position).collect(toSet());
-		for (TemplateMinutia minutia : previous.minutiae) {
-			if (!positions.contains(minutia.position())) {
-				markers.add(new MinutiaMarker(minutia)
-					.with(m -> m.color = "red")
-					.svg());
-			}
-		}
+		for (TemplateMinutia minutia : previous.minutiae)
+			if (!positions.contains(minutia.position()))
+				markers.add(markRemovedTemplateMinutia(minutia));
 		markers.add(visualizeTemplate(next).fragment());
 		return new VisualizationImage()
 			.size(next.size)
@@ -284,17 +251,10 @@ public class TransparencyObjectImages {
 			.collect(toList());
 		for (EdgeLine line : sorted) {
 			boolean symmetrical = Arrays.stream(table[line.edge.neighbor]).anyMatch(e -> e.neighbor == line.reference);
-			markers.add(new EdgeShapeMarker()
-				.with(m -> {
-					m.shape(line.edge);
-					m.reference(template.minutiae[line.reference]);
-					m.neighbor(template.minutiae[line.edge.neighbor]);
-					m.width = symmetrical ? 1.2 : 0.8;
-				})
-				.svg());
+			markers.add(markNeighborEdge(line.edge, line.reference, template, symmetrical));
 		}
 		for (TemplateMinutia minutia : template.minutiae)
-			markers.add(new MinutiaPositionMarker(minutia).svg());
+			markers.add(markMinutiaPosition(minutia));
 		return new VisualizationImage()
 			.size(template.size)
 			.underlay(underlay)
@@ -302,19 +262,11 @@ public class TransparencyObjectImages {
 	}
 	public static VisualizationImage visualizeEdgeHash(EdgeHash hash, Template template, byte[] underlay) {
 		DomFragment markers = new DomFragment();
-		for (IndexedEdge edge : hash.edges.stream().sorted(Comparator.comparing(e -> -e.length)).collect(toList())) {
-			if (edge.reference < edge.neighbor) {
-				markers.add(new EdgeShapeMarker()
-					.with(m -> {
-						m.shape(edge);
-						m.minutiae(template, edge);
-						m.width = 0.6;
-					})
-					.svg());
-			}
-		}
+		for (IndexedEdge edge : hash.edges.stream().sorted(Comparator.comparing(e -> -e.length)).collect(toList()))
+			if (edge.reference < edge.neighbor)
+				markers.add(markIndexedEdge(edge, template));
 		for (TemplateMinutia minutia : template.minutiae)
-			markers.add(new MinutiaPositionMarker(minutia).svg());
+			markers.add(markMinutiaPosition(minutia));
 		return new VisualizationImage()
 			.size(template.size)
 			.underlay(underlay)
@@ -323,53 +275,54 @@ public class TransparencyObjectImages {
 	public static VisualizationImage visualizeMatchPairing(MatchPairing pairing, MatchSide side, Template template, byte[] underlay) {
 		DomFragment markers = new DomFragment();
 		for (PairingEdge edge : pairing.support)
-			markers.add(new EdgeMarker(edge, side, template).svg().stroke("yellow"));
+			markers.add(markPairingSupportEdge(edge, side, template));
 		for (PairingEdge edge : pairing.tree)
-			markers.add(new EdgeMarker(edge, side, template).svg().strokeWidth(2).stroke("green"));
+			markers.add(markPairingTreeEdge(edge, side, template));
 		for (TemplateMinutia minutia : template.minutiae)
-			markers.add(new MinutiaPositionMarker(minutia).svg());
-		TemplateMinutia rootMinutia = template.minutiae[pairing.root.side(side)];
-		markers.add(new MinutiaPositionMarker(rootMinutia)
-			.with(m -> {
-				m.radius = 3.5;
-				m.color = "blue";
-			})
-			.svg());
+			markers.add(markMinutiaPosition(minutia));
+		TemplateMinutia root = template.minutiae[pairing.root.side(side)];
+		markers.add(markRootMinutiaPosition(root));
 		return new VisualizationImage()
 			.size(template.size)
 			.underlay(underlay)
 			.content(markers);
 	}
+	private static DomElement visualizeMinutiaPositions(Template template) {
+		DomElement group = Svg.g();
+		for (TemplateMinutia minutia : template.minutiae)
+			group.add(markMinutiaPosition(minutia));
+		return group;
+	}
 	public static VisualizationImage visualizeMinutiaPairs(MinutiaPair[] pairs, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
+		String transform = "translate(" + probe.size.x + ",0)";
+		DomFragment content = new DomFragment()
+			.add(new EmbeddedImage()
+				.width(probe.size.x)
+				.height(probe.size.y)
+				.image(probeUnderlay)
+				.svg())
+			.add(new EmbeddedImage()
+				.width(candidate.size.x)
+				.height(candidate.size.y)
+				.image(candidateUnderlay)
+				.svg()
+				.transform(transform));
 		DoublePoint shift = new DoublePoint(probe.size.x, 0);
-		DomFragment markers = new DomFragment();
 		for (MinutiaPair pair : pairs) {
-			markers.add(LineMarker.between(probe.minutiae[pair.probe].center(), candidate.minutiae[pair.candidate].center().add(shift))
+			DoublePoint probePos = probe.minutiae[pair.probe].center();
+			DoublePoint candidatePos = candidate.minutiae[pair.candidate].center().add(shift);
+			content.add(Svg.line()
+				.x1(probePos.x)
+				.y1(probePos.y)
+				.x2(candidatePos.x)
+				.y2(candidatePos.y)
 				.stroke("green")
 				.strokeWidth(0.4));
 		}
-		for (TemplateMinutia minutia : probe.minutiae)
-			markers.add(new MinutiaPositionMarker(minutia).svg());
-		for (TemplateMinutia minutia : candidate.minutiae) {
-			markers.add(PointMarker.circle(minutia.center().add(shift))
-				.r(2.5)
-				.fill("red"));
-		}
-		IntPoint totalSize = new IntPoint(probe.size.x + candidate.size.x, Math.max(probe.size.y, candidate.size.y));
+		content.add(visualizeMinutiaPositions(probe));
+		content.add(visualizeMinutiaPositions(candidate).transform(transform));
 		return new VisualizationImage()
-			.size(totalSize)
-			.content(new DomFragment()
-				.add(new EmbeddedImage()
-					.width(probe.size.x)
-					.height(probe.size.y)
-					.image(probeUnderlay)
-					.svg())
-				.add(new EmbeddedImage()
-					.width(candidate.size.x)
-					.height(candidate.size.y)
-					.image(candidateUnderlay)
-					.svg()
-					.transform("translate(" + probe.size.x + ",0)"))
-				.add(markers));
+			.size(new IntPoint(probe.size.x + candidate.size.x, Math.max(probe.size.y, candidate.size.y)))
+			.content(content);
 	}
 }

@@ -136,6 +136,6 @@ public class ExtractorImages {
 		return visualizeEdgeTable(archive.edgeTable(), output(), input());
 	}
 	public VisualizationImage template() {
-		return visualizeTemplate(output());
+		return visualizeTemplate(output(), input());
 	}
 }

@@ -8,7 +8,6 @@ import org.apache.sanselan.color.*;
 import com.google.common.collect.Streams;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
-import com.machinezoo.sourceafis.visualization.utils.*;
 
 public class TransparencyObjectImages {
 	private static DomContent visualizeBlockGrid(BlockMap blocks, BlockGrid grid, String color, double width) {

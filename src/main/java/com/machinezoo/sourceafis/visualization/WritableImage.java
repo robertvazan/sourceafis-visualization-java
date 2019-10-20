@@ -1,5 +1,5 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
-package com.machinezoo.sourceafis.visualization.utils;
+package com.machinezoo.sourceafis.visualization;
 
 import java.awt.image.*;
 import java.io.*;

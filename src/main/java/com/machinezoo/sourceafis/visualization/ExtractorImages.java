@@ -1,3 +1,4 @@
+// Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
 import static com.machinezoo.sourceafis.visualization.TransparencyImages.*;

@@ -72,7 +72,7 @@ public class TransparencyImages {
 			for (int z = 0; z < histogram.depth; ++z)
 				resampled[z * slots / histogram.depth] += histogram.get(at, z);
 			int total = IntStream.of(resampled).sum();
-			IntBlock block = grid.block(at);
+			IntRect block = grid.block(at);
 			List<String> points = new ArrayList<>();
 			double bottom = block.center().y + 0.8 * block.radius();
 			double stretch = 0.9 * block.radius();

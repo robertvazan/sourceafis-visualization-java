@@ -6,7 +6,7 @@ import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class TransparencyMarkers {
-	public static DomContent markRectWeight(double weight, IntBlock rect) {
+	public static DomContent markRectWeight(double weight, IntRect rect) {
 		double radius = Math.sqrt(weight) * rect.radius();
 		DoublePoint center = rect.center();
 		return Svg.circle()
@@ -18,7 +18,7 @@ public class TransparencyMarkers {
 			.fill("#0f0")
 			.fillOpacity(0.2);
 	}
-	public static DomContent markRectOrientation(DoublePoint orientation, IntBlock rect) {
+	public static DomContent markRectOrientation(DoublePoint orientation, IntRect rect) {
 		DoublePoint center = rect.center();
 		DoublePoint direction = DoubleAngle.toVector(DoubleAngle.fromOrientation(DoubleAngle.atan(orientation)));
 		DoublePoint arm = direction.multiply(0.5 * Math.min(rect.width, rect.height));

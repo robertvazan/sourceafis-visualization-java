@@ -9,7 +9,7 @@ import com.google.common.collect.Streams;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
-public class TransparencyObjectImages {
+public class TransparencyImages {
 	private static DomContent visualizeBlockGrid(BlockMap blocks, BlockGrid grid, String color, double width) {
 		DomFragment markers = new DomFragment();
 		for (int x : grid.x) {

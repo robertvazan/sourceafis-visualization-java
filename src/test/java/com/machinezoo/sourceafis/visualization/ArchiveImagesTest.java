@@ -43,10 +43,10 @@ public class ArchiveImagesTest {
 				TransparencyArchive archive = new TransparencyZip(zip);
 				ExtractorImages extractor = new ExtractorImages(archive)
 					.input(probeImage)
-					.output(new Template(probe.toByteArray()));
+					.output(probe.toByteArray());
 				MatcherImages matcher = new MatcherImages(archive)
-					.probe(new Template(probe.toByteArray()))
-					.candidate(new Template(candidate.toByteArray()))
+					.probe(probe.toByteArray())
+					.candidate(candidate.toByteArray())
 					.probeImage(probeImage)
 					.candidateImage(candidateImage);
 				for (Object object : new Object[] { extractor, extractor.ridges(), extractor.valleys(), matcher }) {

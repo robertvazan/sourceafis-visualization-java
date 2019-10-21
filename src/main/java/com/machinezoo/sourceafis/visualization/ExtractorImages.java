@@ -24,17 +24,17 @@ public class ExtractorImages {
 	byte[] input() {
 		return input.get();
 	}
-	private Supplier<Template> output = () -> null;
-	public ExtractorImages output(Supplier<Template> supplier) {
+	private Supplier<byte[]> output = () -> null;
+	public ExtractorImages output(Supplier<byte[]> supplier) {
 		Objects.requireNonNull(supplier);
 		output = supplier;
 		return this;
 	}
-	public ExtractorImages output(Template template) {
+	public ExtractorImages output(byte[] template) {
 		return output(() -> template);
 	}
 	Template output() {
-		return output.get();
+		return Optional.ofNullable(output.get()).map(Template::new).orElse(null);
 	}
 	public WritableImage decoded() {
 		return visualizeDecodedImage(archive.decoded());

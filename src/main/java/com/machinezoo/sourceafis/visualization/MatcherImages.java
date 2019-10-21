@@ -12,29 +12,29 @@ public class MatcherImages {
 		Objects.requireNonNull(archive);
 		this.archive = archive;
 	}
-	private Supplier<Template> probe = () -> null;
-	public MatcherImages probe(Supplier<Template> supplier) {
+	private Supplier<byte[]> probe = () -> null;
+	public MatcherImages probe(Supplier<byte[]> supplier) {
 		Objects.requireNonNull(supplier);
 		probe = supplier;
 		return this;
 	}
-	public MatcherImages probe(Template template) {
+	public MatcherImages probe(byte[] template) {
 		return probe(() -> template);
 	}
 	private Template probe() {
-		return probe.get();
+		return Optional.ofNullable(probe.get()).map(Template::new).orElse(null);
 	}
-	private Supplier<Template> candidate = () -> null;
-	public MatcherImages candidate(Supplier<Template> supplier) {
+	private Supplier<byte[]> candidate = () -> null;
+	public MatcherImages candidate(Supplier<byte[]> supplier) {
 		Objects.requireNonNull(supplier);
 		candidate = supplier;
 		return this;
 	}
-	public MatcherImages candidate(Template template) {
+	public MatcherImages candidate(byte[] template) {
 		return candidate(() -> template);
 	}
 	private Template candidate() {
-		return candidate.get();
+		return Optional.ofNullable(candidate.get()).map(Template::new).orElse(null);
 	}
 	private Supplier<byte[]> probeImage = () -> null;
 	public MatcherImages probeImage(Supplier<byte[]> supplier) {

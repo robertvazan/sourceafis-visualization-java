@@ -10,11 +10,17 @@ import com.machinezoo.sourceafis.transparency.*;
 
 public class VisualizationImage {
 	private double width;
+	public double width() {
+		return width;
+	}
 	public VisualizationImage width(double width) {
 		this.width = width;
 		return this;
 	}
 	private double height;
+	public double height() {
+		return height;
+	}
 	public VisualizationImage height(double height) {
 		this.height = height;
 		return this;

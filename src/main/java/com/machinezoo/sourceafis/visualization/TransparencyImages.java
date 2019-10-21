@@ -388,43 +388,55 @@ public class TransparencyImages {
 			.underlay(underlay)
 			.content(markers);
 	}
-	private static DomElement visualizeMinutiaPositions(Template template) {
-		DomElement group = Svg.g();
+	private static VisualizationImage visualizeSideBySide(VisualizationImage left, VisualizationImage right) {
+		return new VisualizationImage()
+			.width(left.width() + right.width())
+			.height(Math.max(left.height(), right.height()))
+			.content(new DomFragment()
+				.add(Svg.g()
+					.add(left.fragment()))
+				.add(Svg.g()
+					.transform("translate(" + left.width() + ",0)")
+					.add(right.fragment())));
+	}
+	private static DomContent visualizeMinutiaPositions(Template template) {
+		DomFragment markers = new DomFragment();
 		for (TemplateMinutia minutia : template.minutiae)
-			group.add(markMinutiaPosition(minutia));
-		return group;
+			markers.add(markMinutiaPosition(minutia));
+		return markers;
 	}
 	public static VisualizationImage visualizeMinutiaPairs(MinutiaPair[] pairs, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
-		String transform = "translate(" + probe.size.x + ",0)";
-		DomFragment content = new DomFragment()
-			.add(new EmbeddedImage()
-				.width(probe.size.x)
-				.height(probe.size.y)
-				.image(probeUnderlay)
-				.svg())
-			.add(new EmbeddedImage()
-				.width(candidate.size.x)
-				.height(candidate.size.y)
-				.image(candidateUnderlay)
-				.svg()
-				.transform(transform));
-		DoublePoint shift = new DoublePoint(probe.size.x, 0);
+		DomFragment links = new DomFragment();
 		for (MinutiaPair pair : pairs) {
 			DoublePoint probePos = probe.minutiae[pair.probe].center();
-			DoublePoint candidatePos = candidate.minutiae[pair.candidate].center().add(shift);
-			content.add(Svg.line()
+			DoublePoint candidatePos = candidate.minutiae[pair.candidate].center();
+			links.add(Svg.line()
 				.x1(probePos.x)
 				.y1(probePos.y)
-				.x2(candidatePos.x)
+				.x2(candidatePos.x + probe.size.x)
 				.y2(candidatePos.y)
 				.stroke("green")
 				.strokeWidth(0.4));
 		}
-		content.add(visualizeMinutiaPositions(probe));
-		content.add(visualizeMinutiaPositions(candidate).transform(transform));
-		return new VisualizationImage()
-			.size(new IntPoint(probe.size.x + candidate.size.x, Math.max(probe.size.y, candidate.size.y)))
-			.content(content);
+		VisualizationImage leftSpace = new VisualizationImage().size(probe.size);
+		VisualizationImage rightSpace = new VisualizationImage().size(candidate.size);
+		VisualizationImage leftUnderlay = new VisualizationImage()
+			.size(probe.size)
+			.underlay(probeUnderlay);
+		VisualizationImage rightUnderlay = new VisualizationImage()
+			.size(candidate.size)
+			.underlay(candidateUnderlay);
+		VisualizationImage leftMarkers = new VisualizationImage()
+			.size(probe.size)
+			.content(visualizeMinutiaPositions(probe));
+		VisualizationImage rightMarkers = new VisualizationImage()
+			.size(candidate.size)
+			.content(visualizeMinutiaPositions(candidate));
+		return visualizeSideBySide(leftSpace, rightSpace)
+			.content(new DomFragment()
+				.add(visualizeSideBySide(leftUnderlay, rightUnderlay).fragment())
+				.add(links)
+				.add(visualizeSideBySide(leftMarkers, rightMarkers).fragment()));
 	}
 	public static VisualizationImage visualizeRootPairs(MinutiaPair[] roots, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
 		return visualizeMinutiaPairs(roots, probe, candidate, probeUnderlay, candidateUnderlay);
@@ -443,5 +455,10 @@ public class TransparencyImages {
 			.size(template.size)
 			.underlay(underlay)
 			.content(markers);
+	}
+	public static VisualizationImage visualizePairing(MatchPairing pairing, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
+		return visualizeSideBySide(
+			visualizePairing(pairing, MatchSide.PROBE, probe, probeUnderlay),
+			visualizePairing(pairing, MatchSide.CANDIDATE, candidate, candidateUnderlay));
 	}
 }

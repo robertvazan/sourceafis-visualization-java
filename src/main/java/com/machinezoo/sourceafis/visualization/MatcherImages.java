@@ -77,12 +77,12 @@ public class MatcherImages {
 		}
 	}
 	public VisualizationImage pairing(MatchSide side) {
-		return pairing(archive.bestMatch(), side);
+		return pairing(archive.bestMatch().orElse(0), side);
 	}
 	public VisualizationImage pairing(int offset) {
 		return visualizePairing(archive.pairing(offset), probe(), candidate(), probeImage(), candidateImage());
 	}
 	public VisualizationImage pairing() {
-		return pairing(archive.bestMatch());
+		return pairing(archive.bestMatch().orElse(0));
 	}
 }

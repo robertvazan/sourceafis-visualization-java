@@ -483,15 +483,15 @@ public class TransparencyImages {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
 	}
-	public static VisualizationImage visualizeEdgeTable(NeighborEdge[][] table, Template template, byte[] underlay) {
+	public static VisualizationImage visualizeEdgeTable(EdgeTable table, Template template, byte[] underlay) {
 		DomFragment markers = new DomFragment();
-		List<EdgeLine> sorted = IntStream.range(0, table.length)
+		List<EdgeLine> sorted = IntStream.range(0, table.edges.length)
 			.boxed()
-			.flatMap(n -> Arrays.stream(table[n]).map(e -> new EdgeLine(n, e)))
+			.flatMap(n -> Arrays.stream(table.edges[n]).map(e -> new EdgeLine(n, e)))
 			.sorted(Comparator.comparing(e -> -e.edge.length))
 			.collect(toList());
 		for (EdgeLine line : sorted) {
-			boolean symmetrical = Arrays.stream(table[line.edge.neighbor]).anyMatch(e -> e.neighbor == line.reference);
+			boolean symmetrical = Arrays.stream(table.edges[line.edge.neighbor]).anyMatch(e -> e.neighbor == line.reference);
 			markers.add(markNeighborEdge(line.edge, line.reference, template, symmetrical));
 		}
 		for (TemplateMinutia minutia : template.minutiae)
@@ -533,9 +533,9 @@ public class TransparencyImages {
 			markers.add(markMinutiaPosition(minutia));
 		return markers;
 	}
-	public static VisualizationImage visualizeMinutiaPairs(MinutiaPair[] pairs, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
+	public static VisualizationImage visualizeRootPairs(RootPairs roots, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
 		DomFragment links = new DomFragment();
-		for (MinutiaPair pair : pairs) {
+		for (MinutiaPair pair : roots.pairs) {
 			DoublePoint probePos = probe.minutiae[pair.probe].center();
 			DoublePoint candidatePos = candidate.minutiae[pair.candidate].center();
 			links.add(Svg.line()
@@ -565,9 +565,6 @@ public class TransparencyImages {
 				.add(visualizeSideBySide(leftUnderlay, rightUnderlay).fragment())
 				.add(links)
 				.add(visualizeSideBySide(leftMarkers, rightMarkers).fragment()));
-	}
-	public static VisualizationImage visualizeRootPairs(MinutiaPair[] roots, Template probe, Template candidate, byte[] probeUnderlay, byte[] candidateUnderlay) {
-		return visualizeMinutiaPairs(roots, probe, candidate, probeUnderlay, candidateUnderlay);
 	}
 	public static DomContent markRootMinutiaPosition(TemplateMinutia minutia) {
 		DoublePoint at = minutia.center();

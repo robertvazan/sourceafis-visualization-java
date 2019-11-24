@@ -5,8 +5,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.io.*;
 import java.lang.reflect.*;
-import java.nio.file.*;
-import java.util.zip.*;
 import org.apache.commons.io.*;
 import org.junit.*;
 import com.machinezoo.noexception.*;
@@ -27,9 +25,9 @@ public class ArchiveImagesTest {
 		FingerprintTemplate candidate = new FingerprintTemplate(
 			new FingerprintImage()
 				.decode(candidateImage));
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		TransparencyBuffer archive = new TransparencyBuffer();
 		FingerprintTemplate probe;
-		try (FingerprintTransparency transparency = FingerprintTransparency.zip(buffer)) {
+		try (FingerprintTransparency transparency = archive.capture()) {
 			probe = new FingerprintTemplate(
 				new FingerprintImage()
 					.decode(probeImage));
@@ -37,32 +35,23 @@ public class ArchiveImagesTest {
 				.index(probe)
 				.match(candidate);
 		}
-		Path temporary = Files.createTempFile("", ".zip");
-		try {
-			Files.write(temporary, buffer.toByteArray());
-			try (ZipFile zip = new ZipFile(temporary.toFile())) {
-				TransparencyArchive archive = new TransparencyZip(zip);
-				ExtractorImages extractor = new ExtractorImages(archive)
-					.input(probeImage)
-					.output(probe.toByteArray());
-				MatcherImages matcher = new MatcherImages(archive)
-					.probe(probe.toByteArray())
-					.candidate(candidate.toByteArray())
-					.probeImage(probeImage)
-					.candidateImage(candidateImage);
-				for (Object object : new Object[] { extractor, matcher }) {
-					int count = 0;
-					for (Method method : object.getClass().getMethods()) {
-						if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {
-							++count;
-							assertNotNull(Exceptions.sneak().get(() -> method.invoke(object)));
-						}
-					}
-					assertThat(count, greaterThanOrEqualTo(3));
+		ExtractorImages extractor = new ExtractorImages(archive)
+			.input(probeImage)
+			.output(probe.toByteArray());
+		MatcherImages matcher = new MatcherImages(archive)
+			.probe(probe.toByteArray())
+			.candidate(candidate.toByteArray())
+			.probeImage(probeImage)
+			.candidateImage(candidateImage);
+		for (Object object : new Object[] { extractor, matcher }) {
+			int count = 0;
+			for (Method method : object.getClass().getMethods()) {
+				if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {
+					++count;
+					assertNotNull(Exceptions.sneak().get(() -> method.invoke(object)));
 				}
 			}
-		} finally {
-			Files.delete(temporary);
+			assertThat(count, greaterThanOrEqualTo(3));
 		}
 	}
 }

@@ -508,7 +508,10 @@ public class TransparencyImages {
 	}
 	public static VisualizationImage visualizeEdgeHash(EdgeHash hash, Template template, byte[] underlay) {
 		DomFragment markers = new DomFragment();
-		for (IndexedEdge edge : hash.edges.stream().sorted(Comparator.comparing(e -> -e.length)).collect(toList()))
+		List<IndexedEdge> edges = hash.edges()
+			.sorted(Comparator.comparing(e -> -e.length))
+			.collect(toList());
+		for (IndexedEdge edge : edges)
 			if (edge.reference < edge.neighbor)
 				markers.add(markIndexedEdge(edge, template));
 		for (TemplateMinutia minutia : template.minutiae)

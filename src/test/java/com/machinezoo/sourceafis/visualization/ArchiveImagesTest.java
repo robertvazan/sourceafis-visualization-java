@@ -50,7 +50,7 @@ public class ArchiveImagesTest {
 					.candidate(candidate.toByteArray())
 					.probeImage(probeImage)
 					.candidateImage(candidateImage);
-				for (Object object : new Object[] { extractor, extractor.ridges(), extractor.valleys(), matcher }) {
+				for (Object object : new Object[] { extractor, matcher }) {
 					int count = 0;
 					for (Method method : object.getClass().getMethods()) {
 						if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {

@@ -102,11 +102,83 @@ public class ExtractorImages {
 	public VisualizationImage innerMask() {
 		return visualizePixelMask(archive.innerMask(), input());
 	}
-	public SkeletonImages ridges() {
-		return new SkeletonImages(this, archive.ridges());
+	public VisualizationImage binarizedSkeleton(SkeletonType skeleton) {
+		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(skeleton), input());
 	}
-	public SkeletonImages valleys() {
-		return new SkeletonImages(this, archive.valleys());
+	public VisualizationImage binarizedSkeleton() {
+		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(), input());
+	}
+	public VisualizationImage thinned(SkeletonType skeleton) {
+		return visualizeThinnedSkeleton(archive.thinned(skeleton), input());
+	}
+	public VisualizationImage thinned() {
+		return visualizeThinnedSkeleton(archive.thinned(), input());
+	}
+	public VisualizationImage traced(SkeletonType skeleton) {
+		return visualizeTracedSkeleton(archive.traced(skeleton), input());
+	}
+	public VisualizationImage traced() {
+		return visualizeTracedSkeleton(archive.traced(), input());
+	}
+	public VisualizationImage removedDots(SkeletonType skeleton) {
+		return visualizeRemovedDots(archive.removedDots(skeleton), input());
+	}
+	public VisualizationImage removedDots() {
+		return visualizeRemovedDots(archive.removedDots(), input());
+	}
+	public VisualizationImage removedDotsDiff(SkeletonType skeleton) {
+		return visualizeRemovedDotsDiff(archive.removedDots(skeleton), archive.traced(skeleton));
+	}
+	public VisualizationImage removedDotsDiff() {
+		return visualizeRemovedDotsDiff(archive.removedDots(), archive.traced());
+	}
+	public VisualizationImage removedPores(SkeletonType skeleton) {
+		return visualizeRemovedPores(archive.removedPores(skeleton), input());
+	}
+	public VisualizationImage removedPores() {
+		return visualizeRemovedPores(archive.removedPores(), input());
+	}
+	public VisualizationImage removedPoresDiff(SkeletonType skeleton) {
+		return visualizeRemovedPoresDiff(archive.removedPores(skeleton), archive.removedDots(skeleton));
+	}
+	public VisualizationImage removedPoresDiff() {
+		return visualizeRemovedPoresDiff(archive.removedPores(), archive.removedDots());
+	}
+	public VisualizationImage removedGaps(SkeletonType skeleton) {
+		return visualizeRemovedGaps(archive.removedGaps(skeleton), input());
+	}
+	public VisualizationImage removedGaps() {
+		return visualizeRemovedGaps(archive.removedGaps(), input());
+	}
+	public VisualizationImage removedGapsDiff(SkeletonType skeleton) {
+		return visualizeRemovedGapsDiff(archive.removedGaps(skeleton), archive.removedPores(skeleton));
+	}
+	public VisualizationImage removedGapsDiff() {
+		return visualizeRemovedGapsDiff(archive.removedGaps(), archive.removedPores());
+	}
+	public VisualizationImage removedTails(SkeletonType skeleton) {
+		return visualizeRemovedTails(archive.removedTails(skeleton), input());
+	}
+	public VisualizationImage removedTails() {
+		return visualizeRemovedTails(archive.removedTails(), input());
+	}
+	public VisualizationImage removedTailsDiff(SkeletonType skeleton) {
+		return visualizeRemovedTailsDiff(archive.removedTails(skeleton), archive.removedGaps(skeleton));
+	}
+	public VisualizationImage removedTailsDiff() {
+		return visualizeRemovedTailsDiff(archive.removedTails(), archive.removedGaps());
+	}
+	public VisualizationImage removedFragments(SkeletonType skeleton) {
+		return visualizeRemovedFragments(archive.removedFragments(skeleton), input());
+	}
+	public VisualizationImage removedFragments() {
+		return visualizeRemovedFragments(archive.removedFragments(), input());
+	}
+	public VisualizationImage removedFragmentsDiff(SkeletonType skeleton) {
+		return visualizeRemovedFragmentsDiff(archive.removedFragments(skeleton), archive.removedTails(skeleton));
+	}
+	public VisualizationImage removedFragmentsDiff() {
+		return visualizeRemovedFragmentsDiff(archive.removedFragments(), archive.removedTails());
 	}
 	public VisualizationImage skeletonMinutiae() {
 		return visualizeSkeletonMinutiae(archive.skeletonMinutiae(), input());

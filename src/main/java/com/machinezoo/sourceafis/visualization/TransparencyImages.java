@@ -16,10 +16,11 @@ public class TransparencyImages {
 	 * All private helper methods are defined just before the first method that uses them.
 	 */
 	public static WritableImage visualizeDoubleMatrix(DoubleMatrix matrix) {
+		DoubleSummaryStatistics stats = matrix.stream().summaryStatistics();
 		WritableImage writable = new WritableImage(matrix.size());
 		for (int y = 0; y < matrix.height; ++y)
 			for (int x = 0; x < matrix.width; ++x)
-				writable.set(x, y, WritableImage.gray(255 - (int)((matrix.get(x, y) - matrix.stats.getMin()) / (matrix.stats.getMax() - matrix.stats.getMin()) * 255)));
+				writable.set(x, y, WritableImage.gray(255 - (int)((matrix.get(x, y) - stats.getMin()) / (stats.getMax() - stats.getMin()) * 255)));
 		return writable;
 	}
 	public static WritableImage visualizeDecodedImage(DoubleMatrix image) {
@@ -112,9 +113,10 @@ public class TransparencyImages {
 			.fillOpacity(0.2);
 	}
 	public static VisualizationImage visualizeBlockWeight(DoubleMatrix matrix, BlockMap blocks, byte[] underlay) {
+		DoubleSummaryStatistics stats = matrix.stream().summaryStatistics();
 		DomFragment markers = new DomFragment();
 		for (IntPoint at : blocks.primary.blocks) {
-			double weight = (matrix.get(at) - matrix.stats.getMin()) / (matrix.stats.getMax() - matrix.stats.getMin());
+			double weight = (matrix.get(at) - stats.getMin()) / (stats.getMax() - stats.getMin());
 			markers.add(markRectWeight(weight, blocks.primary.block(at)));
 		}
 		return new VisualizationImage()

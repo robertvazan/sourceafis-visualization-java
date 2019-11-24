@@ -34,7 +34,7 @@ public class ExtractorImages {
 		return output(() -> template);
 	}
 	Template output() {
-		return Optional.ofNullable(output.get()).map(Template::new).orElse(null);
+		return Optional.ofNullable(output.get()).map(Template::parse).orElse(null);
 	}
 	public WritableImage decoded() {
 		return visualizeDecodedImage(archive.decoded());

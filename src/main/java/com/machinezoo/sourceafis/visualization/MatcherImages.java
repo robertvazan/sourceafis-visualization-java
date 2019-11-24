@@ -22,7 +22,7 @@ public class MatcherImages {
 		return probe(() -> template);
 	}
 	private Template probe() {
-		return Optional.ofNullable(probe.get()).map(Template::new).orElse(null);
+		return Optional.ofNullable(probe.get()).map(Template::parse).orElse(null);
 	}
 	private Supplier<byte[]> candidate = () -> null;
 	public MatcherImages candidate(Supplier<byte[]> supplier) {
@@ -34,7 +34,7 @@ public class MatcherImages {
 		return candidate(() -> template);
 	}
 	private Template candidate() {
-		return Optional.ofNullable(candidate.get()).map(Template::new).orElse(null);
+		return Optional.ofNullable(candidate.get()).map(Template::parse).orElse(null);
 	}
 	private Supplier<byte[]> probeImage = () -> null;
 	public MatcherImages probeImage(Supplier<byte[]> supplier) {

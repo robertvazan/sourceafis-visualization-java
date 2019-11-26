@@ -5,10 +5,10 @@ import static com.machinezoo.sourceafis.visualization.TransparencyImages.*;
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.*;
 
-public class ExtractorImages {
+public class TransparencyGallery {
 	private final TransparencyArchive archive;
 	private final TransparencyContext context;
-	public ExtractorImages(TransparencyArchive archive, TransparencyContext context) {
+	public TransparencyGallery(TransparencyArchive archive, TransparencyContext context) {
 		Objects.requireNonNull(archive);
 		Objects.requireNonNull(context);
 		this.archive = archive;
@@ -16,6 +16,12 @@ public class ExtractorImages {
 	}
 	private Template output() {
 		return Optional.ofNullable(context.output).map(Template::parse).orElse(null);
+	}
+	private Template probe() {
+		return Optional.ofNullable(context.probe).map(Template::parse).orElse(null);
+	}
+	private Template candidate() {
+		return Optional.ofNullable(context.candidate).map(Template::parse).orElse(null);
 	}
 	public TransparencyPixmap decoded() {
 		return visualizeDecodedImage(archive.decoded());
@@ -190,5 +196,30 @@ public class ExtractorImages {
 	}
 	public VisualizationImage template() {
 		return visualizeTemplate(output(), context.input);
+	}
+	public VisualizationImage edgeHash() {
+		return visualizeEdgeHash(archive.edgeHash(), probe(), context.probeImage);
+	}
+	public VisualizationImage rootPairs() {
+		return visualizeRootPairs(archive.rootPairs(), probe(), candidate(), context.probeImage, context.candidateImage);
+	}
+	public VisualizationImage pairing(int offset, MatchSide side) {
+		switch (side) {
+		case PROBE:
+			return visualizePairing(archive.pairing(offset), side, probe(), context.probeImage);
+		case CANDIDATE:
+			return visualizePairing(archive.pairing(offset), side, candidate(), context.candidateImage);
+		default:
+			throw new IllegalStateException();
+		}
+	}
+	public VisualizationImage pairing(MatchSide side) {
+		return pairing(archive.bestMatch().orElse(0), side);
+	}
+	public VisualizationImage pairing(int offset) {
+		return visualizePairing(archive.pairing(offset), probe(), candidate(), context.probeImage, context.candidateImage);
+	}
+	public VisualizationImage pairing() {
+		return pairing(archive.bestMatch().orElse(0));
 	}
 }

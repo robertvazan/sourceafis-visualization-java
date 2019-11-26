@@ -42,17 +42,14 @@ public class ArchiveImagesTest {
 			.candidate(candidate.toByteArray())
 			.probeImage(probeImage)
 			.candidateImage(candidateImage);
-		ExtractorImages extractor = new ExtractorImages(archive, context);
-		MatcherImages matcher = new MatcherImages(archive, context);
-		for (Object object : new Object[] { extractor, matcher }) {
-			int count = 0;
-			for (Method method : object.getClass().getMethods()) {
-				if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {
-					++count;
-					assertNotNull(Exceptions.sneak().get(() -> method.invoke(object)));
-				}
+		TransparencyGallery gallery = new TransparencyGallery(archive, context);
+		int count = 0;
+		for (Method method : gallery.getClass().getMethods()) {
+			if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {
+				++count;
+				assertNotNull(Exceptions.sneak().get(() -> method.invoke(gallery)));
 			}
-			assertThat(count, greaterThanOrEqualTo(3));
 		}
+		assertThat(count, greaterThanOrEqualTo(3));
 	}
 }

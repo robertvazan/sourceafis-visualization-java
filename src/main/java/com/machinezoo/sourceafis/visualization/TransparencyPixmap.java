@@ -5,7 +5,6 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import com.machinezoo.noexception.*;
-import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class TransparencyPixmap {
@@ -38,18 +37,6 @@ public class TransparencyPixmap {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		Exceptions.sneak().run(() -> ImageIO.write(image, "PNG", stream));
 		return stream.toByteArray();
-	}
-	public EmbeddedImage embedded() {
-		return new EmbeddedImage()
-			.width(width)
-			.height(height)
-			.image(png());
-	}
-	public DomElement svg() {
-		return embedded().svg();
-	}
-	public DomElement html() {
-		return embedded().html();
 	}
 	public void fill(int color) {
 		for (int i = 0; i < pixels.length; ++i)

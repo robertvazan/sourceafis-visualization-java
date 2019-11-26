@@ -50,12 +50,18 @@ public class VisualizationImage {
 	}
 	public DomContent fragment() {
 		return new DomFragment()
-			.add(new EmbeddedImage()
+			.add(underlay == null ? null : Svg.image()
 				.width(width)
 				.height(height)
-				.image(underlay)
-				.svg())
+				.href("data:" + mime(underlay) + ";base64," + Base64.getEncoder().encodeToString(underlay)))
 			.add(content);
+	}
+	private static String mime(byte[] image) {
+		if (image[1] == 'P' && image[2] == 'N' && image[3] == 'G')
+			return "image/png";
+		if (image[0] == (byte)0xff && image[1] == (byte)0xd8)
+			return "image/jpeg";
+		throw new IllegalArgumentException();
 	}
 	public DomElement svg() {
 		DomElement root = Svg.svg()

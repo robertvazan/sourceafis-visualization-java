@@ -135,6 +135,12 @@ public class TransparencyImages {
 				writable.set(at, foreground);
 		return writable;
 	}
+	public static DomContent markPixmap(TransparencyPixmap pixmap) {
+		return Svg.image()
+			.width(pixmap.width)
+			.height(pixmap.height)
+			.href("data:image/png;base64," + Base64.getEncoder().encodeToString(pixmap.png()));
+	}
 	public static VisualizationImage visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background, byte[] underlay) {
 		TransparencyPixmap writable = new TransparencyPixmap(matrix.size());
 		writable.fill(background);
@@ -144,7 +150,7 @@ public class TransparencyImages {
 		return new VisualizationImage()
 			.size(matrix.size())
 			.underlay(underlay)
-			.content(visualizeBooleanMatrix(matrix, foreground, background).svg());
+			.content(markPixmap(visualizeBooleanMatrix(matrix, foreground, background)));
 	}
 	public static TransparencyPixmap visualizeBooleanMatrix(BooleanMatrix matrix) {
 		return visualizeBooleanMatrix(matrix, 0xff_00_00_00, 0xff_ff_ff_ff);
@@ -194,7 +200,7 @@ public class TransparencyImages {
 		return new VisualizationImage()
 			.size(orientations.size())
 			.underlay(underlay)
-			.content(visualizePixelwiseOrientation(orientations, 0x60).svg());
+			.content(markPixmap(visualizePixelwiseOrientation(orientations, 0x60)));
 	}
 	public static DomContent markRectOrientation(DoublePoint orientation, IntRect rect) {
 		DoublePoint center = rect.center();

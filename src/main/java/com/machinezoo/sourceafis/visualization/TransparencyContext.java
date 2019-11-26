@@ -1,35 +1,27 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
+import java.util.*;
+import com.machinezoo.sourceafis.transparency.*;
+
 public class TransparencyContext {
-	byte[] input;
-	public TransparencyContext input(byte[] image) {
-		input = image;
+	private final Map<TransparencyRole, byte[]> images = new EnumMap<>(TransparencyRole.class);
+	public TransparencyContext image(TransparencyRole role, byte[] image) {
+		images.put(role, image);
 		return this;
 	}
-	byte[] output;
-	public TransparencyContext output(byte[] template) {
-		output = template;
+	public byte[] image(TransparencyRole role) {
+		return images.get(role);
+	}
+	private final Map<TransparencyRole, Template> templates = new EnumMap<>(TransparencyRole.class);
+	public TransparencyContext template(TransparencyRole role, Template template) {
+		templates.put(role, template);
 		return this;
 	}
-	byte[] probe;
-	public TransparencyContext probe(byte[] template) {
-		probe = template;
-		return this;
+	public TransparencyContext template(TransparencyRole role, byte[] template) {
+		return template(role, Template.parse(template));
 	}
-	byte[] candidate;
-	public TransparencyContext candidate(byte[] template) {
-		candidate = template;
-		return this;
-	}
-	byte[] probeImage;
-	public TransparencyContext probeImage(byte[] image) {
-		probeImage = image;
-		return this;
-	}
-	byte[] candidateImage;
-	public TransparencyContext candidateImage(byte[] image) {
-		candidateImage = image;
-		return this;
+	public Template template(TransparencyRole role) {
+		return templates.get(role);
 	}
 }

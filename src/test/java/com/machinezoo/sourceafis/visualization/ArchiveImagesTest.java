@@ -36,12 +36,12 @@ public class ArchiveImagesTest {
 				.match(candidate);
 		}
 		TransparencyContext context = new TransparencyContext()
-			.input(probeImage)
-			.output(probe.toByteArray())
-			.probe(probe.toByteArray())
-			.candidate(candidate.toByteArray())
-			.probeImage(probeImage)
-			.candidateImage(candidateImage);
+			.image(TransparencyRole.EXTRACTED, probeImage)
+			.template(TransparencyRole.EXTRACTED, probe.toByteArray())
+			.image(TransparencyRole.PROBE, probeImage)
+			.template(TransparencyRole.PROBE, probe.toByteArray())
+			.image(TransparencyRole.CANDIDATE, candidateImage)
+			.template(TransparencyRole.CANDIDATE, candidate.toByteArray());
 		TransparencyGallery gallery = new TransparencyGallery(archive, context);
 		int count = 0;
 		for (Method method : gallery.getClass().getMethods()) {

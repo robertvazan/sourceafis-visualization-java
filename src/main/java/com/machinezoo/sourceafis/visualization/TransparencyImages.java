@@ -128,14 +128,16 @@ public class TransparencyImages {
 		return visualizeBlockWeight(contrast, blocks, underlay);
 	}
 	public static TransparencyPixmap visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background) {
-		TransparencyPixmap writable = new TransparencyPixmap(matrix.size()).fill(background);
+		TransparencyPixmap writable = new TransparencyPixmap(matrix.size());
+		writable.fill(background);
 		for (IntPoint at : matrix.size())
 			if (matrix.get(at))
 				writable.set(at, foreground);
 		return writable;
 	}
 	public static VisualizationImage visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background, byte[] underlay) {
-		TransparencyPixmap writable = new TransparencyPixmap(matrix.size()).fill(background);
+		TransparencyPixmap writable = new TransparencyPixmap(matrix.size());
+		writable.fill(background);
 		for (IntPoint at : matrix.size())
 			if (matrix.get(at))
 				writable.set(at, foreground);

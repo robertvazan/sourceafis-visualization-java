@@ -26,12 +26,11 @@ public class TransparencyPixmap {
 	public int get(int x, int y) {
 		return pixels[width * y + x];
 	}
-	public TransparencyPixmap set(int x, int y, int color) {
+	public void set(int x, int y, int color) {
 		pixels[width * y + x] = color;
-		return this;
 	}
-	public TransparencyPixmap set(IntPoint at, int color) {
-		return set(at.x, at.y, color);
+	public void set(IntPoint at, int color) {
+		set(at.x, at.y, color);
 	}
 	public byte[] png() {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -52,10 +51,9 @@ public class TransparencyPixmap {
 	public DomElement html() {
 		return embedded().html();
 	}
-	public TransparencyPixmap fill(int color) {
+	public void fill(int color) {
 		for (int i = 0; i < pixels.length; ++i)
 			pixels[i] = color;
-		return this;
 	}
 	public static int gray(int brightness) {
 		return 0xff_00_00_00 | (brightness << 16) | (brightness << 8) | brightness;

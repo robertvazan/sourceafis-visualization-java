@@ -3,7 +3,6 @@ package com.machinezoo.sourceafis.visualization;
 
 import static com.machinezoo.sourceafis.visualization.TransparencyImages.*;
 import java.util.*;
-import java.util.function.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class ExtractorImages {
@@ -12,29 +11,18 @@ public class ExtractorImages {
 		Objects.requireNonNull(archive);
 		this.archive = archive;
 	}
-	private Supplier<byte[]> input = () -> null;
-	public ExtractorImages input(Supplier<byte[]> supplier) {
-		Objects.requireNonNull(supplier);
-		input = supplier;
-		return this;
-	}
+	private byte[] input;
 	public ExtractorImages input(byte[] image) {
-		return input(() -> image);
-	}
-	byte[] input() {
-		return input.get();
-	}
-	private Supplier<byte[]> output = () -> null;
-	public ExtractorImages output(Supplier<byte[]> supplier) {
-		Objects.requireNonNull(supplier);
-		output = supplier;
+		input = image;
 		return this;
 	}
+	private byte[] output;
 	public ExtractorImages output(byte[] template) {
-		return output(() -> template);
+		output = template;
+		return this;
 	}
-	Template output() {
-		return Optional.ofNullable(output.get()).map(Template::parse).orElse(null);
+	private Template output() {
+		return Optional.ofNullable(output).map(Template::parse).orElse(null);
 	}
 	public TransparencyPixmap decoded() {
 		return visualizeDecodedImage(archive.decoded());
@@ -43,31 +31,31 @@ public class ExtractorImages {
 		return visualizeDecodedImage(archive.scaled());
 	}
 	public VisualizationImage blocksPrimary() {
-		return visualizeBlockMap(archive.blocks(), input());
+		return visualizeBlockMap(archive.blocks(), input);
 	}
 	public VisualizationImage blocksSecondary() {
-		return visualizeSecondaryBlockMap(archive.blocks(), input());
+		return visualizeSecondaryBlockMap(archive.blocks(), input);
 	}
 	public VisualizationImage histogram() {
-		return visualizeHistogram(archive.histogram(), archive.blocks(), input());
+		return visualizeHistogram(archive.histogram(), archive.blocks(), input);
 	}
 	public VisualizationImage smoothedHistogram() {
-		return visualizeSmoothedHistogram(archive.smoothedHistogram(), archive.blocks(), input());
+		return visualizeSmoothedHistogram(archive.smoothedHistogram(), archive.blocks(), input);
 	}
 	public VisualizationImage contrast() {
-		return visualizeClippedContrast(archive.contrast(), archive.blocks(), input());
+		return visualizeClippedContrast(archive.contrast(), archive.blocks(), input);
 	}
 	public VisualizationImage absoluteMask() {
-		return visualizeAbsoluteContrastMask(archive.absoluteMask(), archive.blocks(), input());
+		return visualizeAbsoluteContrastMask(archive.absoluteMask(), archive.blocks(), input);
 	}
 	public VisualizationImage relativeMask() {
-		return visualizeRelativeContrastMask(archive.relativeMask(), archive.blocks(), input());
+		return visualizeRelativeContrastMask(archive.relativeMask(), archive.blocks(), input);
 	}
 	public VisualizationImage combinedMask() {
-		return visualizeCombinedMask(archive.combinedMask(), archive.blocks(), input());
+		return visualizeCombinedMask(archive.combinedMask(), archive.blocks(), input);
 	}
 	public VisualizationImage filteredMask() {
-		return visualizeFilteredMask(archive.filteredMask(), archive.blocks(), input());
+		return visualizeFilteredMask(archive.filteredMask(), archive.blocks(), input);
 	}
 	public TransparencyPixmap equalized() {
 		return visualizeEqualizedImage(archive.equalized());
@@ -76,10 +64,10 @@ public class ExtractorImages {
 		return visualizePixelwiseOrientation(archive.pixelwiseOrientation());
 	}
 	public VisualizationImage blockOrientation() {
-		return visualizeBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask(), input());
+		return visualizeBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask(), input);
 	}
 	public VisualizationImage smoothedOrientation() {
-		return visualizeSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask(), input());
+		return visualizeSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask(), input);
 	}
 	public TransparencyPixmap parallelSmoothing() {
 		return visualizeParallelSmoothing(archive.parallelSmoothing());
@@ -88,7 +76,7 @@ public class ExtractorImages {
 		return visualizeParallelSmoothing(archive.orthogonalSmoothing());
 	}
 	public VisualizationImage binarized() {
-		return visualizeBinarizedImage(archive.binarized(), input());
+		return visualizeBinarizedImage(archive.binarized(), input);
 	}
 	public TransparencyPixmap filteredBinary() {
 		return visualizeFilteredBinaryImage(archive.filteredBinary());
@@ -97,34 +85,34 @@ public class ExtractorImages {
 		return visualizeFilteredBinaryImageDiff(archive.filteredBinary(), archive.binarized());
 	}
 	public VisualizationImage pixelMask() {
-		return visualizePixelMask(archive.pixelMask(), input());
+		return visualizePixelMask(archive.pixelMask(), input);
 	}
 	public VisualizationImage innerMask() {
-		return visualizePixelMask(archive.innerMask(), input());
+		return visualizePixelMask(archive.innerMask(), input);
 	}
 	public VisualizationImage binarizedSkeleton(SkeletonType skeleton) {
-		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(skeleton), input());
+		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(skeleton), input);
 	}
 	public VisualizationImage binarizedSkeleton() {
-		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(), input());
+		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(), input);
 	}
 	public VisualizationImage thinned(SkeletonType skeleton) {
-		return visualizeThinnedSkeleton(archive.thinned(skeleton), input());
+		return visualizeThinnedSkeleton(archive.thinned(skeleton), input);
 	}
 	public VisualizationImage thinned() {
-		return visualizeThinnedSkeleton(archive.thinned(), input());
+		return visualizeThinnedSkeleton(archive.thinned(), input);
 	}
 	public VisualizationImage traced(SkeletonType skeleton) {
-		return visualizeTracedSkeleton(archive.traced(skeleton), input());
+		return visualizeTracedSkeleton(archive.traced(skeleton), input);
 	}
 	public VisualizationImage traced() {
-		return visualizeTracedSkeleton(archive.traced(), input());
+		return visualizeTracedSkeleton(archive.traced(), input);
 	}
 	public VisualizationImage removedDots(SkeletonType skeleton) {
-		return visualizeRemovedDots(archive.removedDots(skeleton), input());
+		return visualizeRemovedDots(archive.removedDots(skeleton), input);
 	}
 	public VisualizationImage removedDots() {
-		return visualizeRemovedDots(archive.removedDots(), input());
+		return visualizeRemovedDots(archive.removedDots(), input);
 	}
 	public VisualizationImage removedDotsDiff(SkeletonType skeleton) {
 		return visualizeRemovedDotsDiff(archive.removedDots(skeleton), archive.traced(skeleton));
@@ -133,10 +121,10 @@ public class ExtractorImages {
 		return visualizeRemovedDotsDiff(archive.removedDots(), archive.traced());
 	}
 	public VisualizationImage removedPores(SkeletonType skeleton) {
-		return visualizeRemovedPores(archive.removedPores(skeleton), input());
+		return visualizeRemovedPores(archive.removedPores(skeleton), input);
 	}
 	public VisualizationImage removedPores() {
-		return visualizeRemovedPores(archive.removedPores(), input());
+		return visualizeRemovedPores(archive.removedPores(), input);
 	}
 	public VisualizationImage removedPoresDiff(SkeletonType skeleton) {
 		return visualizeRemovedPoresDiff(archive.removedPores(skeleton), archive.removedDots(skeleton));
@@ -145,10 +133,10 @@ public class ExtractorImages {
 		return visualizeRemovedPoresDiff(archive.removedPores(), archive.removedDots());
 	}
 	public VisualizationImage removedGaps(SkeletonType skeleton) {
-		return visualizeRemovedGaps(archive.removedGaps(skeleton), input());
+		return visualizeRemovedGaps(archive.removedGaps(skeleton), input);
 	}
 	public VisualizationImage removedGaps() {
-		return visualizeRemovedGaps(archive.removedGaps(), input());
+		return visualizeRemovedGaps(archive.removedGaps(), input);
 	}
 	public VisualizationImage removedGapsDiff(SkeletonType skeleton) {
 		return visualizeRemovedGapsDiff(archive.removedGaps(skeleton), archive.removedPores(skeleton));
@@ -157,10 +145,10 @@ public class ExtractorImages {
 		return visualizeRemovedGapsDiff(archive.removedGaps(), archive.removedPores());
 	}
 	public VisualizationImage removedTails(SkeletonType skeleton) {
-		return visualizeRemovedTails(archive.removedTails(skeleton), input());
+		return visualizeRemovedTails(archive.removedTails(skeleton), input);
 	}
 	public VisualizationImage removedTails() {
-		return visualizeRemovedTails(archive.removedTails(), input());
+		return visualizeRemovedTails(archive.removedTails(), input);
 	}
 	public VisualizationImage removedTailsDiff(SkeletonType skeleton) {
 		return visualizeRemovedTailsDiff(archive.removedTails(skeleton), archive.removedGaps(skeleton));
@@ -169,10 +157,10 @@ public class ExtractorImages {
 		return visualizeRemovedTailsDiff(archive.removedTails(), archive.removedGaps());
 	}
 	public VisualizationImage removedFragments(SkeletonType skeleton) {
-		return visualizeRemovedFragments(archive.removedFragments(skeleton), input());
+		return visualizeRemovedFragments(archive.removedFragments(skeleton), input);
 	}
 	public VisualizationImage removedFragments() {
-		return visualizeRemovedFragments(archive.removedFragments(), input());
+		return visualizeRemovedFragments(archive.removedFragments(), input);
 	}
 	public VisualizationImage removedFragmentsDiff(SkeletonType skeleton) {
 		return visualizeRemovedFragmentsDiff(archive.removedFragments(skeleton), archive.removedTails(skeleton));
@@ -181,33 +169,33 @@ public class ExtractorImages {
 		return visualizeRemovedFragmentsDiff(archive.removedFragments(), archive.removedTails());
 	}
 	public VisualizationImage skeletonMinutiae() {
-		return visualizeSkeletonMinutiae(archive.skeletonMinutiae(), input());
+		return visualizeSkeletonMinutiae(archive.skeletonMinutiae(), input);
 	}
 	public VisualizationImage innerMinutiae() {
-		return visualizeInnerMinutiae(archive.innerMinutiae(), input());
+		return visualizeInnerMinutiae(archive.innerMinutiae(), input);
 	}
 	public VisualizationImage innerMinutiaeDiff() {
-		return visualizeInnerMinutiaeDiff(archive.innerMinutiae(), archive.skeletonMinutiae(), input());
+		return visualizeInnerMinutiaeDiff(archive.innerMinutiae(), archive.skeletonMinutiae(), input);
 	}
 	public VisualizationImage removedMinutiaClouds() {
-		return visualizeRemovedMinutiaClouds(archive.removedMinutiaClouds(), input());
+		return visualizeRemovedMinutiaClouds(archive.removedMinutiaClouds(), input);
 	}
 	public VisualizationImage removedMinutiaCloudsDiff() {
-		return visualizeRemovedMinutiaCloudsDiff(archive.removedMinutiaClouds(), archive.innerMinutiae(), input());
+		return visualizeRemovedMinutiaCloudsDiff(archive.removedMinutiaClouds(), archive.innerMinutiae(), input);
 	}
 	public VisualizationImage topMinutiae() {
-		return visualizeTopMinutiae(archive.topMinutiae(), input());
+		return visualizeTopMinutiae(archive.topMinutiae(), input);
 	}
 	public VisualizationImage topMinutiaeDiff() {
-		return visualizeTopMinutiaeDiff(archive.topMinutiae(), archive.removedMinutiaClouds(), input());
+		return visualizeTopMinutiaeDiff(archive.topMinutiae(), archive.removedMinutiaClouds(), input);
 	}
 	public VisualizationImage shuffledMinutiae() {
-		return visualizeShuffledMinutiae(archive.shuffledMinutiae(), input());
+		return visualizeShuffledMinutiae(archive.shuffledMinutiae(), input);
 	}
 	public VisualizationImage edgeTable() {
-		return visualizeEdgeTable(archive.edgeTable(), output(), input());
+		return visualizeEdgeTable(archive.edgeTable(), output(), input);
 	}
 	public VisualizationImage template() {
-		return visualizeTemplate(output(), input());
+		return visualizeTemplate(output(), input);
 	}
 }

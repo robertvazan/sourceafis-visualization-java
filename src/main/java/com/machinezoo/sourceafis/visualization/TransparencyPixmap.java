@@ -9,11 +9,6 @@ import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class TransparencyPixmap {
-	public static final int white = color(0xff, 0xff, 0xff);
-	public static final int black = color(0, 0, 0);
-	public static final int red = color(0xff, 0, 0);
-	public static final int green = color(0, 0xff, 0);
-	public static final int blue = color(0, 0, 0xff);
 	public final int width;
 	public final int height;
 	private final int[] pixels;
@@ -62,13 +57,7 @@ public class TransparencyPixmap {
 			pixels[i] = color;
 		return this;
 	}
-	public static int color(int r, int g, int b) {
-		return color(r, g, b, 0xff);
-	}
-	public static int color(int r, int g, int b, int opacity) {
-		return (opacity << 24) | (r << 16) | (g << 8) | b;
-	}
 	public static int gray(int brightness) {
-		return color(brightness, brightness, brightness);
+		return 0xff_00_00_00 | (brightness << 16) | (brightness << 8) | brightness;
 	}
 }

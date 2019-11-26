@@ -145,13 +145,13 @@ public class TransparencyImages {
 			.content(visualizeBooleanMatrix(matrix, foreground, background).svg());
 	}
 	public static TransparencyPixmap visualizeBooleanMatrix(BooleanMatrix matrix) {
-		return visualizeBooleanMatrix(matrix, TransparencyPixmap.black, TransparencyPixmap.white);
+		return visualizeBooleanMatrix(matrix, 0xff_00_00_00, 0xff_ff_ff_ff);
 	}
 	public static VisualizationImage visualizeBooleanMatrix(BooleanMatrix matrix, byte[] underlay) {
-		return visualizeBooleanMatrix(matrix, TransparencyPixmap.color(0, 0xff, 0xff, 0x90), 0, underlay);
+		return visualizeBooleanMatrix(matrix, 0x90_00_ff_ff, 0, underlay);
 	}
 	public static VisualizationImage visualizeMask(BooleanMatrix mask, byte[] underlay) {
-		return visualizeBooleanMatrix(mask, TransparencyPixmap.color(0xff, 0xff, 0, 0x20), TransparencyPixmap.color(0, 0xff, 0xff, 0x20), underlay);
+		return visualizeBooleanMatrix(mask, 0x20_ff_ff_00, 0x20_00_ff_ff, underlay);
 	}
 	public static VisualizationImage visualizeMask(BooleanMatrix mask, BlockMap blocks, byte[] underlay) {
 		return visualizeMask(mask.expand(blocks), underlay);
@@ -236,9 +236,9 @@ public class TransparencyImages {
 				boolean original = previous.get(x, y);
 				boolean updated = next.get(x, y);
 				if (updated)
-					writable.set(x, y, original ? TransparencyPixmap.black : TransparencyPixmap.green);
+					writable.set(x, y, original ? 0xff_00_00_00 : 0xff_00_ff_00);
 				else
-					writable.set(x, y, original ? TransparencyPixmap.red : TransparencyPixmap.white);
+					writable.set(x, y, original ? 0xff_ff_00_00 : 0xff_ff_ff_ff);
 			}
 		return writable;
 	}
@@ -258,7 +258,7 @@ public class TransparencyImages {
 		return visualizeBooleanMatrix(binarized, underlay);
 	}
 	public static VisualizationImage visualizeSkeletonShadow(BooleanMatrix shadow, byte[] underlay) {
-		return visualizeBooleanMatrix(shadow, TransparencyPixmap.red, 0, underlay);
+		return visualizeBooleanMatrix(shadow, 0xff_ff_00_00, 0, underlay);
 	}
 	public static VisualizationImage visualizeThinnedSkeleton(BooleanMatrix thinned, byte[] underlay) {
 		return visualizeSkeletonShadow(thinned, underlay);

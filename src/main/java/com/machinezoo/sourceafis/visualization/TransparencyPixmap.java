@@ -8,7 +8,7 @@ import com.machinezoo.noexception.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
-public class WritableImage {
+public class TransparencyPixmap {
 	public static final int white = color(0xff, 0xff, 0xff);
 	public static final int black = color(0, 0, 0);
 	public static final int red = color(0xff, 0, 0);
@@ -17,12 +17,12 @@ public class WritableImage {
 	public final int width;
 	public final int height;
 	private final int[] pixels;
-	public WritableImage(int width, int height) {
+	public TransparencyPixmap(int width, int height) {
 		this.width = width;
 		this.height = height;
 		pixels = new int[width * height];
 	}
-	public WritableImage(IntPoint size) {
+	public TransparencyPixmap(IntPoint size) {
 		this(size.x, size.y);
 	}
 	public IntPoint size() {
@@ -31,11 +31,11 @@ public class WritableImage {
 	public int get(int x, int y) {
 		return pixels[width * y + x];
 	}
-	public WritableImage set(int x, int y, int color) {
+	public TransparencyPixmap set(int x, int y, int color) {
 		pixels[width * y + x] = color;
 		return this;
 	}
-	public WritableImage set(IntPoint at, int color) {
+	public TransparencyPixmap set(IntPoint at, int color) {
 		return set(at.x, at.y, color);
 	}
 	public byte[] png() {
@@ -57,7 +57,7 @@ public class WritableImage {
 	public DomElement html() {
 		return embedded().html();
 	}
-	public WritableImage fill(int color) {
+	public TransparencyPixmap fill(int color) {
 		for (int i = 0; i < pixels.length; ++i)
 			pixels[i] = color;
 		return this;

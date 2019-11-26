@@ -15,18 +15,18 @@ public class TransparencyImages {
 	 * Markers are defined just before the first visualization that uses them.
 	 * All private helper methods are defined just before the first method that uses them.
 	 */
-	public static WritableImage visualizeDoubleMatrix(DoubleMatrix matrix) {
+	public static TransparencyPixmap visualizeDoubleMatrix(DoubleMatrix matrix) {
 		DoubleSummaryStatistics stats = matrix.stream().summaryStatistics();
-		WritableImage writable = new WritableImage(matrix.size());
+		TransparencyPixmap writable = new TransparencyPixmap(matrix.size());
 		for (int y = 0; y < matrix.height; ++y)
 			for (int x = 0; x < matrix.width; ++x)
-				writable.set(x, y, WritableImage.gray(255 - (int)((matrix.get(x, y) - stats.getMin()) / (stats.getMax() - stats.getMin()) * 255)));
+				writable.set(x, y, TransparencyPixmap.gray(255 - (int)((matrix.get(x, y) - stats.getMin()) / (stats.getMax() - stats.getMin()) * 255)));
 		return writable;
 	}
-	public static WritableImage visualizeDecodedImage(DoubleMatrix image) {
+	public static TransparencyPixmap visualizeDecodedImage(DoubleMatrix image) {
 		return visualizeDoubleMatrix(image);
 	}
-	public static WritableImage visualizeScaledImage(DoubleMatrix image) {
+	public static TransparencyPixmap visualizeScaledImage(DoubleMatrix image) {
 		return visualizeDoubleMatrix(image);
 	}
 	private static DomContent visualizeBlockGrid(BlockMap blocks, BlockGrid grid, String color, double width) {
@@ -127,15 +127,15 @@ public class TransparencyImages {
 	public static VisualizationImage visualizeClippedContrast(DoubleMatrix contrast, BlockMap blocks, byte[] underlay) {
 		return visualizeBlockWeight(contrast, blocks, underlay);
 	}
-	public static WritableImage visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background) {
-		WritableImage writable = new WritableImage(matrix.size()).fill(background);
+	public static TransparencyPixmap visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background) {
+		TransparencyPixmap writable = new TransparencyPixmap(matrix.size()).fill(background);
 		for (IntPoint at : matrix.size())
 			if (matrix.get(at))
 				writable.set(at, foreground);
 		return writable;
 	}
 	public static VisualizationImage visualizeBooleanMatrix(BooleanMatrix matrix, int foreground, int background, byte[] underlay) {
-		WritableImage writable = new WritableImage(matrix.size()).fill(background);
+		TransparencyPixmap writable = new TransparencyPixmap(matrix.size()).fill(background);
 		for (IntPoint at : matrix.size())
 			if (matrix.get(at))
 				writable.set(at, foreground);
@@ -144,14 +144,14 @@ public class TransparencyImages {
 			.underlay(underlay)
 			.content(visualizeBooleanMatrix(matrix, foreground, background).svg());
 	}
-	public static WritableImage visualizeBooleanMatrix(BooleanMatrix matrix) {
-		return visualizeBooleanMatrix(matrix, WritableImage.black, WritableImage.white);
+	public static TransparencyPixmap visualizeBooleanMatrix(BooleanMatrix matrix) {
+		return visualizeBooleanMatrix(matrix, TransparencyPixmap.black, TransparencyPixmap.white);
 	}
 	public static VisualizationImage visualizeBooleanMatrix(BooleanMatrix matrix, byte[] underlay) {
-		return visualizeBooleanMatrix(matrix, WritableImage.color(0, 0xff, 0xff, 0x90), 0, underlay);
+		return visualizeBooleanMatrix(matrix, TransparencyPixmap.color(0, 0xff, 0xff, 0x90), 0, underlay);
 	}
 	public static VisualizationImage visualizeMask(BooleanMatrix mask, byte[] underlay) {
-		return visualizeBooleanMatrix(mask, WritableImage.color(0xff, 0xff, 0, 0x20), WritableImage.color(0, 0xff, 0xff, 0x20), underlay);
+		return visualizeBooleanMatrix(mask, TransparencyPixmap.color(0xff, 0xff, 0, 0x20), TransparencyPixmap.color(0, 0xff, 0xff, 0x20), underlay);
 	}
 	public static VisualizationImage visualizeMask(BooleanMatrix mask, BlockMap blocks, byte[] underlay) {
 		return visualizeMask(mask.expand(blocks), underlay);
@@ -168,12 +168,12 @@ public class TransparencyImages {
 	public static VisualizationImage visualizeFilteredMask(BooleanMatrix mask, BlockMap blocks, byte[] underlay) {
 		return visualizeMask(mask, blocks, underlay);
 	}
-	public static WritableImage visualizeEqualizedImage(DoubleMatrix image) {
+	public static TransparencyPixmap visualizeEqualizedImage(DoubleMatrix image) {
 		return visualizeDoubleMatrix(image);
 	}
-	private static WritableImage visualizePixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
+	private static TransparencyPixmap visualizePixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
 		opacity = opacity << 24;
-		WritableImage writable = new WritableImage(orientations.size());
+		TransparencyPixmap writable = new TransparencyPixmap(orientations.size());
 		double max = Math.log1p(Streams.stream(orientations.size()).map(orientations::get).mapToDouble(DoublePoint::length).max().orElse(1));
 		for (IntPoint at : orientations.size()) {
 			DoublePoint vector = orientations.get(at);
@@ -185,7 +185,7 @@ public class TransparencyImages {
 		}
 		return writable;
 	}
-	public static WritableImage visualizePixelwiseOrientation(DoublePointMatrix orientations) {
+	public static TransparencyPixmap visualizePixelwiseOrientation(DoublePointMatrix orientations) {
 		return visualizePixelwiseOrientation(orientations, 0xff);
 	}
 	public static VisualizationImage visualizePixelwiseOrientation(DoublePointMatrix orientations, byte[] underlay) {
@@ -220,32 +220,32 @@ public class TransparencyImages {
 	public static VisualizationImage visualizeSmoothedOrientation(DoublePointMatrix orientations, BlockMap blocks, BooleanMatrix mask, byte[] underlay) {
 		return visualizeBlockOrientation(orientations, blocks, mask, underlay);
 	}
-	public static WritableImage visualizeParallelSmoothing(DoubleMatrix image) {
+	public static TransparencyPixmap visualizeParallelSmoothing(DoubleMatrix image) {
 		return visualizeDoubleMatrix(image);
 	}
-	public static WritableImage visualizeOrthogonalSmoothing(DoubleMatrix image) {
+	public static TransparencyPixmap visualizeOrthogonalSmoothing(DoubleMatrix image) {
 		return visualizeDoubleMatrix(image);
 	}
 	public static VisualizationImage visualizeBinarizedImage(BooleanMatrix binarized, byte[] underlay) {
 		return visualizeBooleanMatrix(binarized, underlay);
 	}
-	public static WritableImage visualizeBooleanMatrixDiff(BooleanMatrix previous, BooleanMatrix next) {
-		WritableImage writable = new WritableImage(next.size());
+	public static TransparencyPixmap visualizeBooleanMatrixDiff(BooleanMatrix previous, BooleanMatrix next) {
+		TransparencyPixmap writable = new TransparencyPixmap(next.size());
 		for (int y = 0; y < next.height; ++y)
 			for (int x = 0; x < next.width; ++x) {
 				boolean original = previous.get(x, y);
 				boolean updated = next.get(x, y);
 				if (updated)
-					writable.set(x, y, original ? WritableImage.black : WritableImage.green);
+					writable.set(x, y, original ? TransparencyPixmap.black : TransparencyPixmap.green);
 				else
-					writable.set(x, y, original ? WritableImage.red : WritableImage.white);
+					writable.set(x, y, original ? TransparencyPixmap.red : TransparencyPixmap.white);
 			}
 		return writable;
 	}
-	public static WritableImage visualizeFilteredBinaryImage(BooleanMatrix filtered) {
+	public static TransparencyPixmap visualizeFilteredBinaryImage(BooleanMatrix filtered) {
 		return visualizeBooleanMatrix(filtered);
 	}
-	public static WritableImage visualizeFilteredBinaryImageDiff(BooleanMatrix filtered, BooleanMatrix binarized) {
+	public static TransparencyPixmap visualizeFilteredBinaryImageDiff(BooleanMatrix filtered, BooleanMatrix binarized) {
 		return visualizeBooleanMatrixDiff(binarized, filtered);
 	}
 	public static VisualizationImage visualizePixelMask(BooleanMatrix mask, byte[] underlay) {
@@ -258,7 +258,7 @@ public class TransparencyImages {
 		return visualizeBooleanMatrix(binarized, underlay);
 	}
 	public static VisualizationImage visualizeSkeletonShadow(BooleanMatrix shadow, byte[] underlay) {
-		return visualizeBooleanMatrix(shadow, WritableImage.red, 0, underlay);
+		return visualizeBooleanMatrix(shadow, TransparencyPixmap.red, 0, underlay);
 	}
 	public static VisualizationImage visualizeThinnedSkeleton(BooleanMatrix thinned, byte[] underlay) {
 		return visualizeSkeletonShadow(thinned, underlay);

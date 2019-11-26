@@ -36,10 +36,10 @@ public class ExtractorImages {
 	Template output() {
 		return Optional.ofNullable(output.get()).map(Template::parse).orElse(null);
 	}
-	public WritableImage decoded() {
+	public TransparencyPixmap decoded() {
 		return visualizeDecodedImage(archive.decoded());
 	}
-	public WritableImage scaled() {
+	public TransparencyPixmap scaled() {
 		return visualizeDecodedImage(archive.scaled());
 	}
 	public VisualizationImage blocksPrimary() {
@@ -69,10 +69,10 @@ public class ExtractorImages {
 	public VisualizationImage filteredMask() {
 		return visualizeFilteredMask(archive.filteredMask(), archive.blocks(), input());
 	}
-	public WritableImage equalized() {
+	public TransparencyPixmap equalized() {
 		return visualizeEqualizedImage(archive.equalized());
 	}
-	public WritableImage pixelwiseOrientation() {
+	public TransparencyPixmap pixelwiseOrientation() {
 		return visualizePixelwiseOrientation(archive.pixelwiseOrientation());
 	}
 	public VisualizationImage blockOrientation() {
@@ -81,19 +81,19 @@ public class ExtractorImages {
 	public VisualizationImage smoothedOrientation() {
 		return visualizeSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask(), input());
 	}
-	public WritableImage parallelSmoothing() {
+	public TransparencyPixmap parallelSmoothing() {
 		return visualizeParallelSmoothing(archive.parallelSmoothing());
 	}
-	public WritableImage orthogonalSmoothing() {
+	public TransparencyPixmap orthogonalSmoothing() {
 		return visualizeParallelSmoothing(archive.orthogonalSmoothing());
 	}
 	public VisualizationImage binarized() {
 		return visualizeBinarizedImage(archive.binarized(), input());
 	}
-	public WritableImage filteredBinary() {
+	public TransparencyPixmap filteredBinary() {
 		return visualizeFilteredBinaryImage(archive.filteredBinary());
 	}
-	public WritableImage filteredBinaryDiff() {
+	public TransparencyPixmap filteredBinaryDiff() {
 		return visualizeFilteredBinaryImageDiff(archive.filteredBinary(), archive.binarized());
 	}
 	public VisualizationImage pixelMask() {

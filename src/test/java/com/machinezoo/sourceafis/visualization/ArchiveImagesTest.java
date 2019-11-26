@@ -35,14 +35,15 @@ public class ArchiveImagesTest {
 				.index(probe)
 				.match(candidate);
 		}
-		ExtractorImages extractor = new ExtractorImages(archive)
+		TransparencyContext context = new TransparencyContext()
 			.input(probeImage)
-			.output(probe.toByteArray());
-		MatcherImages matcher = new MatcherImages(archive)
+			.output(probe.toByteArray())
 			.probe(probe.toByteArray())
 			.candidate(candidate.toByteArray())
 			.probeImage(probeImage)
 			.candidateImage(candidateImage);
+		ExtractorImages extractor = new ExtractorImages(archive, context);
+		MatcherImages matcher = new MatcherImages(archive, context);
 		for (Object object : new Object[] { extractor, matcher }) {
 			int count = 0;
 			for (Method method : object.getClass().getMethods()) {

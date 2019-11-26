@@ -11,10 +11,10 @@ import com.machinezoo.noexception.*;
 import com.machinezoo.sourceafis.*;
 import com.machinezoo.sourceafis.transparency.*;
 
-public class ArchiveImagesTest {
+public class TransparencyGalleryTest {
 	private static byte[] load(String name) {
 		return Exceptions.sneak().get(() -> {
-			try (InputStream stream = ArchiveImagesTest.class.getResourceAsStream(name)) {
+			try (InputStream stream = TransparencyGalleryTest.class.getResourceAsStream(name)) {
 				return IOUtils.toByteArray(stream);
 			}
 		});

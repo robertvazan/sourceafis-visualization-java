@@ -1,8 +1,9 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
-import static com.machinezoo.sourceafis.visualization.TransparencyImages.*;
+import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
 import java.util.*;
+import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 
 public class TransparencyGallery {
@@ -14,213 +15,260 @@ public class TransparencyGallery {
 		this.archive = archive;
 		this.context = context;
 	}
-	public TransparencyPixmap decoded() {
-		return visualizeDecodedImage(archive.decoded());
+	public byte[] decoded() {
+		return paintDecoded(archive.decoded()).png();
 	}
-	public TransparencyPixmap scaled() {
-		return visualizeDecodedImage(archive.scaled());
+	public byte[] scaled() {
+		return paintScaled(archive.scaled()).png();
 	}
-	public VisualizationImage blocksPrimary() {
-		return visualizeBlockMap(archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] blocksPrimary() {
+		BlockMap blocks = archive.blocks();
+		return new TransparencyImage(blocks)
+			.padding(1)
+			.image(context.image(TransparencyRole.EXTRACTED))
+			.add(markBlockMap(blocks))
+			.bytes();
 	}
-	public VisualizationImage blocksSecondary() {
-		return visualizeSecondaryBlockMap(archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] blocksSecondary() {
+		BlockMap blocks = archive.blocks();
+		return new TransparencyImage(blocks)
+			.padding(1)
+			.image(context.image(TransparencyRole.EXTRACTED))
+			.add(markSecondaryBlockMap(blocks))
+			.bytes();
 	}
-	public VisualizationImage histogram() {
-		return visualizeHistogram(archive.histogram(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	private byte[] overlay(DomContent content) {
+		return new TransparencyImage(archive.blocks())
+			.image(context.image(TransparencyRole.EXTRACTED))
+			.add(content)
+			.bytes();
 	}
-	public VisualizationImage smoothedHistogram() {
-		return visualizeSmoothedHistogram(archive.smoothedHistogram(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] histogram() {
+		return overlay(markHistogram(archive.histogram(), archive.blocks()));
 	}
-	public VisualizationImage contrast() {
-		return visualizeClippedContrast(archive.contrast(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] smoothedHistogram() {
+		return overlay(markSmoothedHistogram(archive.smoothedHistogram(), archive.blocks()));
 	}
-	public VisualizationImage absoluteMask() {
-		return visualizeAbsoluteContrastMask(archive.absoluteMask(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] contrast() {
+		return overlay(markClippedContrast(archive.contrast(), archive.blocks()));
 	}
-	public VisualizationImage relativeMask() {
-		return visualizeRelativeContrastMask(archive.relativeMask(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	private byte[] overlayPng(TransparencyPixmap pixmap) {
+		return new TransparencyImage(pixmap.size())
+			.image(context.image(TransparencyRole.EXTRACTED))
+			.png(pixmap)
+			.bytes();
 	}
-	public VisualizationImage combinedMask() {
-		return visualizeCombinedMask(archive.combinedMask(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] absoluteMask() {
+		return overlayPng(overlayAbsoluteContrastMask(archive.absoluteMask(), archive.blocks()));
 	}
-	public VisualizationImage filteredMask() {
-		return visualizeFilteredMask(archive.filteredMask(), archive.blocks(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] relativeMask() {
+		return overlayPng(overlayRelativeContrastMask(archive.relativeMask(), archive.blocks()));
 	}
-	public TransparencyPixmap equalized() {
-		return visualizeEqualizedImage(archive.equalized());
+	public byte[] combinedMask() {
+		return overlayPng(overlayCombinedMask(archive.combinedMask(), archive.blocks()));
 	}
-	public TransparencyPixmap pixelwiseOrientation() {
-		return visualizePixelwiseOrientation(archive.pixelwiseOrientation());
+	public byte[] filteredMask() {
+		return overlayPng(overlayFilteredMask(archive.filteredMask(), archive.blocks()));
 	}
-	public VisualizationImage blockOrientation() {
-		return visualizeBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] equalized() {
+		return paintEqualizedImage(archive.equalized()).png();
 	}
-	public VisualizationImage smoothedOrientation() {
-		return visualizeSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] pixelwiseOrientation() {
+		return paintPixelwiseOrientation(archive.pixelwiseOrientation()).png();
 	}
-	public TransparencyPixmap parallelSmoothing() {
-		return visualizeParallelSmoothing(archive.parallelSmoothing());
+	public byte[] blockOrientation() {
+		return overlay(markBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask()));
 	}
-	public TransparencyPixmap orthogonalSmoothing() {
-		return visualizeParallelSmoothing(archive.orthogonalSmoothing());
+	public byte[] smoothedOrientation() {
+		return overlay(markSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask()));
 	}
-	public VisualizationImage binarized() {
-		return visualizeBinarizedImage(archive.binarized(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] parallelSmoothing() {
+		return paintParallelSmoothing(archive.parallelSmoothing()).png();
 	}
-	public TransparencyPixmap filteredBinary() {
-		return visualizeFilteredBinaryImage(archive.filteredBinary());
+	public byte[] orthogonalSmoothing() {
+		return paintOrthogonalSmoothing(archive.orthogonalSmoothing()).png();
 	}
-	public TransparencyPixmap filteredBinaryDiff() {
-		return visualizeFilteredBinaryImageDiff(archive.filteredBinary(), archive.binarized());
+	public byte[] binarized() {
+		return overlayPng(overlayBinarizedImage(archive.binarized()));
 	}
-	public VisualizationImage pixelMask() {
-		return visualizePixelMask(archive.pixelMask(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] filteredBinary() {
+		return paintFilteredBinary(archive.filteredBinary()).png();
 	}
-	public VisualizationImage innerMask() {
-		return visualizePixelMask(archive.innerMask(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] filteredBinaryDiff() {
+		return paintFilteredBinaryDiff(archive.filteredBinary(), archive.binarized()).png();
 	}
-	public VisualizationImage binarizedSkeleton(SkeletonType skeleton) {
-		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] pixelMask() {
+		return overlayPng(overlayPixelMask(archive.pixelMask()));
 	}
-	public VisualizationImage binarizedSkeleton() {
-		return visualizeBinarizedSkeleton(archive.binarizedSkeleton(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] innerMask() {
+		return overlayPng(overlayInnerMask(archive.innerMask()));
 	}
-	public VisualizationImage thinned(SkeletonType skeleton) {
-		return visualizeThinnedSkeleton(archive.thinned(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] binarizedSkeleton(SkeletonType skeleton) {
+		return overlayPng(overlayBinarizedSkeleton(archive.binarizedSkeleton(skeleton)));
 	}
-	public VisualizationImage thinned() {
-		return visualizeThinnedSkeleton(archive.thinned(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] binarizedSkeleton() {
+		return overlayPng(overlayBinarizedSkeleton(archive.binarizedSkeleton()));
 	}
-	public VisualizationImage traced(SkeletonType skeleton) {
-		return visualizeTracedSkeleton(archive.traced(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] thinned(SkeletonType skeleton) {
+		return overlayPng(overlayThinnedSkeleton(archive.thinned(skeleton)));
 	}
-	public VisualizationImage traced() {
-		return visualizeTracedSkeleton(archive.traced(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] thinned() {
+		return overlayPng(overlayThinnedSkeleton(archive.thinned()));
 	}
-	public VisualizationImage removedDots(SkeletonType skeleton) {
-		return visualizeRemovedDots(archive.removedDots(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] traced(SkeletonType skeleton) {
+		return overlay(markTracedSkeleton(archive.traced(skeleton)));
 	}
-	public VisualizationImage removedDots() {
-		return visualizeRemovedDots(archive.removedDots(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] traced() {
+		return overlay(markTracedSkeleton(archive.traced()));
 	}
-	public VisualizationImage removedDotsDiff(SkeletonType skeleton) {
-		return visualizeRemovedDotsDiff(archive.removedDots(skeleton), archive.traced(skeleton));
+	public byte[] removedDots(SkeletonType skeleton) {
+		return overlay(markRemovedDots(archive.removedDots(skeleton)));
 	}
-	public VisualizationImage removedDotsDiff() {
-		return visualizeRemovedDotsDiff(archive.removedDots(), archive.traced());
+	public byte[] removedDots() {
+		return overlay(markRemovedDots(archive.removedDots()));
 	}
-	public VisualizationImage removedPores(SkeletonType skeleton) {
-		return visualizeRemovedPores(archive.removedPores(skeleton), context.image(TransparencyRole.EXTRACTED));
+	private byte[] solo(DomContent content) {
+		return new TransparencyImage(archive.blocks())
+			.add(content)
+			.bytes();
 	}
-	public VisualizationImage removedPores() {
-		return visualizeRemovedPores(archive.removedPores(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedDotsDiff(SkeletonType skeleton) {
+		return solo(paintRemovedDotsDiff(archive.removedDots(skeleton), archive.traced(skeleton)));
 	}
-	public VisualizationImage removedPoresDiff(SkeletonType skeleton) {
-		return visualizeRemovedPoresDiff(archive.removedPores(skeleton), archive.removedDots(skeleton));
+	public byte[] removedDotsDiff() {
+		return solo(paintRemovedDotsDiff(archive.removedDots(), archive.traced()));
 	}
-	public VisualizationImage removedPoresDiff() {
-		return visualizeRemovedPoresDiff(archive.removedPores(), archive.removedDots());
+	public byte[] removedPores(SkeletonType skeleton) {
+		return overlay(markRemovedPores(archive.removedPores(skeleton)));
 	}
-	public VisualizationImage removedGaps(SkeletonType skeleton) {
-		return visualizeRemovedGaps(archive.removedGaps(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedPores() {
+		return overlay(markRemovedPores(archive.removedPores()));
 	}
-	public VisualizationImage removedGaps() {
-		return visualizeRemovedGaps(archive.removedGaps(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedPoresDiff(SkeletonType skeleton) {
+		return solo(paintRemovedPoresDiff(archive.removedPores(skeleton), archive.removedDots(skeleton)));
 	}
-	public VisualizationImage removedGapsDiff(SkeletonType skeleton) {
-		return visualizeRemovedGapsDiff(archive.removedGaps(skeleton), archive.removedPores(skeleton));
+	public byte[] removedPoresDiff() {
+		return solo(paintRemovedPoresDiff(archive.removedPores(), archive.removedDots()));
 	}
-	public VisualizationImage removedGapsDiff() {
-		return visualizeRemovedGapsDiff(archive.removedGaps(), archive.removedPores());
+	public byte[] removedGaps(SkeletonType skeleton) {
+		return overlay(markRemovedGaps(archive.removedGaps(skeleton)));
 	}
-	public VisualizationImage removedTails(SkeletonType skeleton) {
-		return visualizeRemovedTails(archive.removedTails(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedGaps() {
+		return overlay(markRemovedGaps(archive.removedGaps()));
 	}
-	public VisualizationImage removedTails() {
-		return visualizeRemovedTails(archive.removedTails(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedGapsDiff(SkeletonType skeleton) {
+		return solo(paintRemovedGapsDiff(archive.removedGaps(skeleton), archive.removedPores(skeleton)));
 	}
-	public VisualizationImage removedTailsDiff(SkeletonType skeleton) {
-		return visualizeRemovedTailsDiff(archive.removedTails(skeleton), archive.removedGaps(skeleton));
+	public byte[] removedGapsDiff() {
+		return solo(paintRemovedGapsDiff(archive.removedGaps(), archive.removedPores()));
 	}
-	public VisualizationImage removedTailsDiff() {
-		return visualizeRemovedTailsDiff(archive.removedTails(), archive.removedGaps());
+	public byte[] removedTails(SkeletonType skeleton) {
+		return overlay(markRemovedTails(archive.removedTails(skeleton)));
 	}
-	public VisualizationImage removedFragments(SkeletonType skeleton) {
-		return visualizeRemovedFragments(archive.removedFragments(skeleton), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedTails() {
+		return overlay(markRemovedTails(archive.removedTails()));
 	}
-	public VisualizationImage removedFragments() {
-		return visualizeRemovedFragments(archive.removedFragments(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedTailsDiff(SkeletonType skeleton) {
+		return solo(paintRemovedTailsDiff(archive.removedTails(skeleton), archive.removedGaps(skeleton)));
 	}
-	public VisualizationImage removedFragmentsDiff(SkeletonType skeleton) {
-		return visualizeRemovedFragmentsDiff(archive.removedFragments(skeleton), archive.removedTails(skeleton));
+	public byte[] removedTailsDiff() {
+		return solo(paintRemovedTailsDiff(archive.removedTails(), archive.removedGaps()));
 	}
-	public VisualizationImage removedFragmentsDiff() {
-		return visualizeRemovedFragmentsDiff(archive.removedFragments(), archive.removedTails());
+	public byte[] removedFragments(SkeletonType skeleton) {
+		return overlay(markRemovedFragments(archive.removedFragments(skeleton)));
 	}
-	public VisualizationImage skeletonMinutiae() {
-		return visualizeSkeletonMinutiae(archive.skeletonMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedFragments() {
+		return overlay(markRemovedFragments(archive.removedFragments()));
 	}
-	public VisualizationImage innerMinutiae() {
-		return visualizeInnerMinutiae(archive.innerMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedFragmentsDiff(SkeletonType skeleton) {
+		return solo(paintRemovedFragmentsDiff(archive.removedFragments(skeleton), archive.removedTails(skeleton)));
 	}
-	public VisualizationImage innerMinutiaeDiff() {
-		return visualizeInnerMinutiaeDiff(archive.innerMinutiae(), archive.skeletonMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedFragmentsDiff() {
+		return solo(paintRemovedFragmentsDiff(archive.removedFragments(), archive.removedTails()));
 	}
-	public VisualizationImage removedMinutiaClouds() {
-		return visualizeRemovedMinutiaClouds(archive.removedMinutiaClouds(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] skeletonMinutiae() {
+		return overlay(markSkeletonMinutiae(archive.skeletonMinutiae()));
 	}
-	public VisualizationImage removedMinutiaCloudsDiff() {
-		return visualizeRemovedMinutiaCloudsDiff(archive.removedMinutiaClouds(), archive.innerMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] innerMinutiae() {
+		return overlay(markInnerMinutiae(archive.innerMinutiae()));
 	}
-	public VisualizationImage topMinutiae() {
-		return visualizeTopMinutiae(archive.topMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] innerMinutiaeDiff() {
+		return overlay(markInnerMinutiaeDiff(archive.innerMinutiae(), archive.skeletonMinutiae()));
 	}
-	public VisualizationImage topMinutiaeDiff() {
-		return visualizeTopMinutiaeDiff(archive.topMinutiae(), archive.removedMinutiaClouds(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedMinutiaClouds() {
+		return overlay(markRemovedMinutiaClouds(archive.removedMinutiaClouds()));
 	}
-	public VisualizationImage shuffledMinutiae() {
-		return visualizeShuffledMinutiae(archive.shuffledMinutiae(), context.image(TransparencyRole.EXTRACTED));
+	public byte[] removedMinutiaCloudsDiff() {
+		return overlay(markRemovedMinutiaCloudsDiff(archive.removedMinutiaClouds(), archive.innerMinutiae()));
 	}
-	public VisualizationImage edgeTable() {
-		return visualizeEdgeTable(archive.edgeTable(), context.template(TransparencyRole.EXTRACTED), context.image(TransparencyRole.EXTRACTED));
+	public byte[] topMinutiae() {
+		return overlay(markTopMinutiae(archive.topMinutiae()));
 	}
-	public VisualizationImage template() {
-		return visualizeTemplate(context.template(TransparencyRole.EXTRACTED), context.image(TransparencyRole.EXTRACTED));
+	public byte[] topMinutiaeDiff() {
+		return overlay(markTopMinutiaeDiff(archive.topMinutiae(), archive.removedMinutiaClouds()));
 	}
-	public VisualizationImage edgeHash() {
-		return visualizeEdgeHash(archive.edgeHash(), context.template(TransparencyRole.PROBE), context.image(TransparencyRole.PROBE));
+	public byte[] shuffledMinutiae() {
+		return overlay(markShuffledMinutiae(archive.shuffledMinutiae()));
 	}
-	public VisualizationImage rootPairs() {
-		return visualizeRootPairs(
-			archive.rootPairs(),
-			context.template(TransparencyRole.PROBE),
-			context.template(TransparencyRole.CANDIDATE),
-			context.image(TransparencyRole.PROBE),
-			context.image(TransparencyRole.CANDIDATE));
+	public byte[] edgeTable() {
+		return overlay(markEdgeTable(archive.edgeTable(), context.template(TransparencyRole.EXTRACTED)));
 	}
-	public VisualizationImage pairing(int offset, MatchSide side) {
+	public byte[] edgeHash() {
+		Template template = context.template(TransparencyRole.PROBE);
+		return new TransparencyImage(template.size)
+			.image(context.image(TransparencyRole.PROBE))
+			.add(markEdgeHash(archive.edgeHash(), template))
+			.bytes();
+	}
+	public byte[] rootPairs() {
+		Template probe = context.template(TransparencyRole.PROBE);
+		Template candidate = context.template(TransparencyRole.CANDIDATE);
+		TransparencyImage left = new TransparencyImage(probe.size)
+			.image(context.image(TransparencyRole.PROBE));
+		TransparencyImage right = new TransparencyImage(candidate.size)
+			.image(context.image(TransparencyRole.CANDIDATE));
+		return new TransparencySplit(left, right)
+			.add(markRootPairs(archive.rootPairs(), probe, candidate))
+			.left(markMinutiaPositions(probe))
+			.right(markMinutiaPositions(candidate))
+			.bytes();
+	}
+	public byte[] pairing(int offset, MatchSide side) {
+		Template template;
+		byte[] image;
 		switch (side) {
 		case PROBE:
-			return visualizePairing(archive.pairing(offset), side, context.template(TransparencyRole.PROBE), context.image(TransparencyRole.PROBE));
+			template = context.template(TransparencyRole.PROBE);
+			image = context.image(TransparencyRole.PROBE);
+			break;
 		case CANDIDATE:
-			return visualizePairing(archive.pairing(offset), side, context.template(TransparencyRole.CANDIDATE), context.image(TransparencyRole.CANDIDATE));
+			template = context.template(TransparencyRole.CANDIDATE);
+			image = context.image(TransparencyRole.CANDIDATE);
+			break;
 		default:
 			throw new IllegalStateException();
 		}
+		return new TransparencyImage(template.size)
+			.image(image)
+			.add(markPairing(archive.pairing(offset), side, template))
+			.bytes();
 	}
-	public VisualizationImage pairing(MatchSide side) {
+	public byte[] pairing(MatchSide side) {
 		return pairing(archive.bestMatch().orElse(0), side);
 	}
-	public VisualizationImage pairing(int offset) {
-		return visualizePairing(
-			archive.pairing(offset),
-			context.template(TransparencyRole.PROBE),
-			context.template(TransparencyRole.CANDIDATE),
-			context.image(TransparencyRole.PROBE),
-			context.image(TransparencyRole.CANDIDATE));
+	public byte[] pairing(int offset) {
+		MatchPairing pairing = archive.pairing(offset);
+		Template probe = context.template(TransparencyRole.PROBE);
+		TransparencyImage left = new TransparencyImage(probe.size)
+			.image(context.image(TransparencyRole.PROBE))
+			.add(markPairing(pairing, MatchSide.PROBE, probe));
+		Template candidate = context.template(TransparencyRole.CANDIDATE);
+		TransparencyImage right = new TransparencyImage(candidate.size)
+			.image(context.image(TransparencyRole.CANDIDATE))
+			.add(markPairing(pairing, MatchSide.CANDIDATE, candidate));
+		return new TransparencySplit(left, right).bytes();
 	}
-	public VisualizationImage pairing() {
+	public byte[] pairing() {
 		return pairing(archive.bestMatch().orElse(0));
 	}
 }

@@ -53,7 +53,7 @@ public class TransparencyPixmap {
 		return stream.toByteArray();
 	}
 	public byte[] jpeg() {
-		return jpeg(0.95f);
+		return jpeg(0.9f);
 	}
 	private byte[] jpeg(float quality) {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

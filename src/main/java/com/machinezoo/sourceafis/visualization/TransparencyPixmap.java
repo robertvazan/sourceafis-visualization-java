@@ -38,7 +38,9 @@ public class TransparencyPixmap {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		image.setRGB(0, 0, width, height, pixels, 0, width);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		Exceptions.sneak().run(() -> ImageIO.write(image, "PNG", stream));
+		boolean success = Exceptions.sneak().getAsBoolean(() -> ImageIO.write(image, "PNG", stream));
+		if (!success)
+			throw new IllegalStateException("PNG image writing is not supported.");
 		return stream.toByteArray();
 	}
 	public byte[] jpeg() {
@@ -53,7 +55,10 @@ public class TransparencyPixmap {
 		JPEGImageWriteParam params = new JPEGImageWriteParam(null);
 		params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 		params.setCompressionQuality(quality);
-		ImageWriter writer = ImageIO.getImageWritersByFormatName("JPEG").next();
+		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("JPEG");
+		if (!writers.hasNext())
+			throw new IllegalStateException("JPEG image writing is not supported.");
+		ImageWriter writer = writers.next();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		writer.setOutput(new MemoryCacheImageOutputStream(stream));
 		Exceptions.sneak().run(() -> writer.write(null, new IIOImage(image, null, null), params));

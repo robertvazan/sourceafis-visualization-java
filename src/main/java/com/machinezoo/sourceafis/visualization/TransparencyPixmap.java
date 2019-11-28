@@ -5,6 +5,8 @@ import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import javax.imageio.*;
+import javax.imageio.plugins.jpeg.*;
+import javax.imageio.stream.*;
 import com.machinezoo.noexception.*;
 import com.machinezoo.sourceafis.transparency.*;
 
@@ -40,13 +42,21 @@ public class TransparencyPixmap {
 		return stream.toByteArray();
 	}
 	public byte[] jpeg() {
+		return jpeg(0.95f);
+	}
+	private byte[] jpeg(float quality) {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		int[] opaque = Arrays.copyOf(pixels, pixels.length);
 		for (int i = 0; i < opaque.length; ++i)
 			opaque[i] |= 0xff_00_00_00;
 		image.setRGB(0, 0, width, height, opaque, 0, width);
+		JPEGImageWriteParam params = new JPEGImageWriteParam(null);
+		params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+		params.setCompressionQuality(quality);
+		ImageWriter writer = ImageIO.getImageWritersByFormatName("JPEG").next();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		Exceptions.sneak().run(() -> ImageIO.write(image, "JPEG", stream));
+		writer.setOutput(new MemoryCacheImageOutputStream(stream));
+		Exceptions.sneak().run(() -> writer.write(null, new IIOImage(image, null, null), params));
 		return stream.toByteArray();
 	}
 	public void fill(int color) {

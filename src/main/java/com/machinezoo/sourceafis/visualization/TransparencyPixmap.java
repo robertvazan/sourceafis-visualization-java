@@ -22,6 +22,15 @@ public class TransparencyPixmap {
 	public TransparencyPixmap(IntPoint size) {
 		this(size.x, size.y);
 	}
+	public TransparencyPixmap(byte[] image) {
+		BufferedImage buffered = Exceptions.wrap().get(() -> ImageIO.read(new ByteArrayInputStream(image)));
+		if (buffered == null)
+			throw new IllegalArgumentException("Unsupported image format.");
+		width = buffered.getWidth();
+		height = buffered.getHeight();
+		pixels = new int[width * height];
+		buffered.getRGB(0, 0, width, height, pixels, 0, width);
+	}
 	public IntPoint size() {
 		return new IntPoint(width, height);
 	}

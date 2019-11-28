@@ -50,6 +50,12 @@ public class TransparencyMarkers {
 	public static DomContent embedImage(double width, double height, byte[] image) {
 		if (image == null)
 			return null;
+		/*
+		 * This code is used only for embedding fingerprint images as a background,
+		 * so recompress them all to JPEG to reduce size of the resulting SVG image.
+		 */
+		if (!"image/jpeg".equals(mime(image)))
+			image = new TransparencyPixmap(image).jpeg();
 		return Svg.image()
 			.width(width)
 			.height(height)

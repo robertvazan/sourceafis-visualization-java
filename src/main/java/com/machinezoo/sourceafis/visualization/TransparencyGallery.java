@@ -16,10 +16,10 @@ public class TransparencyGallery {
 		this.context = context;
 	}
 	public byte[] decoded() {
-		return paintDecoded(archive.decoded()).png();
+		return paintDecoded(archive.decoded()).jpeg();
 	}
 	public byte[] scaled() {
-		return paintScaled(archive.scaled()).png();
+		return paintScaled(archive.scaled()).jpeg();
 	}
 	public byte[] blocksPrimary() {
 		BlockMap blocks = archive.blocks();
@@ -71,10 +71,10 @@ public class TransparencyGallery {
 		return overlayPng(overlayFilteredMask(archive.filteredMask(), archive.blocks()));
 	}
 	public byte[] equalized() {
-		return paintEqualizedImage(archive.equalized()).png();
+		return paintEqualizedImage(archive.equalized()).jpeg();
 	}
 	public byte[] pixelwiseOrientation() {
-		return paintPixelwiseOrientation(archive.pixelwiseOrientation()).png();
+		return paintPixelwiseOrientation(archive.pixelwiseOrientation()).jpeg();
 	}
 	public byte[] blockOrientation() {
 		return overlay(markBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask()));
@@ -83,10 +83,10 @@ public class TransparencyGallery {
 		return overlay(markSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask()));
 	}
 	public byte[] parallelSmoothing() {
-		return paintParallelSmoothing(archive.parallelSmoothing()).png();
+		return paintParallelSmoothing(archive.parallelSmoothing()).jpeg();
 	}
 	public byte[] orthogonalSmoothing() {
-		return paintOrthogonalSmoothing(archive.orthogonalSmoothing()).png();
+		return paintOrthogonalSmoothing(archive.orthogonalSmoothing()).jpeg();
 	}
 	public byte[] binarized() {
 		return overlayPng(overlayBinarizedImage(archive.binarized()));

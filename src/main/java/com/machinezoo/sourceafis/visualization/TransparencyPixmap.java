@@ -3,6 +3,7 @@ package com.machinezoo.sourceafis.visualization;
 
 import java.awt.image.*;
 import java.io.*;
+import java.util.*;
 import javax.imageio.*;
 import com.machinezoo.noexception.*;
 import com.machinezoo.sourceafis.transparency.*;
@@ -36,6 +37,16 @@ public class TransparencyPixmap {
 		image.setRGB(0, 0, width, height, pixels, 0, width);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		Exceptions.sneak().run(() -> ImageIO.write(image, "PNG", stream));
+		return stream.toByteArray();
+	}
+	public byte[] jpeg() {
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		int[] opaque = Arrays.copyOf(pixels, pixels.length);
+		for (int i = 0; i < opaque.length; ++i)
+			opaque[i] |= 0xff_00_00_00;
+		image.setRGB(0, 0, width, height, opaque, 0, width);
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		Exceptions.sneak().run(() -> ImageIO.write(image, "JPEG", stream));
 		return stream.toByteArray();
 	}
 	public void fill(int color) {

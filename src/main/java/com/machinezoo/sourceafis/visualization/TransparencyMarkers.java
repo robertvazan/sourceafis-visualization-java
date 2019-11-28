@@ -163,6 +163,12 @@ public class TransparencyMarkers {
 			.height(pixmap.height)
 			.href("data:image/png;base64," + Base64.getEncoder().encodeToString(pixmap.png()));
 	}
+	public static DomContent embedJpegPixmap(TransparencyPixmap pixmap) {
+		return Svg.image()
+			.width(pixmap.width)
+			.height(pixmap.height)
+			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
+	}
 	public static TransparencyPixmap overlayMask(BooleanMatrix mask) {
 		return paintBooleanMatrix(mask, 0x20_ff_ff_00, 0x20_00_ff_ff);
 	}
@@ -186,17 +192,21 @@ public class TransparencyMarkers {
 	}
 	private static TransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
 		opacity = opacity << 24;
-		TransparencyPixmap writable = new TransparencyPixmap(orientations.size());
+		TransparencyPixmap pixmap = new TransparencyPixmap(orientations.size());
+		/*
+		 * Transparent white, so that the result will render correctly as both JPEG and PNG.
+		 */
+		pixmap.fill(0x00_ff_ff_ff);
 		double max = Math.log1p(Streams.stream(orientations.size()).map(orientations::get).mapToDouble(DoublePoint::length).max().orElse(1));
 		for (IntPoint at : orientations.size()) {
 			DoublePoint vector = orientations.get(at);
 			if (vector.x != 0 || vector.y != 0) {
 				double angle = DoubleAngle.atan(vector);
 				double strength = Math.log1p(vector.length()) / max;
-				writable.set(at, ColorConversions.convertHSLtoRGB(angle / DoubleAngle.PI2, 0.2 + 0.8 * strength, 0.5) & 0xffffff | opacity);
+				pixmap.set(at, ColorConversions.convertHSLtoRGB(angle / DoubleAngle.PI2, 0.2 + 0.8 * strength, 0.5) & 0xffffff | opacity);
 			}
 		}
-		return writable;
+		return pixmap;
 	}
 	public static TransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations) {
 		return paintPixelwiseOrientation(orientations, 0xff);

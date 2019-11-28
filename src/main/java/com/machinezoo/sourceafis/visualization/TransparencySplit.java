@@ -47,6 +47,10 @@ public class TransparencySplit extends TransparencyImage {
 		super.png(pixmap);
 		return this;
 	}
+	public TransparencySplit jpeg(TransparencyPixmap pixmap) {
+		super.jpeg(pixmap);
+		return this;
+	}
 	public TransparencySplit left(DomContent content) {
 		return add(Svg.g().add(content));
 	}

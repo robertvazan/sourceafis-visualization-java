@@ -45,6 +45,12 @@ public class TransparencyMarkers {
 			return "image/png";
 		if (image[0] == (byte)0xff && image[1] == (byte)0xd8)
 			return "image/jpeg";
+		if (image[0] == (byte)0x49 && image[1] == (byte)0x49 && image[2] == (byte)0x2a)
+			return "image/tiff";
+		if (image[0] == (byte)0x4d && image[1] == (byte)0x4d && image[2] == (byte)0x2a)
+			return "image/tiff";
+		if (image[0] == '<')
+			return "image/svg+xml";
 		throw new IllegalArgumentException();
 	}
 	public static DomContent embedImage(double width, double height, byte[] image) {

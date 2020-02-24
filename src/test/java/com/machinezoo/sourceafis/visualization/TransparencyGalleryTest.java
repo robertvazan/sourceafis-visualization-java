@@ -1,6 +1,7 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.io.*;

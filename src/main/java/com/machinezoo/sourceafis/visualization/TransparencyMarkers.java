@@ -114,8 +114,8 @@ public class TransparencyMarkers {
 		int slots = 32;
 		for (IntPoint at : grid.blocks) {
 			int[] resampled = new int[slots];
-			for (int z = 0; z < histogram.depth; ++z)
-				resampled[z * slots / histogram.depth] += histogram.get(at, z);
+			for (int z = 0; z < histogram.bins; ++z)
+				resampled[z * slots / histogram.bins] += histogram.get(at, z);
 			int total = IntStream.of(resampled).sum();
 			IntRect block = grid.block(at);
 			List<String> points = new ArrayList<>();

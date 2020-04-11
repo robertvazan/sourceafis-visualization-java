@@ -19,7 +19,7 @@ public class TransparencyContext {
 		return this;
 	}
 	public TransparencyContext template(TransparencyRole role, byte[] template) {
-		return template(role, Template.parse(template));
+		return template(role, Template.parseIO(template));
 	}
 	public Template template(TransparencyRole role) {
 		return templates.get(role);

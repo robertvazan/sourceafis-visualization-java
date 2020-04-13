@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>com.machinezoo.sourceafis</groupId>
 			<artifactId>sourceafis-transparency</artifactId>
-			<version>0.5.1</version>
+			<version>0.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.machinezoo.pushmode</groupId>

@@ -13,8 +13,8 @@ public class TransparencyContext {
 	public byte[] image(TransparencyRole role) {
 		return images.get(role);
 	}
-	private final Map<TransparencyRole, Template> templates = new EnumMap<>(TransparencyRole.class);
-	public TransparencyContext template(TransparencyRole role, Template template) {
+	private final Map<TransparencyRole, MutableTemplate> templates = new EnumMap<>(TransparencyRole.class);
+	public TransparencyContext template(TransparencyRole role, MutableTemplate template) {
 		templates.put(role, template);
 		return this;
 	}
@@ -25,7 +25,7 @@ public class TransparencyContext {
 	public TransparencyContext template(TransparencyRole role, byte[] template) {
 		return template(role, PersistentTemplate.parse(template));
 	}
-	public Template template(TransparencyRole role) {
+	public MutableTemplate template(TransparencyRole role) {
 		return templates.get(role);
 	}
 }

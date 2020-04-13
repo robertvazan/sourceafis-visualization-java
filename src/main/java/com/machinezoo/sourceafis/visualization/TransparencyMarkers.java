@@ -379,7 +379,7 @@ public class TransparencyMarkers {
 	public static DomContent paintFragmentsDiff(SkeletonGraph fragments, SkeletonGraph tails) {
 		return paintSkeletonDiff(tails, fragments);
 	}
-	private static DomContent markMinutia(TemplateMinutia minutia, String color) {
+	private static DomContent markMinutia(MutableMinutia minutia, String color) {
 		DoublePoint at = minutia.center();
 		return Svg.g()
 			.add(Svg.circle()
@@ -396,49 +396,49 @@ public class TransparencyMarkers {
 				.stroke(color))
 			.transform("translate(" + at.x + " " + at.y + ") rotate(" + DoubleAngle.degrees(minutia.direction) + ")");
 	}
-	public static DomContent markMinutia(TemplateMinutia minutia) {
+	public static DomContent markMinutia(MutableMinutia minutia) {
 		return markMinutia(minutia, minutia.type == MinutiaType.ENDING ? "blue" : "green");
 	}
-	public static DomContent markTemplate(Template template) {
+	public static DomContent markTemplate(MutableTemplate template) {
 		DomFragment markers = new DomFragment();
-		for (TemplateMinutia minutia : template.minutiae)
+		for (MutableMinutia minutia : template.minutiae)
 			markers.add(markMinutia(minutia));
 		return markers;
 	}
-	public static DomContent markSkeletonMinutiae(Template minutiae) {
+	public static DomContent markSkeletonMinutiae(MutableTemplate minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markRemovedMinutia(TemplateMinutia minutia) {
+	public static DomContent markRemovedMinutia(MutableMinutia minutia) {
 		return markMinutia(minutia, "red");
 	}
-	public static DomContent markTemplateDiff(Template previous, Template next) {
+	public static DomContent markTemplateDiff(MutableTemplate previous, MutableTemplate next) {
 		DomFragment markers = new DomFragment();
 		Set<IntPoint> positions = Arrays.stream(next.minutiae).map(m -> m.position).collect(toSet());
-		for (TemplateMinutia minutia : previous.minutiae)
+		for (MutableMinutia minutia : previous.minutiae)
 			if (!positions.contains(minutia.position))
 				markers.add(markRemovedMinutia(minutia));
 		markers.add(markTemplate(next));
 		return markers;
 	}
-	public static DomContent markInnerMinutiae(Template minutiae) {
+	public static DomContent markInnerMinutiae(MutableTemplate minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markInnerMinutiaeDiff(Template inner, Template skeleton) {
+	public static DomContent markInnerMinutiaeDiff(MutableTemplate inner, MutableTemplate skeleton) {
 		return markTemplateDiff(skeleton, inner);
 	}
-	public static DomContent markClouds(Template minutiae) {
+	public static DomContent markClouds(MutableTemplate minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markCloudsDiff(Template removedClouds, Template inner) {
+	public static DomContent markCloudsDiff(MutableTemplate removedClouds, MutableTemplate inner) {
 		return markTemplateDiff(inner, removedClouds);
 	}
-	public static DomContent markTopMinutiae(Template minutiae) {
+	public static DomContent markTopMinutiae(MutableTemplate minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markTopMinutiaeDiff(Template top, Template removedClouds) {
+	public static DomContent markTopMinutiaeDiff(MutableTemplate top, MutableTemplate removedClouds) {
 		return markTemplateDiff(removedClouds, top);
 	}
-	public static DomContent markShuffled(Template shuffled) {
+	public static DomContent markShuffled(MutableTemplate shuffled) {
 		return markTemplate(shuffled);
 	}
 	private static class EdgeLine {
@@ -449,7 +449,7 @@ public class TransparencyMarkers {
 			this.edge = edge;
 		}
 	}
-	public static DomContent markMinutiaPosition(TemplateMinutia minutia) {
+	public static DomContent markMinutiaPosition(MutableMinutia minutia) {
 		DoublePoint at = minutia.center();
 		return Svg.circle()
 			.cx(at.x)
@@ -462,7 +462,7 @@ public class TransparencyMarkers {
 		int color = ColorConversions.convertHSLtoRGB(angle / DoubleAngle.PI2, 1, 0.9 - 0.8 * stretch);
 		return String.format("#%06x", color & 0xffffff);
 	}
-	private static DomContent markEdgeShape(EdgeShape shape, TemplateMinutia reference, TemplateMinutia neighbor, double width) {
+	private static DomContent markEdgeShape(EdgeShape shape, MutableMinutia reference, MutableMinutia neighbor, double width) {
 		DoublePoint referencePos = reference.center();
 		DoublePoint neighborPos = neighbor.center();
 		DoublePoint middle = neighborPos.minus(referencePos).multiply(0.5).add(referencePos);
@@ -482,10 +482,10 @@ public class TransparencyMarkers {
 				.stroke(colorEdgeShape(shape.length, shape.neighborAngle))
 				.strokeWidth(width));
 	}
-	public static DomContent markNeighborEdge(NeighborEdge edge, int reference, Template template, boolean symmetrical) {
+	public static DomContent markNeighborEdge(NeighborEdge edge, int reference, MutableTemplate template, boolean symmetrical) {
 		return markEdgeShape(edge, template.minutiae[reference], template.minutiae[edge.neighbor], symmetrical ? 1.2 : 0.8);
 	}
-	private static DomElement markPairingEdge(PairingEdge edge, MatchSide side, Template template) {
+	private static DomElement markPairingEdge(PairingEdge edge, MatchSide side, MutableTemplate template) {
 		DoublePoint reference = template.minutiae[edge.from().side(side)].center();
 		DoublePoint neighbor = template.minutiae[edge.to().side(side)].center();
 		return Svg.line()
@@ -494,16 +494,16 @@ public class TransparencyMarkers {
 			.x2(neighbor.x)
 			.y2(neighbor.y);
 	}
-	public static DomContent markPairingTreeEdge(PairingEdge edge, MatchSide side, Template template) {
+	public static DomContent markPairingTreeEdge(PairingEdge edge, MatchSide side, MutableTemplate template) {
 		return markPairingEdge(edge, side, template)
 			.strokeWidth(2)
 			.stroke("green");
 	}
-	public static DomContent markPairingSupportEdge(PairingEdge edge, MatchSide side, Template template) {
+	public static DomContent markPairingSupportEdge(PairingEdge edge, MatchSide side, MutableTemplate template) {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
 	}
-	public static DomContent markEdges(EdgeTable table, Template template) {
+	public static DomContent markEdges(EdgeTable table, MutableTemplate template) {
 		DomFragment markers = new DomFragment();
 		List<EdgeLine> sorted = IntStream.range(0, table.edges.length)
 			.boxed()
@@ -514,14 +514,14 @@ public class TransparencyMarkers {
 			boolean symmetrical = Arrays.stream(table.edges[line.edge.neighbor]).anyMatch(e -> e.neighbor == line.reference);
 			markers.add(markNeighborEdge(line.edge, line.reference, template, symmetrical));
 		}
-		for (TemplateMinutia minutia : template.minutiae)
+		for (MutableMinutia minutia : template.minutiae)
 			markers.add(markMinutiaPosition(minutia));
 		return markers;
 	}
-	public static DomContent markIndexedEdge(IndexedEdge edge, Template template) {
+	public static DomContent markIndexedEdge(IndexedEdge edge, MutableTemplate template) {
 		return markEdgeShape(edge, template.minutiae[edge.reference], template.minutiae[edge.neighbor], 0.6);
 	}
-	public static DomContent markHash(EdgeHash hash, Template template) {
+	public static DomContent markHash(EdgeHash hash, MutableTemplate template) {
 		DomFragment markers = new DomFragment();
 		List<IndexedEdge> edges = hash.edges()
 			.sorted(Comparator.comparing(e -> -e.length))
@@ -529,17 +529,17 @@ public class TransparencyMarkers {
 		for (IndexedEdge edge : edges)
 			if (edge.reference < edge.neighbor)
 				markers.add(markIndexedEdge(edge, template));
-		for (TemplateMinutia minutia : template.minutiae)
+		for (MutableMinutia minutia : template.minutiae)
 			markers.add(markMinutiaPosition(minutia));
 		return markers;
 	}
-	public static DomContent markMinutiaPositions(Template template) {
+	public static DomContent markMinutiaPositions(MutableTemplate template) {
 		DomFragment markers = new DomFragment();
-		for (TemplateMinutia minutia : template.minutiae)
+		for (MutableMinutia minutia : template.minutiae)
 			markers.add(markMinutiaPosition(minutia));
 		return markers;
 	}
-	public static DomContent markRoots(RootPairs roots, Template probe, Template candidate) {
+	public static DomContent markRoots(RootPairs roots, MutableTemplate probe, MutableTemplate candidate) {
 		TransparencySplit split = new TransparencySplit(probe.size, candidate.size);
 		for (MinutiaPair pair : roots.pairs) {
 			DoublePoint probePos = probe.minutiae[pair.probe].center();
@@ -554,7 +554,7 @@ public class TransparencyMarkers {
 		}
 		return split.content();
 	}
-	public static DomContent markRoot(TemplateMinutia minutia) {
+	public static DomContent markRoot(MutableMinutia minutia) {
 		DoublePoint at = minutia.center();
 		return Svg.circle()
 			.cx(at.x)
@@ -562,15 +562,15 @@ public class TransparencyMarkers {
 			.r(3.5)
 			.fill("blue");
 	}
-	public static DomContent markPairing(MatchPairing pairing, MatchSide side, Template template) {
+	public static DomContent markPairing(MatchPairing pairing, MatchSide side, MutableTemplate template) {
 		DomFragment markers = new DomFragment();
 		for (PairingEdge edge : pairing.support)
 			markers.add(markPairingSupportEdge(edge, side, template));
 		for (PairingEdge edge : pairing.tree)
 			markers.add(markPairingTreeEdge(edge, side, template));
-		for (TemplateMinutia minutia : template.minutiae)
+		for (MutableMinutia minutia : template.minutiae)
 			markers.add(markMinutiaPosition(minutia));
-		TemplateMinutia root = template.minutiae[pairing.root.side(side)];
+		MutableMinutia root = template.minutiae[pairing.root.side(side)];
 		markers.add(markRoot(root));
 		return markers;
 	}

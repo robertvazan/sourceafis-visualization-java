@@ -214,15 +214,15 @@ public class TransparencyGallery {
 		return overlay(markEdges(archive.edges(), context.template(TransparencyRole.EXTRACTED)));
 	}
 	public byte[] hash() {
-		Template template = context.template(TransparencyRole.PROBE);
+		MutableTemplate template = context.template(TransparencyRole.PROBE);
 		return new TransparencyImage(template.size)
 			.image(context.image(TransparencyRole.PROBE))
 			.add(markHash(archive.hash(), template))
 			.bytes();
 	}
 	public byte[] roots() {
-		Template probe = context.template(TransparencyRole.PROBE);
-		Template candidate = context.template(TransparencyRole.CANDIDATE);
+		MutableTemplate probe = context.template(TransparencyRole.PROBE);
+		MutableTemplate candidate = context.template(TransparencyRole.CANDIDATE);
 		TransparencyImage left = new TransparencyImage(probe.size)
 			.image(context.image(TransparencyRole.PROBE));
 		TransparencyImage right = new TransparencyImage(candidate.size)
@@ -234,7 +234,7 @@ public class TransparencyGallery {
 			.bytes();
 	}
 	public byte[] pairing(int offset, MatchSide side) {
-		Template template;
+		MutableTemplate template;
 		byte[] image;
 		switch (side) {
 		case PROBE:
@@ -258,11 +258,11 @@ public class TransparencyGallery {
 	}
 	public byte[] pairing(int offset) {
 		MatchPairing pairing = archive.pairing(offset);
-		Template probe = context.template(TransparencyRole.PROBE);
+		MutableTemplate probe = context.template(TransparencyRole.PROBE);
 		TransparencyImage left = new TransparencyImage(probe.size)
 			.image(context.image(TransparencyRole.PROBE))
 			.add(markPairing(pairing, MatchSide.PROBE, probe));
-		Template candidate = context.template(TransparencyRole.CANDIDATE);
+		MutableTemplate candidate = context.template(TransparencyRole.CANDIDATE);
 		TransparencyImage right = new TransparencyImage(candidate.size)
 			.image(context.image(TransparencyRole.CANDIDATE))
 			.add(markPairing(pairing, MatchSide.CANDIDATE, candidate));

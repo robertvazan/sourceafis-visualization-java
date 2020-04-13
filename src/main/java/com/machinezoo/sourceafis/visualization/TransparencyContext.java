@@ -18,8 +18,12 @@ public class TransparencyContext {
 		templates.put(role, template);
 		return this;
 	}
+	public TransparencyContext template(TransparencyRole role, PersistentTemplate template) {
+		templates.put(role, template.unpack());
+		return this;
+	}
 	public TransparencyContext template(TransparencyRole role, byte[] template) {
-		return template(role, Template.parseIO(template));
+		return template(role, PersistentTemplate.parse(template));
 	}
 	public Template template(TransparencyRole role) {
 		return templates.get(role);

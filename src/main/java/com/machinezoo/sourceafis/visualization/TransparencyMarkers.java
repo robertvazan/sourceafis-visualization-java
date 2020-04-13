@@ -413,9 +413,9 @@ public class TransparencyMarkers {
 	}
 	public static DomContent markTemplateDiff(Template previous, Template next) {
 		DomFragment markers = new DomFragment();
-		Set<IntPoint> positions = Arrays.stream(next.minutiae).map(TemplateMinutia::position).collect(toSet());
+		Set<IntPoint> positions = Arrays.stream(next.minutiae).map(m -> m.position).collect(toSet());
 		for (TemplateMinutia minutia : previous.minutiae)
-			if (!positions.contains(minutia.position()))
+			if (!positions.contains(minutia.position))
 				markers.add(markRemovedTemplateMinutia(minutia));
 		markers.add(markTemplate(next));
 		return markers;

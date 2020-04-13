@@ -18,7 +18,7 @@ public class TransparencyMarkers {
 	 * - embed*() - pixmap as an SVG image element
 	 * - *Diff() - visual diff relative to previous (or other) stage
 	 * - *ModelName*() - renders ModelName (e.g. BooleanMatrix)
-	 * - *StageName*() - appropriately renders data from particular algorithm stage (e.g. EqualizedImage)
+	 * - *KeyName*() - appropriately renders data from particular transparency key (e.g. EqualizedImage, may be abbreviated)
 	 * 
 	 * Methods are sorted in the same order in which corresponding data is produced by the algorithm.
 	 * All generic and helper methods are defined just before the first method that uses them.
@@ -95,21 +95,21 @@ public class TransparencyMarkers {
 		}
 		return markers;
 	}
-	private static DomContent markBlockMap(BlockMap blocks, BlockGrid foreground, BlockGrid background, String color) {
+	private static DomContent markBlocks(BlockMap blocks, BlockGrid foreground, BlockGrid background, String color) {
 		return new DomFragment()
 			.add(markBlockGrid(blocks, background, "#888", 0.1))
 			.add(markBlockGrid(blocks, foreground, color, 0.25));
 	}
-	public static DomContent markBlockMap(BlockMap blocks) {
-		return markBlockMap(blocks, blocks.primary, blocks.secondary, "#00c");
+	public static DomContent markBlocks(BlockMap blocks) {
+		return markBlocks(blocks, blocks.primary, blocks.secondary, "#00c");
 	}
-	public static DomContent markSecondaryBlockMap(BlockMap blocks) {
-		return markBlockMap(blocks, blocks.secondary, blocks.primary, "#080");
+	public static DomContent markSecondaryBlocks(BlockMap blocks) {
+		return markBlocks(blocks, blocks.secondary, blocks.primary, "#080");
 	}
 	private static String createPolyPoint(double x, double y) {
 		return x + "," + y;
 	}
-	private static DomContent markBlockHistogram(HistogramCube histogram, BlockMap blocks, BlockGrid grid) {
+	private static DomContent markHistogram(HistogramCube histogram, BlockMap blocks, BlockGrid grid) {
 		DomFragment markers = new DomFragment();
 		int slots = 32;
 		for (IntPoint at : grid.blocks) {
@@ -132,10 +132,10 @@ public class TransparencyMarkers {
 		return markers;
 	}
 	public static DomContent markHistogram(HistogramCube histogram, BlockMap blocks) {
-		return markBlockHistogram(histogram, blocks, blocks.primary);
+		return markHistogram(histogram, blocks, blocks.primary);
 	}
 	public static DomContent markSmoothedHistogram(HistogramCube histogram, BlockMap blocks) {
-		return markBlockHistogram(histogram, blocks, blocks.secondary);
+		return markHistogram(histogram, blocks, blocks.secondary);
 	}
 	public static DomContent markRectWeight(double weight, IntRect rect) {
 		double radius = Math.sqrt(weight) * rect.radius();
@@ -158,7 +158,7 @@ public class TransparencyMarkers {
 		}
 		return markers;
 	}
-	public static DomContent markClippedContrast(DoubleMatrix contrast, BlockMap blocks) {
+	public static DomContent markContrast(DoubleMatrix contrast, BlockMap blocks) {
 		return markBlockWeight(contrast, blocks);
 	}
 	public static TransparencyPixmap paintBooleanMatrix(BooleanMatrix matrix, int foreground, int background) {
@@ -169,13 +169,13 @@ public class TransparencyMarkers {
 				writable.set(at, foreground);
 		return writable;
 	}
-	public static DomContent embedPngPixmap(TransparencyPixmap pixmap) {
+	public static DomContent embedPng(TransparencyPixmap pixmap) {
 		return Svg.image()
 			.width(pixmap.width)
 			.height(pixmap.height)
 			.href("data:image/png;base64," + Base64.getEncoder().encodeToString(pixmap.png()));
 	}
-	public static DomContent embedJpegPixmap(TransparencyPixmap pixmap) {
+	public static DomContent embedJpeg(TransparencyPixmap pixmap) {
 		return Svg.image()
 			.width(pixmap.width)
 			.height(pixmap.height)
@@ -199,7 +199,7 @@ public class TransparencyMarkers {
 	public static TransparencyPixmap overlayFilteredMask(BooleanMatrix mask, BlockMap blocks) {
 		return overlayMask(mask, blocks);
 	}
-	public static TransparencyPixmap paintEqualizedImage(DoubleMatrix image) {
+	public static TransparencyPixmap paintEqualized(DoubleMatrix image) {
 		return paintDoubleMatrix(image);
 	}
 	private static TransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
@@ -249,22 +249,22 @@ public class TransparencyMarkers {
 	public static DomContent markSmoothedOrientation(DoublePointMatrix orientations, BlockMap blocks, BooleanMatrix mask) {
 		return markBlockOrientation(orientations, blocks, mask);
 	}
-	public static TransparencyPixmap paintParallelSmoothing(DoubleMatrix image) {
+	public static TransparencyPixmap paintParallel(DoubleMatrix image) {
 		return paintDoubleMatrix(image);
 	}
-	public static TransparencyPixmap paintOrthogonalSmoothing(DoubleMatrix image) {
+	public static TransparencyPixmap paintOrthogonal(DoubleMatrix image) {
 		return paintDoubleMatrix(image);
 	}
 	public static TransparencyPixmap paintBooleanMatrix(BooleanMatrix matrix) {
 		return paintBooleanMatrix(matrix, 0xff_00_00_00, 0xff_ff_ff_ff);
 	}
-	public static TransparencyPixmap paintBinarizedImage(BooleanMatrix binarized) {
+	public static TransparencyPixmap paintBinarized(BooleanMatrix binarized) {
 		return paintBooleanMatrix(binarized);
 	}
 	public static TransparencyPixmap overlayBooleanMatrix(BooleanMatrix matrix) {
 		return paintBooleanMatrix(matrix, 0x90_00_ff_ff, 0);
 	}
-	public static TransparencyPixmap overlayBinarizedImage(BooleanMatrix binarized) {
+	public static TransparencyPixmap overlayBinarized(BooleanMatrix binarized) {
 		return overlayBooleanMatrix(binarized);
 	}
 	public static TransparencyPixmap paintBooleanMatrixDiff(BooleanMatrix previous, BooleanMatrix next) {
@@ -298,7 +298,7 @@ public class TransparencyMarkers {
 	public static TransparencyPixmap overlaySkeletonShadow(BooleanMatrix shadow) {
 		return paintBooleanMatrix(shadow, 0xff_ff_00_00, 0);
 	}
-	public static TransparencyPixmap overlayThinnedSkeleton(BooleanMatrix thinned) {
+	public static TransparencyPixmap overlayThinned(BooleanMatrix thinned) {
 		return overlaySkeletonShadow(thinned);
 	}
 	public static TransparencyPixmap overlaySkeletonShadow(SkeletonGraph skeleton) {
@@ -319,12 +319,12 @@ public class TransparencyMarkers {
 	}
 	public static DomContent markSkeleton(SkeletonGraph skeleton) {
 		DomFragment markers = new DomFragment();
-		markers.add(embedPngPixmap(overlaySkeletonShadow(skeleton)));
+		markers.add(embedPng(overlaySkeletonShadow(skeleton)));
 		for (SkeletonMinutia minutia : skeleton.minutiae)
 			markers.add(markSkeletonMinutia(minutia));
 		return markers;
 	}
-	public static DomContent markTracedSkeleton(SkeletonGraph skeleton) {
+	public static DomContent markTraced(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
 	public static DomContent markAddedSkeletonMinutia(SkeletonMinutia minutia) {
@@ -335,7 +335,7 @@ public class TransparencyMarkers {
 	}
 	public static DomContent paintSkeletonDiff(SkeletonGraph previous, SkeletonGraph next) {
 		DomFragment markers = new DomFragment();
-		markers.add(embedPngPixmap(paintBooleanMatrixDiff(previous.shadow(), next.shadow())));
+		markers.add(embedPng(paintBooleanMatrixDiff(previous.shadow(), next.shadow())));
 		Set<IntPoint> previousMinutiae = previous.minutiae.stream().map(SkeletonMinutia::position).collect(toSet());
 		Set<IntPoint> currentMinutiae = next.minutiae.stream().map(SkeletonMinutia::position).collect(toSet());
 		for (SkeletonMinutia minutia : previous.minutiae)
@@ -349,37 +349,37 @@ public class TransparencyMarkers {
 		}
 		return markers;
 	}
-	public static DomContent markRemovedDots(SkeletonGraph skeleton) {
+	public static DomContent markDots(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
-	public static DomContent paintRemovedDotsDiff(SkeletonGraph removedDots, SkeletonGraph traced) {
-		return paintSkeletonDiff(traced, removedDots);
+	public static DomContent paintDotsDiff(SkeletonGraph dots, SkeletonGraph traced) {
+		return paintSkeletonDiff(traced, dots);
 	}
-	public static DomContent markRemovedPores(SkeletonGraph skeleton) {
+	public static DomContent markPores(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
-	public static DomContent paintRemovedPoresDiff(SkeletonGraph removedPores, SkeletonGraph removedDots) {
-		return paintSkeletonDiff(removedDots, removedPores);
+	public static DomContent paintPoresDiff(SkeletonGraph pores, SkeletonGraph removedDots) {
+		return paintSkeletonDiff(removedDots, pores);
 	}
-	public static DomContent markRemovedGaps(SkeletonGraph skeleton) {
+	public static DomContent markGaps(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
-	public static DomContent paintRemovedGapsDiff(SkeletonGraph removedGaps, SkeletonGraph removedPores) {
-		return paintSkeletonDiff(removedPores, removedGaps);
+	public static DomContent paintGapsDiff(SkeletonGraph gaps, SkeletonGraph pores) {
+		return paintSkeletonDiff(pores, gaps);
 	}
-	public static DomContent markRemovedTails(SkeletonGraph skeleton) {
+	public static DomContent markTails(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
-	public static DomContent paintRemovedTailsDiff(SkeletonGraph removedTails, SkeletonGraph removedGaps) {
-		return paintSkeletonDiff(removedGaps, removedTails);
+	public static DomContent paintTailsDiff(SkeletonGraph tails, SkeletonGraph gaps) {
+		return paintSkeletonDiff(gaps, tails);
 	}
-	public static DomContent markRemovedFragments(SkeletonGraph skeleton) {
+	public static DomContent markFragments(SkeletonGraph skeleton) {
 		return markSkeleton(skeleton);
 	}
-	public static DomContent paintRemovedFragmentsDiff(SkeletonGraph removedFragments, SkeletonGraph removedTails) {
-		return paintSkeletonDiff(removedTails, removedFragments);
+	public static DomContent paintFragmentsDiff(SkeletonGraph fragments, SkeletonGraph tails) {
+		return paintSkeletonDiff(tails, fragments);
 	}
-	private static DomContent markTemplateMinutia(TemplateMinutia minutia, String color) {
+	private static DomContent markMinutia(TemplateMinutia minutia, String color) {
 		DoublePoint at = minutia.center();
 		return Svg.g()
 			.add(Svg.circle()
@@ -396,27 +396,27 @@ public class TransparencyMarkers {
 				.stroke(color))
 			.transform("translate(" + at.x + " " + at.y + ") rotate(" + DoubleAngle.degrees(minutia.direction) + ")");
 	}
-	public static DomContent markTemplateMinutia(TemplateMinutia minutia) {
-		return markTemplateMinutia(minutia, minutia.type == MinutiaType.ENDING ? "blue" : "green");
+	public static DomContent markMinutia(TemplateMinutia minutia) {
+		return markMinutia(minutia, minutia.type == MinutiaType.ENDING ? "blue" : "green");
 	}
 	public static DomContent markTemplate(Template template) {
 		DomFragment markers = new DomFragment();
 		for (TemplateMinutia minutia : template.minutiae)
-			markers.add(markTemplateMinutia(minutia));
+			markers.add(markMinutia(minutia));
 		return markers;
 	}
 	public static DomContent markSkeletonMinutiae(Template minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markRemovedTemplateMinutia(TemplateMinutia minutia) {
-		return markTemplateMinutia(minutia, "red");
+	public static DomContent markRemovedMinutia(TemplateMinutia minutia) {
+		return markMinutia(minutia, "red");
 	}
 	public static DomContent markTemplateDiff(Template previous, Template next) {
 		DomFragment markers = new DomFragment();
 		Set<IntPoint> positions = Arrays.stream(next.minutiae).map(m -> m.position).collect(toSet());
 		for (TemplateMinutia minutia : previous.minutiae)
 			if (!positions.contains(minutia.position))
-				markers.add(markRemovedTemplateMinutia(minutia));
+				markers.add(markRemovedMinutia(minutia));
 		markers.add(markTemplate(next));
 		return markers;
 	}
@@ -426,10 +426,10 @@ public class TransparencyMarkers {
 	public static DomContent markInnerMinutiaeDiff(Template inner, Template skeleton) {
 		return markTemplateDiff(skeleton, inner);
 	}
-	public static DomContent markRemovedMinutiaClouds(Template minutiae) {
+	public static DomContent markClouds(Template minutiae) {
 		return markTemplate(minutiae);
 	}
-	public static DomContent markRemovedMinutiaCloudsDiff(Template removedClouds, Template inner) {
+	public static DomContent markCloudsDiff(Template removedClouds, Template inner) {
 		return markTemplateDiff(inner, removedClouds);
 	}
 	public static DomContent markTopMinutiae(Template minutiae) {
@@ -438,7 +438,7 @@ public class TransparencyMarkers {
 	public static DomContent markTopMinutiaeDiff(Template top, Template removedClouds) {
 		return markTemplateDiff(removedClouds, top);
 	}
-	public static DomContent markShuffledMinutiae(Template shuffled) {
+	public static DomContent markShuffled(Template shuffled) {
 		return markTemplate(shuffled);
 	}
 	private static class EdgeLine {
@@ -503,7 +503,7 @@ public class TransparencyMarkers {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
 	}
-	public static DomContent markEdgeTable(EdgeTable table, Template template) {
+	public static DomContent markEdges(EdgeTable table, Template template) {
 		DomFragment markers = new DomFragment();
 		List<EdgeLine> sorted = IntStream.range(0, table.edges.length)
 			.boxed()
@@ -521,7 +521,7 @@ public class TransparencyMarkers {
 	public static DomContent markIndexedEdge(IndexedEdge edge, Template template) {
 		return markEdgeShape(edge, template.minutiae[edge.reference], template.minutiae[edge.neighbor], 0.6);
 	}
-	public static DomContent markEdgeHash(EdgeHash hash, Template template) {
+	public static DomContent markHash(EdgeHash hash, Template template) {
 		DomFragment markers = new DomFragment();
 		List<IndexedEdge> edges = hash.edges()
 			.sorted(Comparator.comparing(e -> -e.length))
@@ -539,7 +539,7 @@ public class TransparencyMarkers {
 			markers.add(markMinutiaPosition(minutia));
 		return markers;
 	}
-	public static DomContent markRootPairs(RootPairs roots, Template probe, Template candidate) {
+	public static DomContent markRoots(RootPairs roots, Template probe, Template candidate) {
 		TransparencySplit split = new TransparencySplit(probe.size, candidate.size);
 		for (MinutiaPair pair : roots.pairs) {
 			DoublePoint probePos = probe.minutiae[pair.probe].center();
@@ -554,7 +554,7 @@ public class TransparencyMarkers {
 		}
 		return split.content();
 	}
-	public static DomContent markRootMinutiaPosition(TemplateMinutia minutia) {
+	public static DomContent markRoot(TemplateMinutia minutia) {
 		DoublePoint at = minutia.center();
 		return Svg.circle()
 			.cx(at.x)
@@ -571,7 +571,7 @@ public class TransparencyMarkers {
 		for (TemplateMinutia minutia : template.minutiae)
 			markers.add(markMinutiaPosition(minutia));
 		TemplateMinutia root = template.minutiae[pairing.root.side(side)];
-		markers.add(markRootMinutiaPosition(root));
+		markers.add(markRoot(root));
 		return markers;
 	}
 }

@@ -42,10 +42,10 @@ public class TransparencyImage {
 		return this;
 	}
 	public TransparencyImage png(TransparencyPixmap pixmap) {
-		return add(embedPngPixmap(pixmap));
+		return add(embedPng(pixmap));
 	}
 	public TransparencyImage jpeg(TransparencyPixmap pixmap) {
-		return add(embedJpegPixmap(pixmap));
+		return add(embedJpeg(pixmap));
 	}
 	public TransparencyImage image(byte[] image) {
 		return add(embedImage(width, height, image));

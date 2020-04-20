@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.machinezoo.sourceafis</groupId>
 			<artifactId>sourceafis</artifactId>
-			<version>3.9.0</version>
+			<version>3.10.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -9,5 +9,5 @@ This is a Java library, but it can process templates and transparency data from 
 * Documentation: none yet, see [SourceAFIS algorithm transparency](https://sourceafis.machinezoo.com/transparency/) for now
 * Sources: [GitHub](https://github.com/robertvazan/sourceafis-visualization-java), [Bitbucket](https://bitbucket.org/robertvazan/sourceafis-visualization-java)
 * Issues: [GitHub](https://github.com/robertvazan/sourceafis-visualization-java/issues), [Bitbucket](https://bitbucket.org/robertvazan/sourceafis-visualization-java/issues)
-* License: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+* License: [Apache License 2.0](LICENSE)
 

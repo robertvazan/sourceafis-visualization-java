@@ -1,5 +1,7 @@
 # SourceAFIS Visualization for Java #
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.machinezoo.sourceafis/sourceafis-visualization)](https://search.maven.org/artifact/com.machinezoo.sourceafis/sourceafis-visualization)
+
 SourceAFIS Visualization for Java is a library that generates bitmap and vector images
 representing [fingerprint templates](https://sourceafis.machinezoo.com/template)
 and [algorithm transparency](https://sourceafis.machinezoo.com/transparency/) data

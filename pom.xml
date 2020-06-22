@@ -7,7 +7,7 @@
 	<version>0.5.0</version>
 	<packaging>jar</packaging>
 
-	<name>SourceAFIS Visualization</name>
+	<name>SourceAFIS Visualization for Java</name>
 	<url>https://sourceafis.machinezoo.com/transparency/</url>
 	<description>Visualizations of biometric features in fingerprint templates produced by SourceAFIS and in algorithm transparency data captured during feature extraction and matching in SourceAFIS.</description>
 
@@ -132,12 +132,7 @@
 				<configuration>
 					<!-- Make the CI server email us when we break javadoc. -->
 					<failOnWarnings>true</failOnWarnings>
-					<nohelp>true</nohelp>
-					<noindex>true</noindex>
-					<notree>true</notree>
 					<notimestamp>true</notimestamp>
-					<use>false</use>
-					<doctitle>${project.name} for Java API Reference</doctitle>
 				</configuration>
 				<executions>
 					<execution>

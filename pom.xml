@@ -10,6 +10,7 @@
 	<name>SourceAFIS Visualization for Java</name>
 	<url>https://sourceafis.machinezoo.com/transparency/</url>
 	<description>Visualizations of biometric features in fingerprint templates produced by SourceAFIS and in algorithm transparency data captured during feature extraction and matching in SourceAFIS.</description>
+	<inceptionYear>2018</inceptionYear>
 
 	<licenses>
 		<license>
@@ -18,6 +19,10 @@
 		</license>
 	</licenses>
 
+	<organization>
+		<name>Robert Važan</name>
+		<url>https://robert.machinezoo.com/</url>
+	</organization>
 	<developers>
 		<developer>
 			<name>Robert Važan</name>

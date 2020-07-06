@@ -4,7 +4,7 @@
 
 	<groupId>com.machinezoo.sourceafis</groupId>
 	<artifactId>sourceafis-visualization</artifactId>
-	<version>0.5.0</version>
+	<version>0.6.0</version>
 	<packaging>jar</packaging>
 
 	<name>SourceAFIS Visualization for Java</name>

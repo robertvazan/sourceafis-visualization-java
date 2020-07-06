@@ -2,9 +2,10 @@
 package com.machinezoo.sourceafis.visualization;
 
 import static java.util.stream.Collectors.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.*;
-import org.apache.sanselan.color.*;
 import com.google.common.collect.Streams;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
@@ -215,7 +216,7 @@ public class TransparencyMarkers {
 			if (vector.x != 0 || vector.y != 0) {
 				double angle = DoubleAngle.atan(vector);
 				double strength = Math.log1p(vector.length()) / max;
-				pixmap.set(at, ColorConversions.convertHSLtoRGB(angle / DoubleAngle.PI2, 0.2 + 0.8 * strength, 0.5) & 0xffffff | opacity);
+				pixmap.set(at, Color.HSBtoRGB((float)(angle / DoubleAngle.PI2), (float)(0.2 + 0.8 * strength), 1.0f) & 0xffffff | opacity);
 			}
 		}
 		return pixmap;
@@ -459,7 +460,7 @@ public class TransparencyMarkers {
 	}
 	private static String colorEdgeShape(double length, double angle) {
 		double stretch = Math.min(1, Math.log1p(length) / Math.log1p(300));
-		int color = ColorConversions.convertHSLtoRGB(angle / DoubleAngle.PI2, 1, 0.9 - 0.8 * stretch);
+		int color = Color.HSBtoRGB((float)(angle / DoubleAngle.PI2), 1.0f, (float)(1 - 0.5 * stretch));
 		return String.format("#%06x", color & 0xffffff);
 	}
 	private static DomContent markEdgeShape(EdgeShape shape, MutableMinutia reference, MutableMinutia neighbor, double width) {

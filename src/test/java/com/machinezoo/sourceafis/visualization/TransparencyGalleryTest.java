@@ -20,7 +20,8 @@ public class TransparencyGalleryTest {
 			}
 		});
 	}
-	@Test public void getters() throws IOException {
+	@Test
+	public void getters() throws IOException {
 		byte[] probeImage = load("probe.png");
 		byte[] candidateImage = load("candidate.png");
 		FingerprintTemplate candidate = new FingerprintTemplate(

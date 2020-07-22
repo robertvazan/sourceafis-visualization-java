@@ -2,7 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.machinezoo.sourceafis/sourceafis-visualization)](https://search.maven.org/artifact/com.machinezoo.sourceafis/sourceafis-visualization)
 [![Build Status](https://travis-ci.com/robertvazan/sourceafis-visualization-java.svg?branch=master)](https://travis-ci.com/robertvazan/sourceafis-visualization-java)
-[![Coverage Status](https://coveralls.io/repos/github/robertvazan/sourceafis-visualization-java/badge.svg?branch=master)](https://coveralls.io/github/robertvazan/sourceafis-visualization-java?branch=master)
+[![Coverage Status](https://codecov.io/gh/robertvazan/sourceafis-visualization-java/branch/master/graph/badge.svg)](https://codecov.io/gh/robertvazan/sourceafis-visualization-java)
 
 SourceAFIS Visualization for Java is a library that generates bitmap and vector images
 representing [fingerprint templates](https://sourceafis.machinezoo.com/template)

@@ -25,16 +25,13 @@ public class TransparencyGalleryTest {
 		byte[] probeImage = load("probe.png");
 		byte[] candidateImage = load("candidate.png");
 		FingerprintTemplate candidate = new FingerprintTemplate(
-			new FingerprintImage()
-				.decode(candidateImage));
+			new FingerprintImage(candidateImage));
 		TransparencyBuffer archive = new TransparencyBuffer();
 		FingerprintTemplate probe;
 		try (FingerprintTransparency transparency = archive.capture()) {
 			probe = new FingerprintTemplate(
-				new FingerprintImage()
-					.decode(probeImage));
-			new FingerprintMatcher()
-				.index(probe)
+				new FingerprintImage(probeImage));
+			new FingerprintMatcher(probe)
 				.match(candidate);
 		}
 		TransparencyContext context = new TransparencyContext()

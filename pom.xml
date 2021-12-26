@@ -39,20 +39,20 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.release>11</maven.compiler.release>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.machinezoo.sourceafis</groupId>
 			<artifactId>sourceafis-transparency</artifactId>
-			<version>0.6.1</version>
+			<version>0.7.1</version>
 		</dependency>
+		<!-- Lazy way to get convenient SVG DOM builders. Should use dedicated SVG library in the future. -->
 		<dependency>
 			<groupId>com.machinezoo.pushmode</groupId>
 			<artifactId>pushmode</artifactId>
-			<version>0.7.12</version>
+			<version>0.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -73,17 +73,17 @@
 			<version>1.7.30</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.machinezoo.sourceafis</groupId>
-			<artifactId>sourceafis</artifactId>
-			<version>3.12.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<!-- Needed for Java 11. -->
+					<!-- Contains fix for https://issues.apache.org/jira/browse/MCOMPILER-289 -->
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+				</plugin>
 				<plugin>
 					<!-- Older surefire versions did not support JUnit 5. -->
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -96,7 +96,7 @@
 				<!-- JaCoCo plugin is needed to generate Codecov report. -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>0.8.7</version>
 				<executions>
 					<!-- Configuration taken from: https://github.com/codecov/example-java/blob/master/pom.xml#L38-L56 -->
 					<execution>
@@ -134,6 +134,9 @@
 				<version>3.2.0</version>
 				<configuration>
 					<notimestamp>true</notimestamp>
+					<bottom>
+						<![CDATA[<!-- No copyright message. -->]]>
+					</bottom>
 				</configuration>
 				<executions>
 					<execution>

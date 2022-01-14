@@ -9,6 +9,7 @@
 
 	<name>SourceAFIS Visualization</name>
 	<description>Visualizations of SourceAFIS templates and algorithm transparency data.</description>
+	<url>https://github.com/robertvazan/sourceafis-visualization-java</url>
 	<inceptionYear>2018</inceptionYear>
 
 	<licenses>
@@ -105,7 +106,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.1</version>
 				<configuration>
 					<notimestamp>true</notimestamp>
 					<bottom>

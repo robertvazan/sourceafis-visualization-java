@@ -8,5 +8,5 @@ jobs:
   build:
     uses: robertvazan/project-config/.github/workflows/java-build.yml@master
     with:
-      java-version: 11
+      java-version: 17
       test-coverage: true

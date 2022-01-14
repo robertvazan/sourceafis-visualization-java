@@ -5,7 +5,7 @@ jobs:
   release:
     uses: robertvazan/project-config/.github/workflows/java-release.yml@master
     with:
-      java-version: 11
+      java-version: 17
     secrets:
       server-password: ${{ secrets.MAVEN_SERVER_PASSWORD }}
       signing-key: ${{ secrets.MAVEN_SIGNING_KEY }}

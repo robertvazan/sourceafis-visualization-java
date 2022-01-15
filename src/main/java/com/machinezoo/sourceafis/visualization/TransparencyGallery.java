@@ -10,15 +10,15 @@ import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencyGallery {
 	private final TransparencyArchive archive;
-	private final TransparencyContext context;
-	public TransparencyGallery(TransparencyArchive archive, TransparencyContext context) {
+	public TransparencyGallery(TransparencyArchive archive) {
 		Objects.requireNonNull(archive);
-		Objects.requireNonNull(context);
 		this.archive = archive;
-		this.context = context;
 	}
 	private <T> T expect(TransparencyKey<T> key) {
 		return archive.deserialize(key).get();
+	}
+	private <T> T nullable(TransparencyKey<T> key) {
+		return archive.deserialize(key).orElse(null);
 	}
 	public byte[] decoded() {
 		return paintDecoded(expect(new DecodedImageKey())).jpeg();
@@ -30,7 +30,7 @@ public class TransparencyGallery {
 		var blocks = expect(new BlocksKey());
 		return new TransparencyImage(blocks)
 			.padding(1)
-			.image(context.image(TransparencyRole.EXTRACTED))
+			.image(nullable(new InputImageKey()))
 			.add(markBlocks(blocks))
 			.bytes();
 	}
@@ -38,13 +38,13 @@ public class TransparencyGallery {
 		var blocks = expect(new BlocksKey());
 		return new TransparencyImage(blocks)
 			.padding(1)
-			.image(context.image(TransparencyRole.EXTRACTED))
+			.image(nullable(new InputImageKey()))
 			.add(markSecondaryBlocks(blocks))
 			.bytes();
 	}
 	private byte[] overlay(DomContent content) {
 		return new TransparencyImage(expect(new BlocksKey()))
-			.image(context.image(TransparencyRole.EXTRACTED))
+			.image(nullable(new InputImageKey()))
 			.add(content)
 			.bytes();
 	}
@@ -59,7 +59,7 @@ public class TransparencyGallery {
 	}
 	private byte[] overlayPng(TransparencyPixmap pixmap) {
 		return new TransparencyImage(pixmap.size())
-			.image(context.image(TransparencyRole.EXTRACTED))
+			.image(nullable(new InputImageKey()))
 			.png(pixmap)
 			.bytes();
 	}
@@ -177,22 +177,22 @@ public class TransparencyGallery {
 		return overlay(markShuffled(expect(new ShuffledMinutiaeKey())));
 	}
 	public byte[] edges() {
-		return overlay(markEdges(expect(new EdgeTableKey()), context.template(TransparencyRole.EXTRACTED)));
+		return overlay(markEdges(expect(new EdgeTableKey()), expect(new OutputTemplateKey()).unpack()));
 	}
 	public byte[] hash() {
-		var template = context.template(TransparencyRole.PROBE);
+		var template = expect(new InputTemplateKey()).unpack();
 		return new TransparencyImage(template.size())
-			.image(context.image(TransparencyRole.PROBE))
+			.image(nullable(new InputImageKey()))
 			.add(markHash(expect(new EdgeHashKey()), template))
 			.bytes();
 	}
 	public byte[] roots() {
-		var probe = context.template(TransparencyRole.PROBE);
-		var candidate = context.template(TransparencyRole.CANDIDATE);
+		var probe = expect(new ProbeTemplateKey()).unpack();
+		var candidate = expect(new CandidateTemplateKey()).unpack();
 		TransparencyImage left = new TransparencyImage(probe.size())
-			.image(context.image(TransparencyRole.PROBE));
+			.image(nullable(new ProbeImageKey()));
 		TransparencyImage right = new TransparencyImage(candidate.size())
-			.image(context.image(TransparencyRole.CANDIDATE));
+			.image(nullable(new CandidateImageKey()));
 		return new TransparencySplit(left, right)
 			.add(markRoots(expect(new RootsKey()), probe, candidate))
 			.left(markMinutiaPositions(probe))
@@ -204,12 +204,12 @@ public class TransparencyGallery {
 		byte[] image;
 		switch (side) {
 		case PROBE:
-			template = context.template(TransparencyRole.PROBE);
-			image = context.image(TransparencyRole.PROBE);
+			template = expect(new ProbeTemplateKey()).unpack();
+			image = nullable(new ProbeImageKey());
 			break;
 		case CANDIDATE:
-			template = context.template(TransparencyRole.CANDIDATE);
-			image = context.image(TransparencyRole.CANDIDATE);
+			template = expect(new CandidateTemplateKey()).unpack();
+			image = nullable(new CandidateImageKey());
 			break;
 		default:
 			throw new IllegalStateException();
@@ -224,13 +224,13 @@ public class TransparencyGallery {
 	}
 	public byte[] pairing(int offset) {
 		var pairing = archive.deserialize(new PairingKey(), offset).get();
-		var probe = context.template(TransparencyRole.PROBE);
+		var probe = expect(new ProbeTemplateKey()).unpack();
 		TransparencyImage left = new TransparencyImage(probe.size())
-			.image(context.image(TransparencyRole.PROBE))
+			.image(nullable(new ProbeImageKey()))
 			.add(markPairing(pairing, MatchSide.PROBE, probe));
-		var candidate = context.template(TransparencyRole.CANDIDATE);
+		var candidate = expect(new CandidateTemplateKey()).unpack();
 		TransparencyImage right = new TransparencyImage(candidate.size())
-			.image(context.image(TransparencyRole.CANDIDATE))
+			.image(nullable(new CandidateImageKey()))
 			.add(markPairing(pairing, MatchSide.CANDIDATE, candidate));
 		return new TransparencySplit(left, right).bytes();
 	}

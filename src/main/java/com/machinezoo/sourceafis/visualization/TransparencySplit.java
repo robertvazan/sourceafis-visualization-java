@@ -2,13 +2,13 @@
 package com.machinezoo.sourceafis.visualization;
 
 import com.machinezoo.pushmode.dom.*;
-import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencySplit extends TransparencyImage {
 	private final double rightX;
 	public TransparencySplit(IntPoint left, IntPoint right) {
-		super(left.x + right.x, Math.max(left.y, right.y));
-		rightX = left.x;
+		super(left.x() + right.x(), Math.max(left.y(), right.y()));
+		rightX = left.x();
 	}
 	public TransparencySplit(TransparencyImage left, TransparencyImage right) {
 		super(left.width() + left.padding() + right.padding() + right.width(), Math.max(left.height(), right.height()));
@@ -33,7 +33,7 @@ public class TransparencySplit extends TransparencyImage {
 		return y;
 	}
 	public DoublePoint right(DoublePoint at) {
-		return new DoublePoint(rightX(at.x), rightY(at.y));
+		return new DoublePoint(rightX(at.x()), rightY(at.y()));
 	}
 	public TransparencySplit add(DomContent content) {
 		super.add(content);

@@ -8,7 +8,7 @@ import javax.imageio.*;
 import javax.imageio.plugins.jpeg.*;
 import javax.imageio.stream.*;
 import com.machinezoo.noexception.*;
-import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencyPixmap {
 	public final int width;
@@ -20,7 +20,7 @@ public class TransparencyPixmap {
 		pixels = new int[width * height];
 	}
 	public TransparencyPixmap(IntPoint size) {
-		this(size.x, size.y);
+		this(size.x(), size.y());
 	}
 	public TransparencyPixmap(byte[] image) {
 		BufferedImage buffered = Exceptions.wrap().get(() -> ImageIO.read(new ByteArrayInputStream(image)));
@@ -41,7 +41,7 @@ public class TransparencyPixmap {
 		pixels[width * y + x] = color;
 	}
 	public void set(IntPoint at, int color) {
-		set(at.x, at.y, color);
+		set(at.x(), at.y(), color);
 	}
 	public byte[] png() {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

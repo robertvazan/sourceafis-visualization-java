@@ -4,7 +4,7 @@ package com.machinezoo.sourceafis.visualization;
 import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
 import java.nio.charset.*;
 import com.machinezoo.pushmode.dom.*;
-import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencyImage {
 	private final double width;
@@ -20,10 +20,10 @@ public class TransparencyImage {
 		this.height = height;
 	}
 	public TransparencyImage(IntPoint size) {
-		this(size.x, size.y);
+		this(size.x(), size.y());
 	}
 	public TransparencyImage(BlockMap blocks) {
-		this(blocks.pixels);
+		this(blocks.pixels());
 	}
 	private double padding;
 	public double padding() {

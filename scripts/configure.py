@@ -33,7 +33,9 @@ def documentation_links():
     yield 'SourceAFIS algorithm transparency', homepage()
 
 def dependencies():
-    use('com.machinezoo.sourceafis:sourceafis-transparency:0.7.1')
+    use('com.machinezoo.sourceafis:sourceafis-transparency:0.9.0')
+    use_streamex()
+    use_fastutil()
     # Lazy way to get convenient SVG DOM builders. Should use dedicated SVG library in the future.
     use_pushmode()
     use_junit()

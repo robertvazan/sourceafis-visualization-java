@@ -5,6 +5,8 @@ import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.keys.*;
+import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencyGallery {
 	private final TransparencyArchive archive;
@@ -15,14 +17,17 @@ public class TransparencyGallery {
 		this.archive = archive;
 		this.context = context;
 	}
+	private <T> T expect(TransparencyKey<T> key) {
+		return archive.get(key).get().deserialize();
+	}
 	public byte[] decoded() {
-		return paintDecoded(archive.decoded()).jpeg();
+		return paintDecoded(expect(new DecodedImageKey())).jpeg();
 	}
 	public byte[] scaled() {
-		return paintScaled(archive.scaled()).jpeg();
+		return paintScaled(expect(new ScaledImageKey())).jpeg();
 	}
 	public byte[] blocksPrimary() {
-		BlockMap blocks = archive.blocks();
+		var blocks = expect(new BlocksKey());
 		return new TransparencyImage(blocks)
 			.padding(1)
 			.image(context.image(TransparencyRole.EXTRACTED))
@@ -30,7 +35,7 @@ public class TransparencyGallery {
 			.bytes();
 	}
 	public byte[] blocksSecondary() {
-		BlockMap blocks = archive.blocks();
+		var blocks = expect(new BlocksKey());
 		return new TransparencyImage(blocks)
 			.padding(1)
 			.image(context.image(TransparencyRole.EXTRACTED))
@@ -38,19 +43,19 @@ public class TransparencyGallery {
 			.bytes();
 	}
 	private byte[] overlay(DomContent content) {
-		return new TransparencyImage(archive.blocks())
+		return new TransparencyImage(expect(new BlocksKey()))
 			.image(context.image(TransparencyRole.EXTRACTED))
 			.add(content)
 			.bytes();
 	}
 	public byte[] histogram() {
-		return overlay(markHistogram(archive.histogram(), archive.blocks()));
+		return overlay(markHistogram(expect(new HistogramKey()), expect(new BlocksKey())));
 	}
 	public byte[] smoothedHistogram() {
-		return overlay(markSmoothedHistogram(archive.smoothedHistogram(), archive.blocks()));
+		return overlay(markSmoothedHistogram(expect(new SmoothedHistogramKey()), expect(new BlocksKey())));
 	}
 	public byte[] contrast() {
-		return overlay(markContrast(archive.contrast(), archive.blocks()));
+		return overlay(markContrast(expect(new ContrastKey()), expect(new BlocksKey())));
 	}
 	private byte[] overlayPng(TransparencyPixmap pixmap) {
 		return new TransparencyImage(pixmap.size())
@@ -59,182 +64,143 @@ public class TransparencyGallery {
 			.bytes();
 	}
 	public byte[] absoluteMask() {
-		return overlayPng(overlayAbsoluteContrastMask(archive.absoluteMask(), archive.blocks()));
+		return overlayPng(overlayAbsoluteContrastMask(expect(new AbsoluteContrastMaskKey()), expect(new BlocksKey())));
 	}
 	public byte[] relativeMask() {
-		return overlayPng(overlayRelativeContrastMask(archive.relativeMask(), archive.blocks()));
+		return overlayPng(overlayRelativeContrastMask(expect(new RelativeContrastMaskKey()), expect(new BlocksKey())));
 	}
 	public byte[] combinedMask() {
-		return overlayPng(overlayCombinedMask(archive.combinedMask(), archive.blocks()));
+		return overlayPng(overlayCombinedMask(expect(new CombinedMaskKey()), expect(new BlocksKey())));
 	}
 	public byte[] filteredMask() {
-		return overlayPng(overlayFilteredMask(archive.filteredMask(), archive.blocks()));
+		return overlayPng(overlayFilteredMask(expect(new FilteredMaskKey()), expect(new BlocksKey())));
 	}
 	public byte[] equalized() {
-		return paintEqualized(archive.equalized()).jpeg();
+		return paintEqualized(expect(new EqualizedImageKey())).jpeg();
 	}
 	public byte[] pixelwiseOrientation() {
-		return paintPixelwiseOrientation(archive.pixelwiseOrientation()).jpeg();
+		return paintPixelwiseOrientation(expect(new PixelwiseOrientationKey())).jpeg();
 	}
 	public byte[] blockOrientation() {
-		return overlay(markBlockOrientation(archive.blockOrientation(), archive.blocks(), archive.filteredMask()));
+		return overlay(markBlockOrientation(expect(new BlockOrientationKey()), expect(new BlocksKey()), expect(new FilteredMaskKey())));
 	}
 	public byte[] smoothedOrientation() {
-		return overlay(markSmoothedOrientation(archive.smoothedOrientation(), archive.blocks(), archive.filteredMask()));
+		return overlay(markSmoothedOrientation(expect(new SmoothedOrientationKey()), expect(new BlocksKey()), expect(new FilteredMaskKey())));
 	}
 	public byte[] parallel() {
-		return paintParallel(archive.parallel()).jpeg();
+		return paintParallel(expect(new ParallelSmoothingKey())).jpeg();
 	}
 	public byte[] orthogonal() {
-		return paintOrthogonal(archive.orthogonal()).jpeg();
+		return paintOrthogonal(expect(new OrthogonalSmoothingKey())).jpeg();
 	}
 	public byte[] binarized() {
-		return overlayPng(overlayBinarized(archive.binarized()));
+		return overlayPng(overlayBinarized(expect(new BinarizedImageKey())));
 	}
 	public byte[] filteredBinary() {
-		return paintFilteredBinary(archive.filteredBinary()).png();
+		return paintFilteredBinary(expect(new FilteredBinaryImageKey())).png();
 	}
 	public byte[] filteredBinaryDiff() {
-		return paintFilteredBinaryDiff(archive.filteredBinary(), archive.binarized()).png();
+		return paintFilteredBinaryDiff(expect(new FilteredBinaryImageKey()), expect(new BinarizedImageKey())).png();
 	}
 	public byte[] pixelMask() {
-		return overlayPng(overlayPixelMask(archive.pixelMask()));
+		return overlayPng(overlayPixelMask(expect(new PixelMaskKey())));
 	}
 	public byte[] innerMask() {
-		return overlayPng(overlayInnerMask(archive.innerMask()));
+		return overlayPng(overlayInnerMask(expect(new InnerMaskKey())));
 	}
 	public byte[] binarizedSkeleton(SkeletonType skeleton) {
-		return overlayPng(overlayBinarizedSkeleton(archive.binarizedSkeleton(skeleton)));
-	}
-	public byte[] binarizedSkeleton() {
-		return overlayPng(overlayBinarizedSkeleton(archive.binarizedSkeleton()));
+		return overlayPng(overlayBinarizedSkeleton(expect(new BinarizedSkeletonKey(skeleton))));
 	}
 	public byte[] thinned(SkeletonType skeleton) {
-		return overlayPng(overlayThinned(archive.thinned(skeleton)));
-	}
-	public byte[] thinned() {
-		return overlayPng(overlayThinned(archive.thinned()));
+		return overlayPng(overlayThinned(expect(new ThinnedSkeletonKey(skeleton))));
 	}
 	public byte[] traced(SkeletonType skeleton) {
-		return overlay(markTraced(archive.traced(skeleton)));
-	}
-	public byte[] traced() {
-		return overlay(markTraced(archive.traced()));
+		return overlay(markTraced(expect(new TracedSkeletonKey(skeleton))));
 	}
 	public byte[] dots(SkeletonType skeleton) {
-		return overlay(markDots(archive.dots(skeleton)));
-	}
-	public byte[] dots() {
-		return overlay(markDots(archive.dots()));
+		return overlay(markDots(expect(new RemovedDotsKey(skeleton))));
 	}
 	private byte[] solo(DomContent content) {
-		return new TransparencyImage(archive.blocks())
+		return new TransparencyImage(expect(new BlocksKey()))
 			.add(content)
 			.bytes();
 	}
 	public byte[] dotsDiff(SkeletonType skeleton) {
-		return solo(paintDotsDiff(archive.dots(skeleton), archive.traced(skeleton)));
-	}
-	public byte[] dotsDiff() {
-		return solo(paintDotsDiff(archive.dots(), archive.traced()));
+		return solo(paintDotsDiff(expect(new RemovedDotsKey(skeleton)), expect(new TracedSkeletonKey(skeleton))));
 	}
 	public byte[] pores(SkeletonType skeleton) {
-		return overlay(markPores(archive.pores(skeleton)));
-	}
-	public byte[] pores() {
-		return overlay(markPores(archive.pores()));
+		return overlay(markPores(expect(new RemovedPoresKey(skeleton))));
 	}
 	public byte[] poresDiff(SkeletonType skeleton) {
-		return solo(paintPoresDiff(archive.pores(skeleton), archive.dots(skeleton)));
-	}
-	public byte[] poresDiff() {
-		return solo(paintPoresDiff(archive.pores(), archive.dots()));
+		return solo(paintPoresDiff(expect(new RemovedPoresKey(skeleton)), expect(new RemovedDotsKey(skeleton))));
 	}
 	public byte[] gaps(SkeletonType skeleton) {
-		return overlay(markGaps(archive.gaps(skeleton)));
-	}
-	public byte[] gaps() {
-		return overlay(markGaps(archive.gaps()));
+		return overlay(markGaps(expect(new RemovedGapsKey(skeleton))));
 	}
 	public byte[] gapsDiff(SkeletonType skeleton) {
-		return solo(paintGapsDiff(archive.gaps(skeleton), archive.pores(skeleton)));
-	}
-	public byte[] gapsDiff() {
-		return solo(paintGapsDiff(archive.gaps(), archive.pores()));
+		return solo(paintGapsDiff(expect(new RemovedGapsKey(skeleton)), expect(new RemovedPoresKey(skeleton))));
 	}
 	public byte[] tails(SkeletonType skeleton) {
-		return overlay(markTails(archive.tails(skeleton)));
-	}
-	public byte[] tails() {
-		return overlay(markTails(archive.tails()));
+		return overlay(markTails(expect(new RemovedTailsKey(skeleton))));
 	}
 	public byte[] tailsDiff(SkeletonType skeleton) {
-		return solo(paintTailsDiff(archive.tails(skeleton), archive.gaps(skeleton)));
-	}
-	public byte[] tailsDiff() {
-		return solo(paintTailsDiff(archive.tails(), archive.gaps()));
+		return solo(paintTailsDiff(expect(new RemovedTailsKey(skeleton)), expect(new RemovedGapsKey(skeleton))));
 	}
 	public byte[] fragments(SkeletonType skeleton) {
-		return overlay(markFragments(archive.fragments(skeleton)));
-	}
-	public byte[] fragments() {
-		return overlay(markFragments(archive.fragments()));
+		return overlay(markFragments(expect(new RemovedFragmentsKey(skeleton))));
 	}
 	public byte[] fragmentsDiff(SkeletonType skeleton) {
-		return solo(paintFragmentsDiff(archive.fragments(skeleton), archive.tails(skeleton)));
-	}
-	public byte[] fragmentsDiff() {
-		return solo(paintFragmentsDiff(archive.fragments(), archive.tails()));
+		return solo(paintFragmentsDiff(expect(new RemovedFragmentsKey(skeleton)), expect(new RemovedTailsKey(skeleton))));
 	}
 	public byte[] skeletonMinutiae() {
-		return overlay(markSkeletonMinutiae(archive.skeletonMinutiae()));
+		return overlay(markSkeletonMinutiae(expect(new SkeletonMinutiaeKey())));
 	}
 	public byte[] innerMinutiae() {
-		return overlay(markInnerMinutiae(archive.innerMinutiae()));
+		return overlay(markInnerMinutiae(expect(new InnerMinutiaeKey())));
 	}
 	public byte[] innerMinutiaeDiff() {
-		return overlay(markInnerMinutiaeDiff(archive.innerMinutiae(), archive.skeletonMinutiae()));
+		return overlay(markInnerMinutiaeDiff(expect(new InnerMinutiaeKey()), expect(new SkeletonMinutiaeKey())));
 	}
 	public byte[] clouds() {
-		return overlay(markClouds(archive.clouds()));
+		return overlay(markClouds(expect(new RemovedMinutiaCloudsKey())));
 	}
 	public byte[] cloudsDiff() {
-		return overlay(markCloudsDiff(archive.clouds(), archive.innerMinutiae()));
+		return overlay(markCloudsDiff(expect(new RemovedMinutiaCloudsKey()), expect(new InnerMinutiaeKey())));
 	}
 	public byte[] topMinutiae() {
-		return overlay(markTopMinutiae(archive.topMinutiae()));
+		return overlay(markTopMinutiae(expect(new TopMinutiaeKey())));
 	}
 	public byte[] topMinutiaeDiff() {
-		return overlay(markTopMinutiaeDiff(archive.topMinutiae(), archive.clouds()));
+		return overlay(markTopMinutiaeDiff(expect(new TopMinutiaeKey()), expect(new RemovedMinutiaCloudsKey())));
 	}
 	public byte[] shuffled() {
-		return overlay(markShuffled(archive.shuffled()));
+		return overlay(markShuffled(expect(new ShuffledMinutiaeKey())));
 	}
 	public byte[] edges() {
-		return overlay(markEdges(archive.edges(), context.template(TransparencyRole.EXTRACTED)));
+		return overlay(markEdges(expect(new EdgeTableKey()), context.template(TransparencyRole.EXTRACTED)));
 	}
 	public byte[] hash() {
-		MutableTemplate template = context.template(TransparencyRole.PROBE);
-		return new TransparencyImage(template.size)
+		var template = context.template(TransparencyRole.PROBE);
+		return new TransparencyImage(template.size())
 			.image(context.image(TransparencyRole.PROBE))
-			.add(markHash(archive.hash(), template))
+			.add(markHash(expect(new EdgeHashKey()), template))
 			.bytes();
 	}
 	public byte[] roots() {
-		MutableTemplate probe = context.template(TransparencyRole.PROBE);
-		MutableTemplate candidate = context.template(TransparencyRole.CANDIDATE);
-		TransparencyImage left = new TransparencyImage(probe.size)
+		var probe = context.template(TransparencyRole.PROBE);
+		var candidate = context.template(TransparencyRole.CANDIDATE);
+		TransparencyImage left = new TransparencyImage(probe.size())
 			.image(context.image(TransparencyRole.PROBE));
-		TransparencyImage right = new TransparencyImage(candidate.size)
+		TransparencyImage right = new TransparencyImage(candidate.size())
 			.image(context.image(TransparencyRole.CANDIDATE));
 		return new TransparencySplit(left, right)
-			.add(markRoots(archive.roots(), probe, candidate))
+			.add(markRoots(expect(new RootsKey()), probe, candidate))
 			.left(markMinutiaPositions(probe))
 			.right(markMinutiaPositions(candidate))
 			.bytes();
 	}
 	public byte[] pairing(int offset, MatchSide side) {
-		MutableTemplate template;
+		Template template;
 		byte[] image;
 		switch (side) {
 		case PROBE:
@@ -248,27 +214,27 @@ public class TransparencyGallery {
 		default:
 			throw new IllegalStateException();
 		}
-		return new TransparencyImage(template.size)
+		return new TransparencyImage(template.size())
 			.image(image)
-			.add(markPairing(archive.pairing(offset), side, template))
+			.add(markPairing(archive.get(new PairingKey(), offset).get().deserialize(), side, template))
 			.bytes();
 	}
 	public byte[] pairing(MatchSide side) {
-		return pairing(archive.best().orElse(0), side);
+		return pairing(archive.get(new BestMatchKey()).map(r -> r.deserialize()).orElse(0), side);
 	}
 	public byte[] pairing(int offset) {
-		MatchPairing pairing = archive.pairing(offset);
-		MutableTemplate probe = context.template(TransparencyRole.PROBE);
-		TransparencyImage left = new TransparencyImage(probe.size)
+		var pairing = archive.get(new PairingKey(), offset).get().deserialize();
+		var probe = context.template(TransparencyRole.PROBE);
+		TransparencyImage left = new TransparencyImage(probe.size())
 			.image(context.image(TransparencyRole.PROBE))
 			.add(markPairing(pairing, MatchSide.PROBE, probe));
-		MutableTemplate candidate = context.template(TransparencyRole.CANDIDATE);
-		TransparencyImage right = new TransparencyImage(candidate.size)
+		var candidate = context.template(TransparencyRole.CANDIDATE);
+		TransparencyImage right = new TransparencyImage(candidate.size())
 			.image(context.image(TransparencyRole.CANDIDATE))
 			.add(markPairing(pairing, MatchSide.CANDIDATE, candidate));
 		return new TransparencySplit(left, right).bytes();
 	}
 	public byte[] pairing() {
-		return pairing(archive.best().orElse(0));
+		return pairing(archive.get(new BestMatchKey()).map(r -> r.deserialize()).orElse(0));
 	}
 }

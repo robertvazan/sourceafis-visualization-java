@@ -2,7 +2,8 @@
 package com.machinezoo.sourceafis.visualization;
 
 import java.util.*;
-import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.keys.*;
+import com.machinezoo.sourceafis.transparency.types.*;
 
 public class TransparencyContext {
 	private final Map<TransparencyRole, byte[]> images = new EnumMap<>(TransparencyRole.class);
@@ -13,8 +14,8 @@ public class TransparencyContext {
 	public byte[] image(TransparencyRole role) {
 		return images.get(role);
 	}
-	private final Map<TransparencyRole, MutableTemplate> templates = new EnumMap<>(TransparencyRole.class);
-	public TransparencyContext template(TransparencyRole role, MutableTemplate template) {
+	private final Map<TransparencyRole, Template> templates = new EnumMap<>(TransparencyRole.class);
+	public TransparencyContext template(TransparencyRole role, Template template) {
 		templates.put(role, template);
 		return this;
 	}
@@ -23,9 +24,9 @@ public class TransparencyContext {
 		return this;
 	}
 	public TransparencyContext template(TransparencyRole role, byte[] template) {
-		return template(role, PersistentTemplate.parse(template));
+		return template(role, new OutputTemplateKey().deserialize(template));
 	}
-	public MutableTemplate template(TransparencyRole role) {
+	public Template template(TransparencyRole role) {
 		return templates.get(role);
 	}
 }

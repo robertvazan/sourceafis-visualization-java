@@ -26,14 +26,15 @@ public class TransparencyGalleryTest {
 		byte[] candidateImage = load("candidate.png");
 		FingerprintTemplate candidate = new FingerprintTemplate(
 			new FingerprintImage(candidateImage));
-		TransparencyBuffer archive = new TransparencyBuffer();
+		TransparencyBuffer buffer = new TransparencyBuffer();
 		FingerprintTemplate probe;
-		try (FingerprintTransparency transparency = archive.capture()) {
+		try (var transparency = buffer.open()) {
 			probe = new FingerprintTemplate(
 				new FingerprintImage(probeImage));
 			new FingerprintMatcher(probe)
 				.match(candidate);
 		}
+		var archive = buffer.toArchive();
 		TransparencyContext context = new TransparencyContext()
 			.image(TransparencyRole.EXTRACTED, probeImage)
 			.template(TransparencyRole.EXTRACTED, probe.toByteArray())

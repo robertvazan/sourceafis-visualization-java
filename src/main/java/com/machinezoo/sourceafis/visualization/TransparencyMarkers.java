@@ -496,8 +496,8 @@ public class TransparencyMarkers {
 		return markEdgeShape(edge, template.minutiae()[reference], template.minutiae()[edge.neighbor()], symmetrical ? 1.2 : 0.8);
 	}
 	private static DomElement markPairingEdge(EdgePair edge, MatchSide side, Template template) {
-		DoublePoint reference = MinutiaPoints.center(template.minutiae()[MinutiaPairs.side(edge.from(), side)]);
-		DoublePoint neighbor = MinutiaPoints.center(template.minutiae()[MinutiaPairs.side(edge.to(), side)]);
+		DoublePoint reference = MinutiaPoints.center(template.minutiae()[edge.from().side(side)]);
+		DoublePoint neighbor = MinutiaPoints.center(template.minutiae()[edge.to().side(side)]);
 		return Svg.line()
 			.x1(reference.x())
 			.y1(reference.y())
@@ -580,7 +580,7 @@ public class TransparencyMarkers {
 			markers.add(markPairingTreeEdge(edge, side, template));
 		for (var minutia : template.minutiae())
 			markers.add(markMinutiaPosition(minutia));
-		var root = template.minutiae()[MinutiaPairs.side(pairing.root(), side)];
+		var root = template.minutiae()[pairing.root().side(side)];
 		markers.add(markRoot(root));
 		return markers;
 	}

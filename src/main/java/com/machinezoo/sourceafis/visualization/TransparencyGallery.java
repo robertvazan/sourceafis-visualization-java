@@ -18,7 +18,7 @@ public class TransparencyGallery {
 		this.context = context;
 	}
 	private <T> T expect(TransparencyKey<T> key) {
-		return archive.get(key).get().deserialize();
+		return archive.deserialize(key).get();
 	}
 	public byte[] decoded() {
 		return paintDecoded(expect(new DecodedImageKey())).jpeg();
@@ -216,14 +216,14 @@ public class TransparencyGallery {
 		}
 		return new TransparencyImage(template.size())
 			.image(image)
-			.add(markPairing(archive.get(new PairingKey(), offset).get().deserialize(), side, template))
+			.add(markPairing(archive.deserialize(new PairingKey(), offset).get(), side, template))
 			.bytes();
 	}
 	public byte[] pairing(MatchSide side) {
-		return pairing(archive.get(new BestMatchKey()).map(r -> r.deserialize()).orElse(0), side);
+		return pairing(archive.deserialize(new BestMatchKey()).orElse(0), side);
 	}
 	public byte[] pairing(int offset) {
-		var pairing = archive.get(new PairingKey(), offset).get().deserialize();
+		var pairing = archive.deserialize(new PairingKey(), offset).get();
 		var probe = context.template(TransparencyRole.PROBE);
 		TransparencyImage left = new TransparencyImage(probe.size())
 			.image(context.image(TransparencyRole.PROBE))
@@ -235,6 +235,6 @@ public class TransparencyGallery {
 		return new TransparencySplit(left, right).bytes();
 	}
 	public byte[] pairing() {
-		return pairing(archive.get(new BestMatchKey()).map(r -> r.deserialize()).orElse(0));
+		return pairing(archive.deserialize(new BestMatchKey()).orElse(0));
 	}
 }

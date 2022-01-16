@@ -1,6 +1,9 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.common;
 
+import com.machinezoo.stagean.*;
+
+@DraftCode("Support native grayscale output images.")
 public interface GrayscaleVisualization extends RasterVisualization {
 	@ByteColor
 	byte[] shades();

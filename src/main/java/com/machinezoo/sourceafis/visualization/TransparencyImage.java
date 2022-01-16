@@ -5,6 +5,7 @@ import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
 import java.nio.charset.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
+import com.machinezoo.sourceafis.visualization.layers.*;
 
 public class TransparencyImage {
 	private final double width;
@@ -48,7 +49,7 @@ public class TransparencyImage {
 		return add(embedJpeg(pixmap));
 	}
 	public TransparencyImage image(byte[] image) {
-		return add(embedImage(width, height, image));
+		return add(EmbeddedImageLayer.jpeg((int)width, (int)height, image).render().content());
 	}
 	public DomElement tree() {
 		return Svg.svg()

@@ -20,28 +20,6 @@ public class TransparencyGallery {
 	private <T> T nullable(TransparencyKey<T> key) {
 		return archive.deserialize(key).orElse(null);
 	}
-	public byte[] decoded() {
-		return paintDecoded(expect(new DecodedImageKey())).jpeg();
-	}
-	public byte[] scaled() {
-		return paintScaled(expect(new ScaledImageKey())).jpeg();
-	}
-	public byte[] blocksPrimary() {
-		var blocks = expect(new BlocksKey());
-		return new TransparencyImage(blocks)
-			.padding(1)
-			.image(nullable(new InputImageKey()))
-			.add(markBlocks(blocks))
-			.bytes();
-	}
-	public byte[] blocksSecondary() {
-		var blocks = expect(new BlocksKey());
-		return new TransparencyImage(blocks)
-			.padding(1)
-			.image(nullable(new InputImageKey()))
-			.add(markSecondaryBlocks(blocks))
-			.bytes();
-	}
 	private byte[] overlay(DomContent content) {
 		return new TransparencyImage(expect(new BlocksKey()))
 			.image(nullable(new InputImageKey()))
@@ -75,9 +53,6 @@ public class TransparencyGallery {
 	public byte[] filteredMask() {
 		return overlayPng(overlayFilteredMask(expect(new FilteredMaskKey()), expect(new BlocksKey())));
 	}
-	public byte[] equalized() {
-		return paintEqualized(expect(new EqualizedImageKey())).jpeg();
-	}
 	public byte[] pixelwiseOrientation() {
 		return paintPixelwiseOrientation(expect(new PixelwiseOrientationKey())).jpeg();
 	}
@@ -86,12 +61,6 @@ public class TransparencyGallery {
 	}
 	public byte[] smoothedOrientation() {
 		return overlay(markSmoothedOrientation(expect(new SmoothedOrientationKey()), expect(new BlocksKey()), expect(new FilteredMaskKey())));
-	}
-	public byte[] parallel() {
-		return paintParallel(expect(new ParallelSmoothingKey())).jpeg();
-	}
-	public byte[] orthogonal() {
-		return paintOrthogonal(expect(new OrthogonalSmoothingKey())).jpeg();
 	}
 	public byte[] binarized() {
 		return overlayPng(overlayBinarized(expect(new BinarizedImageKey())));

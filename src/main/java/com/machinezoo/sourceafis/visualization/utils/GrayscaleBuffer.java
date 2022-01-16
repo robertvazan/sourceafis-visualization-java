@@ -8,7 +8,7 @@ import com.machinezoo.sourceafis.visualization.common.*;
 public class GrayscaleBuffer {
 	public final int width;
 	public final int height;
-	public final byte[] shades;
+	public final @ByteColor byte[] shades;
 	public GrayscaleBuffer(int width, int height) {
 		this.width = width;
 		this.height = height;

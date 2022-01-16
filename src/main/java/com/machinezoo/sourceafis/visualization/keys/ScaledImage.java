@@ -6,13 +6,13 @@ import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.visualization.common.*;
 import com.machinezoo.sourceafis.visualization.images.*;
 
-public record DecodedImageView() implements GrayscaleVisualizer {
+public record ScaledImage() implements GrayscaleVisualizer {
 	@Override
-	public TransparencyKey<?> key() {
-		return new DecodedImageKey();
+	public ScaledImageKey key() {
+		return new ScaledImageKey();
 	}
 	@Override
 	public GrayscaleVisualization render(TransparencyArchive archive) {
-		return new DoubleMatrixImage(archive.deserialize(new DecodedImageKey()).orElseThrow(), 0, 1).render();
+		return new DoubleMatrixImage(archive.deserialize(key()).orElseThrow(), 0, 1).render();
 	}
 }

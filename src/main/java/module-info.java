@@ -3,6 +3,7 @@ module com.machinezoo.sourceafis.visualization {
 	exports com.machinezoo.sourceafis.visualization;
 	exports com.machinezoo.sourceafis.visualization.common;
 	requires java.desktop;
+	requires com.machinezoo.stagean;
 	requires com.machinezoo.noexception;
 	/*
 	 * Transitive, because we process objects deserialized by the transparency lib.

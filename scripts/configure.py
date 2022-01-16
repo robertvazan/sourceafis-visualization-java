@@ -20,6 +20,7 @@ homepage = lambda: website() + 'transparency/'
 jdk_version = lambda: 17
 has_website = lambda: False
 has_javadoc = lambda: False
+stagean_annotations = lambda: True
 project_status = lambda: experimental_status()
 md_description = lambda: '''\
     SourceAFIS Visualization for Java is a library that generates bitmap and vector images

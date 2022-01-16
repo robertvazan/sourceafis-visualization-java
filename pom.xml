@@ -44,6 +44,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.machinezoo.stagean</groupId>
+			<artifactId>stagean</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.machinezoo.sourceafis</groupId>
 			<artifactId>sourceafis-transparency</artifactId>
 			<version>0.10.0</version>

@@ -36,6 +36,7 @@ def dependencies():
     use('com.machinezoo.sourceafis:sourceafis-transparency:0.10.0')
     use_streamex()
     use_fastutil()
+    use_commons_lang()
     # Lazy way to get convenient SVG DOM builders. Should use dedicated SVG library in the future.
     use_pushmode()
     use_junit()

@@ -26,12 +26,6 @@ public class TransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	public byte[] histogram() {
-		return overlay(markHistogram(expect(new HistogramKey()), expect(new BlocksKey())));
-	}
-	public byte[] smoothedHistogram() {
-		return overlay(markSmoothedHistogram(expect(new SmoothedHistogramKey()), expect(new BlocksKey())));
-	}
 	public byte[] contrast() {
 		return overlay(markContrast(expect(new ContrastKey()), expect(new BlocksKey())));
 	}

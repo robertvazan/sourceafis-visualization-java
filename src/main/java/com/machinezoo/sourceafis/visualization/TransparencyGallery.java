@@ -26,9 +26,6 @@ public class TransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	public byte[] contrast() {
-		return overlay(markContrast(expect(new ContrastKey()), expect(new BlocksKey())));
-	}
 	private byte[] overlayPng(TransparencyPixmap pixmap) {
 		return new TransparencyImage(pixmap.size())
 			.image(nullable(new InputImageKey()))

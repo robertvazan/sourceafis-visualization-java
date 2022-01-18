@@ -2,13 +2,13 @@
 package com.machinezoo.sourceafis.visualization.common;
 
 public enum BinaryColor implements ColorCode {
-	BACKGROUND,
-	FOREGROUND;
+	BLACK,
+	WHITE;
 	@Override
 	public @IntColor int color() {
 		return switch (this) {
-			case BACKGROUND -> 0xFF_FF_FF_FF;
-			case FOREGROUND -> 0xFF_00_00_00;
+			case BLACK -> 0xFF_00_00_00;
+			case WHITE -> 0xFF_FF_FF_FF;
 		};
 	}
 }

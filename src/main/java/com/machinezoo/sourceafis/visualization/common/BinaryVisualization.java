@@ -3,6 +3,9 @@ package com.machinezoo.sourceafis.visualization.common;
 
 import com.machinezoo.stagean.*;
 
+/*
+ * False is 0 or black. True is 1 or white.
+ */
 @DraftCode("Support native binary and grayscale output images.")
 public interface BinaryVisualization extends PaletteVisualization<BinaryColor>, GrayscaleVisualization {
 	boolean[] bits();
@@ -23,7 +26,7 @@ public interface BinaryVisualization extends PaletteVisualization<BinaryColor>, 
 		var bits = bits();
 		var shades = new byte[bits.length];
 		for (int i = 0; i < shades.length; ++i)
-			shades[i] = bits[i] ? (byte)0 : (byte)0xFF;
+			shades[i] = bits[i] ? (byte)0xFF : (byte)0;
 		return shades;
 	}
 	@Override

@@ -3,8 +3,10 @@ package com.machinezoo.sourceafis.visualization.utils;
 
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
+import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.common.*;
+import com.machinezoo.sourceafis.visualization.layers.*;
 
 public class VectorBuffer {
 	private final int width;
@@ -32,6 +34,12 @@ public class VectorBuffer {
 	}
 	public VectorBuffer add(FragmentRenderer renderer) {
 		return add(renderer != null ? renderer.render() : null);
+	}
+	public VectorBuffer embed(MatchSide side, TransparencyArchive archive) {
+		return add(EmbeddedImageLayer.input(width, height, archive, side).orElse(null));
+	}
+	public VectorBuffer embed(TransparencyArchive archive) {
+		return embed(null, archive);
 	}
 	public VectorVisualization render() {
 		return new VectorData(

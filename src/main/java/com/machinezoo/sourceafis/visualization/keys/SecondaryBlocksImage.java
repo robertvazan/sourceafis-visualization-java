@@ -7,7 +7,6 @@ import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.visualization.common.*;
 import com.machinezoo.sourceafis.visualization.layers.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
-import com.machinezoo.stagean.*;
 
 public record SecondaryBlocksImage() implements VectorVisualizer {
 	@Override
@@ -16,15 +15,14 @@ public record SecondaryBlocksImage() implements VectorVisualizer {
 	}
 	@Override
 	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
-		return Set.of(key(), new InputImageKey());
+		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override
-	@DraftCode("Support grayscale input.")
 	public VectorVisualization render(TransparencyArchive archive) {
 		var blocks = archive.deserialize(key()).orElseThrow();
 		return new VectorBuffer(blocks.pixels())
 			.padding(1)
-			.add(archive.read(new InputImageKey()).map(im -> EmbeddedImageLayer.jpeg(blocks.pixels(), im)).orElse(null))
+			.embed(archive)
 			.add(new DoubleBlockGridLayer(blocks.pixels(), blocks.secondary(), blocks.primary(), "#080"))
 			.render();
 	}

@@ -5,7 +5,8 @@ import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.common.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
-public record DoubleMatrixImage(DoubleMatrix matrix, double background, double foreground) {
+public record DoubleMatrixImage(DoubleMatrix matrix, double background, double foreground) implements GrayscaleRenderer {
+	@Override
 	public GrayscaleVisualization render() {
 		var values = matrix.cells();
 		var shades = new byte[values.length];

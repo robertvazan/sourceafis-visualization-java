@@ -7,7 +7,7 @@ import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
-public record EmbeddedImageLayer(int width, int height, String mime, byte[] image) {
+public record EmbeddedImageLayer(int width, int height, String mime, byte[] image) implements FragmentRenderer {
 	public EmbeddedImageLayer {
 		Validate.isTrue(width > 0 && height > 0);
 		if (image != null)
@@ -26,6 +26,7 @@ public record EmbeddedImageLayer(int width, int height, String mime, byte[] imag
 	public static EmbeddedImageLayer jpeg(IntPoint size, byte[] image) {
 		return jpeg(size.x(), size.y(), image);
 	}
+	@Override
 	public FragmentVisualization render() {
 		if (image == null)
 			return FragmentData.EMPTY;

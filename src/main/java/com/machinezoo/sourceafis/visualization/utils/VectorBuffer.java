@@ -28,6 +28,9 @@ public class VectorBuffer {
 		content.add(fragment.content());
 		return this;
 	}
+	public VectorBuffer add(FragmentRenderer renderer) {
+		return add(renderer.render());
+	}
 	public VectorVisualization render() {
 		return new VectorData(
 			width + 2 * padding,

@@ -12,6 +12,13 @@ public class FragmentBuffer {
 		content.add(fragment.content());
 		return this;
 	}
+	public FragmentBuffer add(FragmentRenderer renderer) {
+		return add(renderer.render());
+	}
+	public FragmentBuffer add(DomContent content) {
+		this.content.add(content);
+		return this;
+	}
 	public FragmentVisualization render() {
 		return new FragmentData(definitions, content);
 	}

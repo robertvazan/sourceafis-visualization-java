@@ -8,12 +8,14 @@ public class FragmentBuffer {
 	private final Map<String, DomElement> definitions = new HashMap<>();
 	private final DomFragment content = new DomFragment();
 	public FragmentBuffer add(FragmentVisualization fragment) {
-		definitions.putAll(fragment.definitions());
-		content.add(fragment.content());
+		if (fragment != null) {
+			definitions.putAll(fragment.definitions());
+			content.add(fragment.content());
+		}
 		return this;
 	}
 	public FragmentBuffer add(FragmentRenderer renderer) {
-		return add(renderer.render());
+		return add(renderer != null ? renderer.render() : null);
 	}
 	public FragmentBuffer add(DomContent content) {
 		this.content.add(content);

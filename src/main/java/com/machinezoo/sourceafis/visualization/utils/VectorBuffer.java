@@ -24,12 +24,14 @@ public class VectorBuffer {
 		return this;
 	}
 	public VectorBuffer add(FragmentVisualization fragment) {
-		definitions.putAll(fragment.definitions());
-		content.add(fragment.content());
+		if (fragment != null) {
+			definitions.putAll(fragment.definitions());
+			content.add(fragment.content());
+		}
 		return this;
 	}
 	public VectorBuffer add(FragmentRenderer renderer) {
-		return add(renderer.render());
+		return add(renderer != null ? renderer.render() : null);
 	}
 	public VectorVisualization render() {
 		return new VectorData(

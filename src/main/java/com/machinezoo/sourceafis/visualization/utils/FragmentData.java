@@ -6,7 +6,6 @@ import org.apache.commons.lang3.*;
 import com.machinezoo.pushmode.dom.*;
 
 public record FragmentData(Map<String, DomElement> definitions, DomContent content) implements FragmentVisualization {
-	public static final FragmentData EMPTY = new FragmentData(null);
 	public FragmentData {
 		Objects.requireNonNull(definitions);
 		for (var id : definitions.keySet())

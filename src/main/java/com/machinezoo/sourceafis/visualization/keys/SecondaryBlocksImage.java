@@ -24,8 +24,8 @@ public record SecondaryBlocksImage() implements VectorVisualizer {
 		var blocks = archive.deserialize(key()).orElseThrow();
 		return new VectorBuffer(blocks.pixels())
 			.padding(1)
-			.add(EmbeddedImageLayer.jpeg(blocks.pixels(), archive.read(new InputImageKey()).orElse(null)).render())
-			.add(new DoubleBlockGridLayer(blocks.pixels(), blocks.secondary(), blocks.primary(), "#080").render())
+			.add(archive.read(new InputImageKey()).map(im -> EmbeddedImageLayer.jpeg(blocks.pixels(), im)).orElse(null))
+			.add(new DoubleBlockGridLayer(blocks.pixels(), blocks.secondary(), blocks.primary(), "#080"))
 			.render();
 	}
 }

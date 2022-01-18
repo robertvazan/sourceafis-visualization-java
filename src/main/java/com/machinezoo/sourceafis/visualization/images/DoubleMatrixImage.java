@@ -1,11 +1,17 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.images;
 
+import java.util.*;
+import org.apache.commons.lang3.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.common.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
 public record DoubleMatrixImage(DoubleMatrix matrix, double background, double foreground) implements GrayscaleRenderer {
+	public DoubleMatrixImage {
+		Objects.requireNonNull(matrix);
+		Validate.isTrue(foreground != background);
+	}
 	@Override
 	public GrayscaleVisualization render() {
 		var values = matrix.cells();

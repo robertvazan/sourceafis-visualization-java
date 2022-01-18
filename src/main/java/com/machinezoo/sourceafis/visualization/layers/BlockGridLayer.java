@@ -1,12 +1,21 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.layers;
 
+import java.util.*;
+import org.apache.commons.lang3.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 import com.machinezoo.stagean.*;
 
 public record BlockGridLayer(IntPoint size, BlockGrid grid, String color, double thickness) implements FragmentRenderer {
+	public BlockGridLayer {
+		Objects.requireNonNull(size);
+		Validate.isTrue(size.x() > 0 && size.y() > 0);
+		Objects.requireNonNull(grid);
+		Validate.notBlank(color);
+		Validate.isTrue(thickness > 0);
+	}
 	@Override
 	@DraftCode("Use SVG definitions.")
 	public FragmentVisualization render() {

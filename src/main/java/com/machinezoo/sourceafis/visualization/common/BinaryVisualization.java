@@ -1,6 +1,7 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.common;
 
+import java.util.*;
 import com.machinezoo.stagean.*;
 
 /*
@@ -8,7 +9,7 @@ import com.machinezoo.stagean.*;
  */
 @DraftCode("Support native binary and grayscale output images.")
 public interface BinaryVisualization extends PaletteVisualization<BinaryColor>, GrayscaleVisualization {
-	boolean[] bits();
+	BitSet bits();
 	@Override
 	default Class<BinaryColor> type() {
 		return BinaryColor.class;
@@ -16,17 +17,17 @@ public interface BinaryVisualization extends PaletteVisualization<BinaryColor>, 
 	@Override
 	default byte[] codes() {
 		var bits = bits();
-		var codes = new byte[bits.length];
+		var codes = new byte[width() * height()];
 		for (int i = 0; i < codes.length; ++i)
-			codes[i] = bits[i] ? (byte)1 : (byte)0;
+			codes[i] = bits.get(i) ? (byte)1 : (byte)0;
 		return codes;
 	}
 	@Override
 	default @ByteColor byte[] shades() {
 		var bits = bits();
-		var shades = new byte[bits.length];
+		var shades = new byte[width() * height()];
 		for (int i = 0; i < shades.length; ++i)
-			shades[i] = bits[i] ? (byte)0xFF : (byte)0;
+			shades[i] = bits.get(i) ? (byte)0xFF : (byte)0;
 		return shades;
 	}
 	@Override

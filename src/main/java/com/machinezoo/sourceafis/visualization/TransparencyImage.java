@@ -49,7 +49,7 @@ public class TransparencyImage {
 		return add(embedJpeg(pixmap));
 	}
 	public TransparencyImage image(byte[] image) {
-		return add(image != null ? EmbeddedImageLayer.jpeg((int)width, (int)height, image).render().content() : null);
+		return add(image != null ? new BackgroundImageLayer((int)width, (int)height, image).render().content() : null);
 	}
 	public DomElement tree() {
 		return Svg.svg()

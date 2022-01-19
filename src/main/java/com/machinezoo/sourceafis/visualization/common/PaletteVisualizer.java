@@ -5,7 +5,7 @@ import com.machinezoo.sourceafis.transparency.*;
 
 public interface PaletteVisualizer<T extends Enum<T> & ColorCode> extends RasterVisualizer {
 	Class<T> type();
-	PaletteVisualization<T> render(TransparencyArchive archive);
+	PaletteImage<T> visualize(TransparencyArchive archive);
 	@Override
 	default String mime() {
 		return "image/png";

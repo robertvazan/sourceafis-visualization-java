@@ -4,7 +4,7 @@ package com.machinezoo.sourceafis.visualization.common;
 import com.machinezoo.sourceafis.transparency.*;
 
 public interface RasterVisualizer extends TransparencyVisualizer {
-	RasterVisualization render(TransparencyArchive archive);
+	RasterImage visualize(TransparencyArchive archive);
 	@Override
 	default String mime() {
 		return "image/jpeg";

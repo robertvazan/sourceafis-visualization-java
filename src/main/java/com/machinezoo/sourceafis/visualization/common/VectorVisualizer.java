@@ -4,7 +4,7 @@ package com.machinezoo.sourceafis.visualization.common;
 import com.machinezoo.sourceafis.transparency.*;
 
 public interface VectorVisualizer extends TransparencyVisualizer {
-	VectorVisualization render(TransparencyArchive archive);
+	VectorImage visualize(TransparencyArchive archive);
 	@Override
 	default String mime() {
 		return "image/svg+xml";

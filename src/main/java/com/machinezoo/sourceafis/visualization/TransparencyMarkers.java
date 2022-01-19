@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.List;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.sourceafis.visualization.types.*;
 import it.unimi.dsi.fastutil.objects.*;
 import one.util.streamex.*;
 

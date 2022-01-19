@@ -3,16 +3,17 @@ package com.machinezoo.sourceafis.visualization.markers;
 
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.types.*;
 import com.machinezoo.stagean.*;
 
-public record ContrastMarker(IntRect rect, double contrast) implements FragmentRenderer {
+public record ContrastMarker(IntRect rect, double contrast) implements LayerModel {
 	@Override
 	@DraftCode("Centralize styling with CSS.")
-	public FragmentVisualization render() {
+	public ImageLayer render() {
 		double radius = Math.sqrt(contrast) * IntRects.radius(rect);
 		var center = IntRects.center(rect);
-		return new FragmentData(Svg.circle()
+		return new LayerFrame(Svg.circle()
 			.cx(center.x())
 			.cy(center.y())
 			.r(radius)

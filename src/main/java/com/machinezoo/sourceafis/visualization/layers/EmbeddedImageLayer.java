@@ -7,9 +7,9 @@ import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.sourceafis.visualization.graphics.*;
 
-public record EmbeddedImageLayer(int width, int height, String mime, byte[] image) implements FragmentRenderer {
+public record EmbeddedImageLayer(int width, int height, String mime, byte[] image) implements LayerModel {
 	public EmbeddedImageLayer {
 		Validate.isTrue(width > 0 && height > 0);
 		Validate.notBlank(mime);
@@ -30,11 +30,11 @@ public record EmbeddedImageLayer(int width, int height, String mime, byte[] imag
 		return archive.read(SideImageKey.of(side))
 			.map(img -> EmbeddedImageLayer.jpeg(width, height, img))
 			.or(() -> archive.deserialize(SideGrayscaleKey.of(side))
-				.map(g -> new EmbeddedImageLayer(width, height, "image/jpeg", new GrayscaleData(g.width(), g.height(), g.pixels()).jpeg())));
+				.map(g -> new EmbeddedImageLayer(width, height, "image/jpeg", new GrayscaleFrame(g.width(), g.height(), g.array()).jpeg())));
 	}
 	@Override
-	public FragmentVisualization render() {
-		return new FragmentData(Svg.image()
+	public ImageLayer render() {
+		return new LayerFrame(Svg.image()
 			.width(width)
 			.height(height)
 			.href("data:" + mime + ";base64," + Base64.getEncoder().encodeToString(image)));

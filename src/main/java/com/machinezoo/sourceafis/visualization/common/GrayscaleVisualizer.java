@@ -4,5 +4,5 @@ package com.machinezoo.sourceafis.visualization.common;
 import com.machinezoo.sourceafis.transparency.*;
 
 public interface GrayscaleVisualizer extends RasterVisualizer {
-	GrayscaleVisualization render(TransparencyArchive archive);
+	GrayscaleImage visualize(TransparencyArchive archive);
 }

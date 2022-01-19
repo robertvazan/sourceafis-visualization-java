@@ -5,10 +5,10 @@ import java.util.*;
 import org.apache.commons.lang3.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.sourceafis.visualization.graphics.*;
 import com.machinezoo.stagean.*;
 
-public record BlockGridLayer(IntPoint size, BlockGrid grid, String color, double thickness) implements FragmentRenderer {
+public record BlockGridLayer(IntPoint size, BlockGrid grid, String color, double thickness) implements LayerModel {
 	public BlockGridLayer {
 		Objects.requireNonNull(size);
 		Validate.isTrue(size.x() > 0 && size.y() > 0);
@@ -18,8 +18,8 @@ public record BlockGridLayer(IntPoint size, BlockGrid grid, String color, double
 	}
 	@Override
 	@DraftCode("Use SVG definitions.")
-	public FragmentVisualization render() {
-		var buffer = new FragmentBuffer();
+	public ImageLayer render() {
+		var buffer = new LayerBuffer();
 		for (int x : grid.x()) {
 			buffer.add(Svg.line()
 				.x1(x)

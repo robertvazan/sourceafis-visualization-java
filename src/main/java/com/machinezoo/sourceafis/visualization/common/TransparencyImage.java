@@ -7,4 +7,7 @@ public interface TransparencyImage {
 	String mime();
 	String extension();
 	byte[] bytes();
+	default MaterializedImage materialize() {
+		return new MaterializedImage(width(), height(), mime(), bytes());
+	}
 }

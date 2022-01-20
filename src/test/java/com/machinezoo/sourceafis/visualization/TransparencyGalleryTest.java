@@ -46,7 +46,7 @@ public class TransparencyGalleryTest {
 			.write(new ProbeTemplateKey(), probe.toByteArray())
 			.serialize(new OutputScoreKey(), score)
 			.toArchive();
-		TransparencyGallery gallery = new TransparencyGallery(archive);
+		LegacyTransparencyGallery gallery = new LegacyTransparencyGallery(archive);
 		int count = 0;
 		for (Method method : gallery.getClass().getMethods()) {
 			if (method.getParameterCount() == 0 && method.getDeclaringClass() != Object.class) {

@@ -10,19 +10,19 @@ import javax.imageio.stream.*;
 import com.machinezoo.noexception.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 
-public class TransparencyPixmap {
+public class LegacyTransparencyPixmap {
 	public final int width;
 	public final int height;
 	private final int[] pixels;
-	public TransparencyPixmap(int width, int height) {
+	public LegacyTransparencyPixmap(int width, int height) {
 		this.width = width;
 		this.height = height;
 		pixels = new int[width * height];
 	}
-	public TransparencyPixmap(IntPoint size) {
+	public LegacyTransparencyPixmap(IntPoint size) {
 		this(size.x(), size.y());
 	}
-	public TransparencyPixmap(byte[] image) {
+	public LegacyTransparencyPixmap(byte[] image) {
 		BufferedImage buffered = Exceptions.wrap().get(() -> ImageIO.read(new ByteArrayInputStream(image)));
 		if (buffered == null)
 			throw new IllegalArgumentException("Unsupported image format.");

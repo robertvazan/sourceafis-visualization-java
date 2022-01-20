@@ -1,16 +1,16 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
-import static com.machinezoo.sourceafis.visualization.TransparencyMarkers.*;
+import static com.machinezoo.sourceafis.visualization.LegacyTransparencyMarkers.*;
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 
-public class TransparencyGallery {
+public class LegacyTransparencyGallery {
 	private final TransparencyArchive archive;
-	public TransparencyGallery(TransparencyArchive archive) {
+	public LegacyTransparencyGallery(TransparencyArchive archive) {
 		Objects.requireNonNull(archive);
 		this.archive = archive;
 	}
@@ -21,13 +21,13 @@ public class TransparencyGallery {
 		return archive.deserialize(key).orElse(null);
 	}
 	private byte[] overlay(DomContent content) {
-		return new TransparencyImage(expect(new BlocksKey()))
+		return new LegacyTransparencyImage(expect(new BlocksKey()))
 			.image(nullable(new InputImageKey()))
 			.add(content)
 			.bytes();
 	}
-	private byte[] overlayPng(TransparencyPixmap pixmap) {
-		return new TransparencyImage(pixmap.size())
+	private byte[] overlayPng(LegacyTransparencyPixmap pixmap) {
+		return new LegacyTransparencyImage(pixmap.size())
 			.image(nullable(new InputImageKey()))
 			.png(pixmap)
 			.bytes();
@@ -81,7 +81,7 @@ public class TransparencyGallery {
 		return overlay(markDots(expect(new RemovedDotsKey(skeleton))));
 	}
 	private byte[] solo(DomContent content) {
-		return new TransparencyImage(expect(new BlocksKey()))
+		return new LegacyTransparencyImage(expect(new BlocksKey()))
 			.add(content)
 			.bytes();
 	}
@@ -141,7 +141,7 @@ public class TransparencyGallery {
 	}
 	public byte[] hash() {
 		var template = expect(new InputTemplateKey()).unpack();
-		return new TransparencyImage(template.size())
+		return new LegacyTransparencyImage(template.size())
 			.image(nullable(new InputImageKey()))
 			.add(markHash(expect(new EdgeHashKey()), template))
 			.bytes();
@@ -149,11 +149,11 @@ public class TransparencyGallery {
 	public byte[] roots() {
 		var probe = expect(new ProbeTemplateKey()).unpack();
 		var candidate = expect(new CandidateTemplateKey()).unpack();
-		TransparencyImage left = new TransparencyImage(probe.size())
+		LegacyTransparencyImage left = new LegacyTransparencyImage(probe.size())
 			.image(nullable(new ProbeImageKey()));
-		TransparencyImage right = new TransparencyImage(candidate.size())
+		LegacyTransparencyImage right = new LegacyTransparencyImage(candidate.size())
 			.image(nullable(new CandidateImageKey()));
-		return new TransparencySplit(left, right)
+		return new LegacyTransparencySplit(left, right)
 			.add(markRoots(expect(new RootsKey()), probe, candidate))
 			.left(markMinutiaPositions(probe))
 			.right(markMinutiaPositions(candidate))
@@ -174,7 +174,7 @@ public class TransparencyGallery {
 		default:
 			throw new IllegalStateException();
 		}
-		return new TransparencyImage(template.size())
+		return new LegacyTransparencyImage(template.size())
 			.image(image)
 			.add(markPairing(archive.deserialize(new PairingKey(), offset).get(), side, template))
 			.bytes();
@@ -185,14 +185,14 @@ public class TransparencyGallery {
 	public byte[] pairing(int offset) {
 		var pairing = archive.deserialize(new PairingKey(), offset).get();
 		var probe = expect(new ProbeTemplateKey()).unpack();
-		TransparencyImage left = new TransparencyImage(probe.size())
+		LegacyTransparencyImage left = new LegacyTransparencyImage(probe.size())
 			.image(nullable(new ProbeImageKey()))
 			.add(markPairing(pairing, MatchSide.PROBE, probe));
 		var candidate = expect(new CandidateTemplateKey()).unpack();
-		TransparencyImage right = new TransparencyImage(candidate.size())
+		LegacyTransparencyImage right = new LegacyTransparencyImage(candidate.size())
 			.image(nullable(new CandidateImageKey()))
 			.add(markPairing(pairing, MatchSide.CANDIDATE, candidate));
-		return new TransparencySplit(left, right).bytes();
+		return new LegacyTransparencySplit(left, right).bytes();
 	}
 	public byte[] pairing() {
 		return pairing(archive.deserialize(new BestMatchKey()).orElse(0));

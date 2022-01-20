@@ -4,13 +4,13 @@ package com.machinezoo.sourceafis.visualization;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 
-public class TransparencySplit extends TransparencyImage {
+public class LegacyTransparencySplit extends LegacyTransparencyImage {
 	private final double rightX;
-	public TransparencySplit(IntPoint left, IntPoint right) {
+	public LegacyTransparencySplit(IntPoint left, IntPoint right) {
 		super(left.x() + right.x(), Math.max(left.y(), right.y()));
 		rightX = left.x();
 	}
-	public TransparencySplit(TransparencyImage left, TransparencyImage right) {
+	public LegacyTransparencySplit(LegacyTransparencyImage left, LegacyTransparencyImage right) {
 		super(left.width() + left.padding() + right.padding() + right.width(), Math.max(left.height(), right.height()));
 		padding(Math.max(left.padding(), right.padding()));
 		rightX = left.width() + left.padding() + right.padding();
@@ -35,34 +35,34 @@ public class TransparencySplit extends TransparencyImage {
 	public DoublePoint right(DoublePoint at) {
 		return new DoublePoint(rightX(at.x()), rightY(at.y()));
 	}
-	public TransparencySplit add(DomContent content) {
+	public LegacyTransparencySplit add(DomContent content) {
 		super.add(content);
 		return this;
 	}
-	public TransparencySplit image(byte[] image) {
+	public LegacyTransparencySplit image(byte[] image) {
 		super.image(image);
 		return this;
 	}
-	public TransparencySplit png(TransparencyPixmap pixmap) {
+	public LegacyTransparencySplit png(LegacyTransparencyPixmap pixmap) {
 		super.png(pixmap);
 		return this;
 	}
-	public TransparencySplit jpeg(TransparencyPixmap pixmap) {
+	public LegacyTransparencySplit jpeg(LegacyTransparencyPixmap pixmap) {
 		super.jpeg(pixmap);
 		return this;
 	}
-	public TransparencySplit left(DomContent content) {
+	public LegacyTransparencySplit left(DomContent content) {
 		return add(Svg.g().add(content));
 	}
-	public TransparencySplit right(DomContent content) {
+	public LegacyTransparencySplit right(DomContent content) {
 		return add(Svg.g()
 			.transform("translate(" + rightX + ",0)")
 			.add(content));
 	}
-	public TransparencySplit left(TransparencyImage image) {
+	public LegacyTransparencySplit left(LegacyTransparencyImage image) {
 		return left(image.content());
 	}
-	public TransparencySplit right(TransparencyImage image) {
+	public LegacyTransparencySplit right(LegacyTransparencyImage image) {
 		return right(image.content());
 	}
 }

@@ -3,7 +3,7 @@ package com.machinezoo.sourceafis.visualization.keys;
 
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
-import com.machinezoo.sourceafis.visualization.common.*;
+import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.images.*;
 
 public record OrthogonalSmoothingVisualizer() implements GrayscaleVisualizer {

@@ -5,7 +5,7 @@ import java.util.*;
 import org.apache.commons.lang3.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 import com.machinezoo.stagean.*;
 
 public record BlockGridLayer(IntPoint size, BlockGrid grid, String color, double thickness) implements LayerModel {

@@ -7,7 +7,8 @@ import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
+import com.machinezoo.sourceafis.visualization.utils.*;
 
 /*
  * Like EmbeddedImageLayer, but it enforces image/jpeg MIME and scaled image dimensions.

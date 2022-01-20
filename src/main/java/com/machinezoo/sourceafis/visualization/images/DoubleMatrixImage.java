@@ -4,8 +4,8 @@ package com.machinezoo.sourceafis.visualization.images;
 import java.util.*;
 import org.apache.commons.lang3.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.common.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.formats.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 
 public record DoubleMatrixImage(DoubleMatrix matrix, double background, double foreground) implements GrayscaleModel {
 	public DoubleMatrixImage {

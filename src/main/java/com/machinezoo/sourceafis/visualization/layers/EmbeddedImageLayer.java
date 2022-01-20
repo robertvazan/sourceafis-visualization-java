@@ -3,8 +3,8 @@ package com.machinezoo.sourceafis.visualization.layers;
 
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
-import com.machinezoo.sourceafis.visualization.common.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 
 public record EmbeddedImageLayer(TransparencyImage image) implements LayerModel {
 	public EmbeddedImageLayer {

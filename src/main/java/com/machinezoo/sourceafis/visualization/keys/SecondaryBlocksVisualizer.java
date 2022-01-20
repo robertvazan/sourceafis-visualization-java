@@ -4,9 +4,9 @@ package com.machinezoo.sourceafis.visualization.keys;
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
-import com.machinezoo.sourceafis.visualization.common.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.layers.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 
 public record SecondaryBlocksVisualizer() implements VectorVisualizer {
 	@Override

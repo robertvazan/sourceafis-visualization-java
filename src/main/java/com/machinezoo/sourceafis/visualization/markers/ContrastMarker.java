@@ -3,7 +3,7 @@ package com.machinezoo.sourceafis.visualization.markers;
 
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 import com.machinezoo.sourceafis.visualization.types.*;
 import com.machinezoo.stagean.*;
 

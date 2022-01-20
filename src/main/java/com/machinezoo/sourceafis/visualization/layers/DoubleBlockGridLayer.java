@@ -2,7 +2,7 @@
 package com.machinezoo.sourceafis.visualization.layers;
 
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 
 public record DoubleBlockGridLayer(IntPoint size, BlockGrid foreground, BlockGrid background, String color) implements LayerModel {
 	@Override

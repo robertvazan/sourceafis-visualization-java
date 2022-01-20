@@ -6,7 +6,7 @@ import com.machinezoo.stagean.*;
 @DraftCode("Use proper SVG library instead of pushmode.")
 module com.machinezoo.sourceafis.visualization {
 	exports com.machinezoo.sourceafis.visualization;
-	exports com.machinezoo.sourceafis.visualization.common;
+	exports com.machinezoo.sourceafis.visualization.formats;
 	requires java.desktop;
 	requires com.machinezoo.stagean;
 	requires com.machinezoo.noexception;

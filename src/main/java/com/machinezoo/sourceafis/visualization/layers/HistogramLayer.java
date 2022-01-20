@@ -3,7 +3,7 @@ package com.machinezoo.sourceafis.visualization.layers;
 
 import java.util.stream.*;
 import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.graphics.*;
+import com.machinezoo.sourceafis.visualization.rendering.*;
 import com.machinezoo.sourceafis.visualization.svg.*;
 import com.machinezoo.sourceafis.visualization.types.*;
 import com.machinezoo.stagean.*;

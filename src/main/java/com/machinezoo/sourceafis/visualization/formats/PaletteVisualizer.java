@@ -10,8 +10,4 @@ public interface PaletteVisualizer<T extends Enum<T> & PaletteSymbol> extends Ra
 	default String mime() {
 		return "image/png";
 	}
-	@Override
-	default String extension() {
-		return ".png";
-	}
 }

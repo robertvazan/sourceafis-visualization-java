@@ -10,8 +10,4 @@ public interface VectorVisualizer extends TransparencyVisualizer {
 	default String mime() {
 		return "image/svg+xml";
 	}
-	@Override
-	default String extension() {
-		return ".svg";
-	}
 }

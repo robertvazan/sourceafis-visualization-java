@@ -16,10 +16,6 @@ public interface RasterImage extends TransparencyImage {
 	default String mime() {
 		return "image/jpeg";
 	}
-	@Override
-	default String extension() {
-		return ".jpeg";
-	}
 	default byte[] png() {
 		var image = new BufferedImage(width(), height(), BufferedImage.TYPE_INT_ARGB);
 		image.setRGB(0, 0, width(), height(), pixels(), 0, width());

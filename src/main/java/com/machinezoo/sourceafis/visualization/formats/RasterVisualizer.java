@@ -10,8 +10,4 @@ public interface RasterVisualizer extends TransparencyVisualizer {
 	default String mime() {
 		return "image/jpeg";
 	}
-	@Override
-	default String extension() {
-		return ".jpeg";
-	}
 }

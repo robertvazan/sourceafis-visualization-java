@@ -3,6 +3,7 @@ package com.machinezoo.sourceafis.visualization;
 
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.visualization.utils.*;
 
 public interface TransparencyVisualizer {
 	TransparencyKey<?> key();
@@ -18,7 +19,9 @@ public interface TransparencyVisualizer {
 	 * and output is consequently greatly simplified. These corner cases are not worth the effort and complexity.
 	 */
 	String mime();
-	String extension();
+	default String extension() {
+		return ImageMime.extension(mime());
+	}
 	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
 		return Set.of(key());
 	}

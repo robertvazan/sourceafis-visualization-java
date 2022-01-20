@@ -3,7 +3,7 @@ package com.machinezoo.sourceafis.visualization.utils;
 
 import com.machinezoo.stagean.*;
 
-@DraftCode("Use existing MIME library.")
+@DraftCode("Use existing MIME library. Support BMP, WSQ, and JP2.")
 public class ImageMime {
 	public static String detect(byte[] image) {
 		if (image[1] == 'P' && image[2] == 'N' && image[3] == 'G')
@@ -16,6 +16,27 @@ public class ImageMime {
 			return "image/tiff";
 		if (image[0] == '<')
 			return "image/svg+xml";
-		return null;
+		/*
+		 * Fallback to wildcard if no specific MIME type can be detected.
+		 */
+		return "image/*";
+	}
+	public static String extension(String mime) {
+		return switch (mime) {
+			case "image/jpeg" -> ".jpeg";
+			case "image/jp2" -> ".jp2";
+			case "image/png" -> ".png";
+			case "image/svg+xml" -> ".svg";
+			case "image/tiff" -> ".tiff";
+			case "image/bmp" -> ".bmp";
+			/*
+			 * WSQ doesn't have a MIME type. We will invent one.
+			 */
+			case "image/x-wsq" -> ".wsq";
+			/*
+			 * No extension for unknown formats. This is safe. We don't want null.
+			 */
+			default -> "";
+		};
 	}
 }

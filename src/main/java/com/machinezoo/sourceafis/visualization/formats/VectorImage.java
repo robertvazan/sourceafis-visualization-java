@@ -11,10 +11,6 @@ public interface VectorImage extends TransparencyImage {
 	default String mime() {
 		return "image/svg+xml";
 	}
-	@Override
-	default String extension() {
-		return ".svg";
-	}
 	default String source() {
 		return tree().toString();
 	}

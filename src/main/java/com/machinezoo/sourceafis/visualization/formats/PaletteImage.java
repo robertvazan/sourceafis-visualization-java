@@ -20,10 +20,6 @@ public interface PaletteImage<T extends Enum<T> & PaletteSymbol> extends RasterI
 		return "image/png";
 	}
 	@Override
-	default String extension() {
-		return ".png";
-	}
-	@Override
 	default byte[] bytes() {
 		return png();
 	}

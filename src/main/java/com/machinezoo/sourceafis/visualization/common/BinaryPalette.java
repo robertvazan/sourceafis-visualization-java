@@ -1,7 +1,7 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.common;
 
-public enum BinaryColor implements ColorCode {
+public enum BinaryPalette implements PaletteSymbol {
 	BLACK,
 	WHITE;
 	@Override

@@ -18,6 +18,9 @@ public class IntColors {
 	public static @ByteColor int blue(@IntColor int c) {
 		return c & 0xFF;
 	}
+	public static @ByteColor int brightness(@IntColor int c) {
+		return (red(c) + green(c) + blue(c)) / 3;
+	}
 	public static @IntColor int argb(@ByteColor int a, @ByteColor int r, @ByteColor int g, @ByteColor int b) {
 		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 	}

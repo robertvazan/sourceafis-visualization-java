@@ -1,7 +1,7 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization.common;
 
-public enum DiffColor implements ColorCode {
+public enum DiffPalette implements PaletteSymbol {
 	BACKGROUND,
 	FOREGROUND,
 	REMOVED,

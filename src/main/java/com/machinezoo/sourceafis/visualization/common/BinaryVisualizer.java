@@ -3,10 +3,6 @@ package com.machinezoo.sourceafis.visualization.common;
 
 import com.machinezoo.sourceafis.transparency.*;
 
-public interface BinaryVisualizer extends PaletteVisualizer<BinaryColor> {
-	BinaryImage visualize(TransparencyArchive archive);
-	@Override
-	default Class<BinaryColor> type() {
-		return BinaryColor.class;
-	}
+public interface BinaryVisualizer<T extends Enum<T> & PaletteSymbol> extends PaletteVisualizer<T> {
+	BinaryImage<T> visualize(TransparencyArchive archive);
 }

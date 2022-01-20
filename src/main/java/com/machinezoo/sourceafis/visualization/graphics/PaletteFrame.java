@@ -5,9 +5,9 @@ import java.util.*;
 import org.apache.commons.lang3.*;
 import com.machinezoo.sourceafis.visualization.common.*;
 
-public record PaletteFrame<T extends Enum<T> & ColorCode>(Class<T> type, int width, int height, byte[] codes) implements PaletteImage<T> {
+public record PaletteFrame<T extends Enum<T> & PaletteSymbol> (Class<T> palette, int width, int height, @PaletteColor byte[] codes) implements PaletteImage<T> {
 	public PaletteFrame {
-		Objects.requireNonNull(type);
+		Objects.requireNonNull(palette);
 		Validate.isTrue(width > 0 && height > 0);
 		Objects.requireNonNull(codes);
 		Validate.isTrue(codes.length == width * height);

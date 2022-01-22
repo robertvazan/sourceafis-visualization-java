@@ -100,9 +100,6 @@ public class LegacyTransparencyMarkers {
 			markers.add(markSkeletonMinutia(minutia, counts));
 		return markers;
 	}
-	public static DomContent markTraced(SkeletonGraph skeleton) {
-		return markSkeleton(skeleton);
-	}
 	public static DomContent markAddedSkeletonMinutia(IntPoint minutia) {
 		return markSkeletonMinutia(minutia, "green");
 	}

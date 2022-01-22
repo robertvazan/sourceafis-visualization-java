@@ -2,6 +2,7 @@
 package com.machinezoo.sourceafis.visualization.types;
 
 import com.machinezoo.sourceafis.transparency.types.*;
+import it.unimi.dsi.fastutil.objects.*;
 
 public class SkeletonGraphs {
 	public static BooleanMatrix shadow(SkeletonGraph skeleton) {
@@ -13,5 +14,14 @@ public class SkeletonGraphs {
 				for (var point : ridge.points())
 					pixels[point.y() * skeleton.width() + point.x()] = true;
 		return new BooleanMatrix(skeleton.width(), skeleton.height(), pixels);
+	}
+	public static Object2IntMap<IntPoint> degrees(SkeletonGraph skeleton) {
+		var counts = new Object2IntOpenHashMap<IntPoint>();
+		for (var ridge : skeleton.ridges()) {
+			var minutia = skeleton.minutiae()[ridge.start()];
+			counts.putIfAbsent(minutia, 0);
+			counts.addTo(minutia, 1);
+		}
+		return counts;
 	}
 }

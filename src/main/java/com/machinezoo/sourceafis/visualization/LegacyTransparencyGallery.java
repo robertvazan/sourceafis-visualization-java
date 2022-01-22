@@ -26,9 +26,6 @@ public class LegacyTransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	public byte[] traced(SkeletonType skeleton) {
-		return overlay(markTraced(expect(new TracedSkeletonKey(skeleton))));
-	}
 	public byte[] dots(SkeletonType skeleton) {
 		return overlay(markDots(expect(new RemovedDotsKey(skeleton))));
 	}

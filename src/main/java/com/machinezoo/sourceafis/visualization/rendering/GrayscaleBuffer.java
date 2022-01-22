@@ -18,11 +18,11 @@ public class GrayscaleBuffer implements GrayscaleModel {
 	public GrayscaleBuffer(IntPoint size) {
 		this(size.x(), size.y());
 	}
-	public void put(int x, int y, @ByteColor int g) {
+	public void set(int x, int y, @ByteColor int g) {
 		shades[y * width + x] = (byte)g;
 	}
-	public void put(IntPoint at, @ByteColor int g) {
-		put(at.x(), at.y(), g);
+	public void set(IntPoint at, @ByteColor int g) {
+		set(at.x(), at.y(), g);
 	}
 	@Override
 	public GrayscaleImage render() {

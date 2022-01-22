@@ -32,15 +32,6 @@ public class LegacyTransparencyGallery {
 			.png(pixmap)
 			.bytes();
 	}
-	public byte[] pixelwiseOrientation() {
-		return paintPixelwiseOrientation(expect(new PixelwiseOrientationKey())).jpeg();
-	}
-	public byte[] blockOrientation() {
-		return overlay(markBlockOrientation(expect(new BlockOrientationKey()), expect(new BlocksKey()), expect(new FilteredMaskKey())));
-	}
-	public byte[] smoothedOrientation() {
-		return overlay(markSmoothedOrientation(expect(new SmoothedOrientationKey()), expect(new BlocksKey()), expect(new FilteredMaskKey())));
-	}
 	public byte[] binarized() {
 		return overlayPng(overlayBinarized(expect(new BinarizedImageKey())));
 	}

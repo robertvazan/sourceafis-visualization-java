@@ -33,17 +33,17 @@ public class BinaryBuffer<T extends Enum<T> & PaletteSymbol> implements BinaryMo
 	public void invert() {
 		bits.flip(0, width * height);
 	}
-	public void put(int x, int y, boolean v) {
+	public void set(int x, int y, boolean v) {
 		bits.set(y * width + x, v);
 	}
-	public void put(int x, int y, T symbol) {
+	public void set(int x, int y, T symbol) {
 		bits.set(y * width + x, symbol.ordinal() > 0);
 	}
-	public void put(IntPoint at, boolean v) {
-		put(at.x(), at.y(), v);
+	public void set(IntPoint at, boolean v) {
+		set(at.x(), at.y(), v);
 	}
-	public void put(IntPoint at, T symbol) {
-		put(at.x(), at.y(), symbol);
+	public void set(IntPoint at, T symbol) {
+		set(at.x(), at.y(), symbol);
 	}
 	@Override
 	public BinaryImage<T> render() {

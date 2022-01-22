@@ -32,11 +32,11 @@ public class RasterBuffer implements RasterModel {
 		pixels = new int[width * height];
 		buffered.getRGB(0, 0, width, height, pixels, 0, width);
 	}
-	public void put(int x, int y, @IntColor int c) {
+	public void set(int x, int y, @IntColor int c) {
 		pixels[y * width + x] = c;
 	}
-	public void put(IntPoint at, @IntColor int c) {
-		put(at.x(), at.y(), c);
+	public void set(IntPoint at, @IntColor int c) {
+		set(at.x(), at.y(), c);
 	}
 	@Override
 	public RasterImage render() {

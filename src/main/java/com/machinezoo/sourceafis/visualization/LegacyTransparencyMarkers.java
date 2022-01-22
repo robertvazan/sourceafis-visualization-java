@@ -48,53 +48,6 @@ public class LegacyTransparencyMarkers {
 			.height(pixmap.height)
 			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
 	}
-	private static LegacyTransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
-		opacity = opacity << 24;
-		LegacyTransparencyPixmap pixmap = new LegacyTransparencyPixmap(orientations.size());
-		/*
-		 * Transparent white, so that the result will render correctly as both JPEG and PNG.
-		 */
-		pixmap.fill(0x00_ff_ff_ff);
-		double max = Math.log1p(IntPoints.stream(orientations.size()).map(orientations::get).mapToDouble(DoublePoints::length).max().orElse(1));
-		for (IntPoint at : IntPoints.stream(orientations.size())) {
-			DoublePoint vector = orientations.get(at);
-			if (vector.x() != 0 || vector.y() != 0) {
-				double angle = vector.angle();
-				double strength = Math.log1p(DoublePoints.length(vector)) / max;
-				pixmap.set(at, Color.HSBtoRGB((float)(angle / DoubleAnglesEx.PI2), (float)(0.2 + 0.8 * strength), 1.0f) & 0xffffff | opacity);
-			}
-		}
-		return pixmap;
-	}
-	public static LegacyTransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations) {
-		return paintPixelwiseOrientation(orientations, 0xff);
-	}
-	public static LegacyTransparencyPixmap overlayPixelwiseOrientation(DoublePointMatrix orientations) {
-		return paintPixelwiseOrientation(orientations, 0x60);
-	}
-	public static DomContent markRectOrientation(DoublePoint orientation, IntRect rect) {
-		DoublePoint center = IntRects.center(rect);
-		DoublePoint direction = DoubleAngles.toVector(DoubleAngles.fromOrientation(orientation.angle()));
-		DoublePoint arm = DoublePoints.multiply(0.5 * Math.min(rect.width(), rect.height()), direction);
-		DoublePoint from = DoublePoints.sum(center, arm);
-		DoublePoint to = DoublePoints.difference(center, arm);
-		return Svg.line()
-			.x1(from.x())
-			.y1(from.y())
-			.x2(to.x())
-			.y2(to.y())
-			.stroke("red");
-	}
-	public static DomContent markBlockOrientation(DoublePointMatrix orientations, BlockMap blocks, BooleanMatrix mask) {
-		DomFragment markers = new DomFragment();
-		for (IntPoint at : IntPoints.stream(blocks.primary().blocks()))
-			if (mask == null || mask.get(at))
-				markers.add(markRectOrientation(orientations.get(at), blocks.primary().block(at)));
-		return markers;
-	}
-	public static DomContent markSmoothedOrientation(DoublePointMatrix orientations, BlockMap blocks, BooleanMatrix mask) {
-		return markBlockOrientation(orientations, blocks, mask);
-	}
 	public static LegacyTransparencyPixmap paintBooleanMatrix(BooleanMatrix matrix) {
 		return paintBooleanMatrix(matrix, 0xff_00_00_00, 0xff_ff_ff_ff);
 	}

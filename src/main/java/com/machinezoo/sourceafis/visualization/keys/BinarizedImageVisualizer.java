@@ -8,10 +8,10 @@ import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.images.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 
-public record InnerMaskVisualizer() implements VectorVisualizer {
+public record BinarizedImageVisualizer() implements VectorVisualizer {
 	@Override
-	public InnerMaskKey key() {
-		return new InnerMaskKey();
+	public BinarizedImageKey key() {
+		return new BinarizedImageKey();
 	}
 	@Override
 	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
@@ -22,7 +22,7 @@ public record InnerMaskVisualizer() implements VectorVisualizer {
 		var matrix = archive.deserialize(key()).orElseThrow();
 		return new VectorBuffer(matrix.size())
 			.background(archive)
-			.embed(new MaskLayerImage(matrix))
+			.embed(new BinaryLayerImage(matrix))
 			.render();
 	}
 }

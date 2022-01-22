@@ -32,18 +32,6 @@ public class LegacyTransparencyGallery {
 			.png(pixmap)
 			.bytes();
 	}
-	public byte[] binarized() {
-		return overlayPng(overlayBinarized(expect(new BinarizedImageKey())));
-	}
-	public byte[] filteredBinary() {
-		return paintFilteredBinary(expect(new FilteredBinaryImageKey())).png();
-	}
-	public byte[] filteredBinaryDiff() {
-		return paintFilteredBinaryDiff(expect(new FilteredBinaryImageKey()), expect(new BinarizedImageKey())).png();
-	}
-	public byte[] binarizedSkeleton(SkeletonType skeleton) {
-		return overlayPng(overlayBinarizedSkeleton(expect(new BinarizedSkeletonKey(skeleton))));
-	}
 	public byte[] thinned(SkeletonType skeleton) {
 		return overlayPng(overlayThinned(expect(new ThinnedSkeletonKey(skeleton))));
 	}

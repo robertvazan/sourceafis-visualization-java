@@ -51,15 +51,6 @@ public class LegacyTransparencyMarkers {
 	public static LegacyTransparencyPixmap paintBooleanMatrix(BooleanMatrix matrix) {
 		return paintBooleanMatrix(matrix, 0xff_00_00_00, 0xff_ff_ff_ff);
 	}
-	public static LegacyTransparencyPixmap paintBinarized(BooleanMatrix binarized) {
-		return paintBooleanMatrix(binarized);
-	}
-	public static LegacyTransparencyPixmap overlayBooleanMatrix(BooleanMatrix matrix) {
-		return paintBooleanMatrix(matrix, 0x90_00_ff_ff, 0);
-	}
-	public static LegacyTransparencyPixmap overlayBinarized(BooleanMatrix binarized) {
-		return overlayBooleanMatrix(binarized);
-	}
 	public static LegacyTransparencyPixmap paintBooleanMatrixDiff(BooleanMatrix previous, BooleanMatrix next) {
 		LegacyTransparencyPixmap writable = new LegacyTransparencyPixmap(next.size());
 		for (int y = 0; y < next.height(); ++y)
@@ -72,15 +63,6 @@ public class LegacyTransparencyMarkers {
 					writable.set(x, y, original ? 0xff_ff_00_00 : 0xff_ff_ff_ff);
 			}
 		return writable;
-	}
-	public static LegacyTransparencyPixmap paintFilteredBinary(BooleanMatrix filtered) {
-		return paintBooleanMatrix(filtered);
-	}
-	public static LegacyTransparencyPixmap paintFilteredBinaryDiff(BooleanMatrix filtered, BooleanMatrix binarized) {
-		return paintBooleanMatrixDiff(binarized, filtered);
-	}
-	public static LegacyTransparencyPixmap overlayBinarizedSkeleton(BooleanMatrix binarized) {
-		return overlayBooleanMatrix(binarized);
 	}
 	public static LegacyTransparencyPixmap overlaySkeletonShadow(BooleanMatrix shadow) {
 		return paintBooleanMatrix(shadow, 0xff_ff_00_00, 0);

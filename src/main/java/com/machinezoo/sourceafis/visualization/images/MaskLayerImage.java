@@ -6,11 +6,11 @@ import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 
-public record MaskImage(BooleanMatrix matrix, boolean inverted) implements BinaryModel<MaskPalette> {
-	public MaskImage {
+public record MaskLayerImage(BooleanMatrix matrix, boolean inverted) implements BinaryModel<MaskPalette> {
+	public MaskLayerImage {
 		Objects.requireNonNull(matrix);
 	}
-	public MaskImage(BooleanMatrix matrix) {
+	public MaskLayerImage(BooleanMatrix matrix) {
 		this(matrix, false);
 	}
 	@Override

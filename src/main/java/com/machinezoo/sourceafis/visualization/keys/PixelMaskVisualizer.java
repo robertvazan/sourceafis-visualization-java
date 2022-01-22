@@ -22,7 +22,7 @@ public record PixelMaskVisualizer() implements VectorVisualizer {
 		var matrix = archive.deserialize(key()).orElseThrow();
 		return new VectorBuffer(matrix.size())
 			.background(archive)
-			.embed(new MaskImage(matrix))
+			.embed(new MaskLayerImage(matrix))
 			.render();
 	}
 }

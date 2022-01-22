@@ -21,7 +21,7 @@ public interface BlockMaskVisualizer extends VectorVisualizer {
 		var blocks = archive.deserialize(new BlocksKey()).orElseThrow();
 		return new VectorBuffer(blocks.pixels())
 			.background(archive)
-			.embed(new MaskImage(archive.deserialize(key()).orElseThrow().expand(blocks), inverted()))
+			.embed(new MaskLayerImage(archive.deserialize(key()).orElseThrow().expand(blocks), inverted()))
 			.render();
 	}
 }

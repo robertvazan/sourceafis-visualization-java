@@ -4,9 +4,7 @@ package com.machinezoo.sourceafis.visualization.rendering;
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.formats.*;
-import com.machinezoo.stagean.*;
 
-@DraftApi("Support CSS.")
 public class GrayscaleBuffer implements GrayscaleModel {
 	public final int width;
 	public final int height;

@@ -32,18 +32,6 @@ public class LegacyTransparencyGallery {
 			.png(pixmap)
 			.bytes();
 	}
-	public byte[] absoluteMask() {
-		return overlayPng(overlayAbsoluteContrastMask(expect(new AbsoluteContrastMaskKey()), expect(new BlocksKey())));
-	}
-	public byte[] relativeMask() {
-		return overlayPng(overlayRelativeContrastMask(expect(new RelativeContrastMaskKey()), expect(new BlocksKey())));
-	}
-	public byte[] combinedMask() {
-		return overlayPng(overlayCombinedMask(expect(new CombinedMaskKey()), expect(new BlocksKey())));
-	}
-	public byte[] filteredMask() {
-		return overlayPng(overlayFilteredMask(expect(new FilteredMaskKey()), expect(new BlocksKey())));
-	}
 	public byte[] pixelwiseOrientation() {
 		return paintPixelwiseOrientation(expect(new PixelwiseOrientationKey())).jpeg();
 	}
@@ -61,12 +49,6 @@ public class LegacyTransparencyGallery {
 	}
 	public byte[] filteredBinaryDiff() {
 		return paintFilteredBinaryDiff(expect(new FilteredBinaryImageKey()), expect(new BinarizedImageKey())).png();
-	}
-	public byte[] pixelMask() {
-		return overlayPng(overlayPixelMask(expect(new PixelMaskKey())));
-	}
-	public byte[] innerMask() {
-		return overlayPng(overlayInnerMask(expect(new InnerMaskKey())));
 	}
 	public byte[] binarizedSkeleton(SkeletonType skeleton) {
 		return overlayPng(overlayBinarizedSkeleton(expect(new BinarizedSkeletonKey(skeleton))));

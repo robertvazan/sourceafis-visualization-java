@@ -3,6 +3,6 @@ package com.machinezoo.sourceafis.visualization.rendering;
 
 import com.machinezoo.sourceafis.visualization.formats.*;
 
-public interface GrayscaleModel extends RasterModel {
-	GrayscaleImage render();
+public interface BinaryModel<T extends Enum<T> & PaletteSymbol> extends PaletteModel<T> {
+	BinaryImage<T> render();
 }

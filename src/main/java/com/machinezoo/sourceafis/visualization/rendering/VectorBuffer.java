@@ -5,6 +5,7 @@ import java.util.*;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.types.*;
+import com.machinezoo.sourceafis.visualization.*;
 import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.layers.*;
 import com.machinezoo.stagean.*;
@@ -42,6 +43,12 @@ public class VectorBuffer implements VectorModel {
 	}
 	public VectorBuffer background(TransparencyArchive archive) {
 		return background(null, archive);
+	}
+	public VectorBuffer embed(TransparencyImage image) {
+		return add(new EmbeddedImageLayer(image));
+	}
+	public VectorBuffer embed(ImageModel model) {
+		return embed(model.render());
 	}
 	@Override
 	public VectorImage render() {

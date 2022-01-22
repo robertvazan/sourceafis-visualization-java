@@ -48,24 +48,6 @@ public class LegacyTransparencyMarkers {
 			.height(pixmap.height)
 			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
 	}
-	public static LegacyTransparencyPixmap overlayMask(BooleanMatrix mask) {
-		return paintBooleanMatrix(mask, 0x20_ff_ff_00, 0x20_00_ff_ff);
-	}
-	public static LegacyTransparencyPixmap overlayMask(BooleanMatrix mask, BlockMap blocks) {
-		return overlayMask(mask.expand(blocks));
-	}
-	public static LegacyTransparencyPixmap overlayAbsoluteContrastMask(BooleanMatrix mask, BlockMap blocks) {
-		return overlayMask(mask, blocks);
-	}
-	public static LegacyTransparencyPixmap overlayRelativeContrastMask(BooleanMatrix mask, BlockMap blocks) {
-		return overlayMask(mask, blocks);
-	}
-	public static LegacyTransparencyPixmap overlayCombinedMask(BooleanMatrix mask, BlockMap blocks) {
-		return overlayMask(mask, blocks);
-	}
-	public static LegacyTransparencyPixmap overlayFilteredMask(BooleanMatrix mask, BlockMap blocks) {
-		return overlayMask(mask, blocks);
-	}
 	private static LegacyTransparencyPixmap paintPixelwiseOrientation(DoublePointMatrix orientations, int opacity) {
 		opacity = opacity << 24;
 		LegacyTransparencyPixmap pixmap = new LegacyTransparencyPixmap(orientations.size());
@@ -143,12 +125,6 @@ public class LegacyTransparencyMarkers {
 	}
 	public static LegacyTransparencyPixmap paintFilteredBinaryDiff(BooleanMatrix filtered, BooleanMatrix binarized) {
 		return paintBooleanMatrixDiff(binarized, filtered);
-	}
-	public static LegacyTransparencyPixmap overlayPixelMask(BooleanMatrix mask) {
-		return overlayMask(mask);
-	}
-	public static LegacyTransparencyPixmap overlayInnerMask(BooleanMatrix mask) {
-		return overlayMask(mask);
 	}
 	public static LegacyTransparencyPixmap overlayBinarizedSkeleton(BooleanMatrix binarized) {
 		return overlayBooleanMatrix(binarized);

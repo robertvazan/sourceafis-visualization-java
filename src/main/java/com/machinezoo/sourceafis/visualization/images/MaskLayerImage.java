@@ -6,7 +6,7 @@ import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 
-public record MaskLayerImage(BooleanMatrix matrix, boolean inverted) implements BinaryModel<MaskPalette> {
+public record MaskLayerImage(BooleanMatrix matrix, boolean inverted) implements BinaryModel<MaskLayerPalette> {
 	public MaskLayerImage {
 		Objects.requireNonNull(matrix);
 	}
@@ -14,8 +14,8 @@ public record MaskLayerImage(BooleanMatrix matrix, boolean inverted) implements 
 		this(matrix, false);
 	}
 	@Override
-	public BinaryImage<MaskPalette> render() {
-		var buffer = new BinaryBuffer<>(MaskPalette.class, matrix);
+	public BinaryImage<MaskLayerPalette> render() {
+		var buffer = new BinaryBuffer<>(MaskLayerPalette.class, matrix);
 		/*
 		 * Mask pixels are usually 1 for interior and 0 for exterior. MaskPalette is the other way round.
 		 */

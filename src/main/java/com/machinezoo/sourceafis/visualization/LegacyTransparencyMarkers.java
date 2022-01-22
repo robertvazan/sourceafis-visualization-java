@@ -67,9 +67,6 @@ public class LegacyTransparencyMarkers {
 	public static LegacyTransparencyPixmap overlaySkeletonShadow(BooleanMatrix shadow) {
 		return paintBooleanMatrix(shadow, 0xff_ff_00_00, 0);
 	}
-	public static LegacyTransparencyPixmap overlayThinned(BooleanMatrix thinned) {
-		return overlaySkeletonShadow(thinned);
-	}
 	public static LegacyTransparencyPixmap overlaySkeletonShadow(SkeletonGraph skeleton) {
 		return overlaySkeletonShadow(SkeletonGraphs.shadow(skeleton));
 	}

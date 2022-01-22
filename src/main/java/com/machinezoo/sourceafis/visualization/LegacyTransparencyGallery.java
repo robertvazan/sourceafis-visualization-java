@@ -26,15 +26,6 @@ public class LegacyTransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	private byte[] overlayPng(LegacyTransparencyPixmap pixmap) {
-		return new LegacyTransparencyImage(pixmap.size())
-			.image(nullable(new InputImageKey()))
-			.png(pixmap)
-			.bytes();
-	}
-	public byte[] thinned(SkeletonType skeleton) {
-		return overlayPng(overlayThinned(expect(new ThinnedSkeletonKey(skeleton))));
-	}
 	public byte[] traced(SkeletonType skeleton) {
 		return overlay(markTraced(expect(new TracedSkeletonKey(skeleton))));
 	}

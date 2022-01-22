@@ -7,6 +7,7 @@ import com.machinezoo.stagean.*;
 module com.machinezoo.sourceafis.visualization {
 	exports com.machinezoo.sourceafis.visualization;
 	exports com.machinezoo.sourceafis.visualization.formats;
+	exports com.machinezoo.sourceafis.visualization.keys;
 	requires java.desktop;
 	requires com.machinezoo.stagean;
 	requires com.machinezoo.noexception;

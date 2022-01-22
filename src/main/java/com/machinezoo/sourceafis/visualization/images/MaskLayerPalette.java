@@ -3,7 +3,7 @@ package com.machinezoo.sourceafis.visualization.images;
 
 import com.machinezoo.sourceafis.visualization.formats.*;
 
-public enum MaskPalette implements PaletteSymbol {
+public enum MaskLayerPalette implements PaletteSymbol {
 	INTERIOR,
 	EXTERIOR;
 	@Override

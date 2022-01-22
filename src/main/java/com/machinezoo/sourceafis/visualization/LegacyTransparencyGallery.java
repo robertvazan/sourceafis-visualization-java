@@ -26,30 +26,6 @@ public class LegacyTransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	public byte[] skeletonMinutiae() {
-		return overlay(markSkeletonMinutiae(expect(new SkeletonMinutiaeKey())));
-	}
-	public byte[] innerMinutiae() {
-		return overlay(markInnerMinutiae(expect(new InnerMinutiaeKey())));
-	}
-	public byte[] innerMinutiaeDiff() {
-		return overlay(markInnerMinutiaeDiff(expect(new InnerMinutiaeKey()), expect(new SkeletonMinutiaeKey())));
-	}
-	public byte[] clouds() {
-		return overlay(markClouds(expect(new RemovedMinutiaCloudsKey())));
-	}
-	public byte[] cloudsDiff() {
-		return overlay(markCloudsDiff(expect(new RemovedMinutiaCloudsKey()), expect(new InnerMinutiaeKey())));
-	}
-	public byte[] topMinutiae() {
-		return overlay(markTopMinutiae(expect(new TopMinutiaeKey())));
-	}
-	public byte[] topMinutiaeDiff() {
-		return overlay(markTopMinutiaeDiff(expect(new TopMinutiaeKey()), expect(new RemovedMinutiaCloudsKey())));
-	}
-	public byte[] shuffled() {
-		return overlay(markShuffled(expect(new ShuffledMinutiaeKey())));
-	}
 	public byte[] edges() {
 		return overlay(markEdges(expect(new EdgeTableKey()), expect(new OutputTemplateKey()).unpack()));
 	}

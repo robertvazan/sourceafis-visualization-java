@@ -39,68 +39,6 @@ public class LegacyTransparencyMarkers {
 			.height(pixmap.height)
 			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
 	}
-	private static DomContent markMinutia(MinutiaPoint minutia, String color) {
-		DoublePoint at = MinutiaPoints.center(minutia);
-		return Svg.g()
-			.add(Svg.circle()
-				.cx(0)
-				.cy(0)
-				.r(3.5)
-				.fill("none")
-				.stroke(color))
-			.add(Svg.line()
-				.x1(3.5)
-				.y1(0)
-				.x2(10)
-				.y2(0)
-				.stroke(color))
-			.transform("translate(" + at.x() + " " + at.y() + ") rotate(" + DoubleAngles.degrees(minutia.direction()) + ")");
-	}
-	public static DomContent markMinutia(MinutiaPoint minutia) {
-		return markMinutia(minutia, minutia.type() == MinutiaType.ENDING ? "blue" : "green");
-	}
-	public static DomContent markTemplate(Template template) {
-		DomFragment markers = new DomFragment();
-		for (var minutia : template.minutiae())
-			markers.add(markMinutia(minutia));
-		return markers;
-	}
-	public static DomContent markSkeletonMinutiae(Template minutiae) {
-		return markTemplate(minutiae);
-	}
-	public static DomContent markRemovedMinutia(MinutiaPoint minutia) {
-		return markMinutia(minutia, "red");
-	}
-	public static DomContent markTemplateDiff(Template previous, Template next) {
-		DomFragment markers = new DomFragment();
-		Set<IntPoint> positions = Arrays.stream(next.minutiae()).map(m -> m.position()).collect(toSet());
-		for (var minutia : previous.minutiae())
-			if (!positions.contains(minutia.position()))
-				markers.add(markRemovedMinutia(minutia));
-		markers.add(markTemplate(next));
-		return markers;
-	}
-	public static DomContent markInnerMinutiae(Template minutiae) {
-		return markTemplate(minutiae);
-	}
-	public static DomContent markInnerMinutiaeDiff(Template inner, Template skeleton) {
-		return markTemplateDiff(skeleton, inner);
-	}
-	public static DomContent markClouds(Template minutiae) {
-		return markTemplate(minutiae);
-	}
-	public static DomContent markCloudsDiff(Template removedClouds, Template inner) {
-		return markTemplateDiff(inner, removedClouds);
-	}
-	public static DomContent markTopMinutiae(Template minutiae) {
-		return markTemplate(minutiae);
-	}
-	public static DomContent markTopMinutiaeDiff(Template top, Template removedClouds) {
-		return markTemplateDiff(removedClouds, top);
-	}
-	public static DomContent markShuffled(Template shuffled) {
-		return markTemplate(shuffled);
-	}
 	private static record EdgeLine(int reference, NeighborEdge edge) {
 	}
 	public static DomContent markMinutiaPosition(MinutiaPoint minutia) {

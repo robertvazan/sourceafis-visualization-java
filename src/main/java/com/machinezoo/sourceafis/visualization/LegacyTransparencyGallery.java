@@ -26,41 +26,6 @@ public class LegacyTransparencyGallery {
 			.add(content)
 			.bytes();
 	}
-	public byte[] dots(SkeletonType skeleton) {
-		return overlay(markDots(expect(new RemovedDotsKey(skeleton))));
-	}
-	private byte[] solo(DomContent content) {
-		return new LegacyTransparencyImage(expect(new BlocksKey()))
-			.add(content)
-			.bytes();
-	}
-	public byte[] dotsDiff(SkeletonType skeleton) {
-		return solo(paintDotsDiff(expect(new RemovedDotsKey(skeleton)), expect(new TracedSkeletonKey(skeleton))));
-	}
-	public byte[] pores(SkeletonType skeleton) {
-		return overlay(markPores(expect(new RemovedPoresKey(skeleton))));
-	}
-	public byte[] poresDiff(SkeletonType skeleton) {
-		return solo(paintPoresDiff(expect(new RemovedPoresKey(skeleton)), expect(new RemovedDotsKey(skeleton))));
-	}
-	public byte[] gaps(SkeletonType skeleton) {
-		return overlay(markGaps(expect(new RemovedGapsKey(skeleton))));
-	}
-	public byte[] gapsDiff(SkeletonType skeleton) {
-		return solo(paintGapsDiff(expect(new RemovedGapsKey(skeleton)), expect(new RemovedPoresKey(skeleton))));
-	}
-	public byte[] tails(SkeletonType skeleton) {
-		return overlay(markTails(expect(new RemovedTailsKey(skeleton))));
-	}
-	public byte[] tailsDiff(SkeletonType skeleton) {
-		return solo(paintTailsDiff(expect(new RemovedTailsKey(skeleton)), expect(new RemovedGapsKey(skeleton))));
-	}
-	public byte[] fragments(SkeletonType skeleton) {
-		return overlay(markFragments(expect(new RemovedFragmentsKey(skeleton))));
-	}
-	public byte[] fragmentsDiff(SkeletonType skeleton) {
-		return solo(paintFragmentsDiff(expect(new RemovedFragmentsKey(skeleton)), expect(new RemovedTailsKey(skeleton))));
-	}
 	public byte[] skeletonMinutiae() {
 		return overlay(markSkeletonMinutiae(expect(new SkeletonMinutiaeKey())));
 	}

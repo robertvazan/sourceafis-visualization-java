@@ -3,6 +3,7 @@ package com.machinezoo.sourceafis.visualization;
 
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.keys.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
@@ -37,6 +38,21 @@ public interface TransparencyVisualizer {
 	}
 	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
 		return StreamEx.of(dependencies())
+			.filter(k -> k.operations().contains(operation))
+			.toSet();
+	}
+	/*
+	 * Like dependencies, but only required keys are listed.
+	 * This may still contain keys that are applicable only to some operations.
+	 * Key are really required only after filtering by operation.
+	 */
+	default Set<TransparencyKey<?>> required() {
+		return StreamEx.of(dependencies())
+			.filter(k -> !(k instanceof SideImageKey) && !(k instanceof SideGrayscaleKey))
+			.toSet();
+	}
+	default Set<TransparencyKey<?>> required(TransparentOperation operation) {
+		return StreamEx.of(required())
 			.filter(k -> k.operations().contains(operation))
 			.toSet();
 	}

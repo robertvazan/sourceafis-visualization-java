@@ -58,9 +58,14 @@ public class TestArchives {
 		});
 	}
 	public static TransparencyArchive dependencies(TransparencyVisualizer visualizer, TransparentOperation operation) {
-		var dependencies = visualizer.dependencies(operation);
 		return new TransparencyBuffer()
-			.accept(TransparencyFilter.only(k -> dependencies.contains(k) || k instanceof ContextKey))
+			.accept(TransparencyFilter.only(visualizer.dependencies(operation)))
+			.append(full(operation))
+			.toArchive();
+	}
+	public static TransparencyArchive required(TransparencyVisualizer visualizer, TransparentOperation operation) {
+		return new TransparencyBuffer()
+			.accept(TransparencyFilter.only(visualizer.required(operation)))
 			.append(full(operation))
 			.toArchive();
 	}

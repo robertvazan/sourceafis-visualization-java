@@ -38,4 +38,26 @@ public class TransparencyVisualizerTest {
 			for (var operation : visualizer.key().operations())
 				visualizer.visualize(TestArchives.dependencies(visualizer, operation)).materialize();
 	}
+	@Test
+	public void worksWithoutOptionalDependencies() {
+		for (var visualizer : TransparencyVisualizer.all())
+			for (var operation : visualizer.key().operations())
+				visualizer.visualize(TestArchives.required(visualizer, operation)).materialize();
+	}
+	@Test
+	public void failsWithoutRequiredDependencies() {
+		for (var visualizer : TransparencyVisualizer.all()) {
+			for (var operation : visualizer.key().operations()) {
+				for (var omitted : visualizer.required(operation)) {
+					var dependencies = new HashSet<>(visualizer.dependencies(operation));
+					dependencies.remove(omitted);
+					var archive = new TransparencyBuffer()
+						.accept(TransparencyFilter.only(dependencies))
+						.append(TestArchives.full(operation))
+						.toArchive();
+					assertThrows(NoSuchElementException.class, () -> visualizer.visualize(archive), omitted.toString());
+				}
+			}
+		}
+	}
 }

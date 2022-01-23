@@ -85,7 +85,8 @@ public interface TransparencyVisualizer {
 			new EdgeTableVisualizer(),
 			new EdgeHashVisualizer(),
 			new RootsVisualizer(),
-			new PairingVisualizer()));
+			new PairingVisualizer(),
+			new BestPairingVisualizer()));
 		return Collections.unmodifiableList(all);
 	}
 }

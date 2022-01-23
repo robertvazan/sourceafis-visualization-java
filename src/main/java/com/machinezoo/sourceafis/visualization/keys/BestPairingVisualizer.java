@@ -3,9 +3,9 @@ package com.machinezoo.sourceafis.visualization.keys;
 
 import com.machinezoo.sourceafis.transparency.keys.*;
 
-public record PairingVisualizer() implements PairingGraphVisualizer {
+public record BestPairingVisualizer() implements PairingGraphVisualizer {
 	@Override
-	public PairingKey key() {
-		return new PairingKey();
+	public BestPairingKey key() {
+		return new BestPairingKey();
 	}
 }

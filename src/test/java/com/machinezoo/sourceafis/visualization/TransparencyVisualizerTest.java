@@ -20,12 +20,7 @@ public class TransparencyVisualizerTest {
 		VersionKey.class,
 		BestMatchKey.class,
 		ScoreKey.class,
-		BestScoreKey.class,
-		/*
-		 * Temporary.
-		 */
-		PairingKey.class,
-		BestPairingKey.class);
+		BestScoreKey.class);
 	@Test
 	public void archiveCoverage() {
 		for (var key : TransparencyKey.all())

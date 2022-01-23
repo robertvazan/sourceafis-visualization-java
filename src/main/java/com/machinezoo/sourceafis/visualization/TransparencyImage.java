@@ -3,7 +3,9 @@ package com.machinezoo.sourceafis.visualization;
 
 import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.stagean.*;
 
+@DraftApi("This could be in a separate library.")
 public interface TransparencyImage {
 	int width();
 	int height();

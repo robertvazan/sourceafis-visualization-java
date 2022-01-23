@@ -5,4 +5,7 @@
  * Publishing reusable visualizers would add a lot of complexity with little benefit.
  * Applications that wish to visualize types can always populate transparency archive with required data and use key visualizer.
  */
+@DraftApi("If formats package is moved to separate library, this should be probably in the main package.")
 package com.machinezoo.sourceafis.visualization.keys;
+
+import com.machinezoo.stagean.*;

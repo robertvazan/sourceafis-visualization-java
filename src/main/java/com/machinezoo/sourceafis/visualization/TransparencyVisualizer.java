@@ -83,6 +83,7 @@ public interface TransparencyVisualizer {
 			new TopMinutiaeVisualizer(),
 			new ShuffledMinutiaeVisualizer(),
 			new EdgeTableVisualizer(),
+			new OutputTemplateVisualizer(),
 			new EdgeHashVisualizer(),
 			new RootsVisualizer(),
 			new PairingVisualizer(),

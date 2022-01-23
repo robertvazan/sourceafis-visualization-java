@@ -19,13 +19,6 @@ public class LegacyTransparencyGallery {
 	private <T> T nullable(TransparencyKey<T> key) {
 		return archive.deserialize(key).orElse(null);
 	}
-	public byte[] hash() {
-		var template = expect(new InputTemplateKey()).unpack();
-		return new LegacyTransparencyImage(template.size())
-			.image(nullable(new InputImageKey()))
-			.add(markHash(expect(new EdgeHashKey()), template))
-			.bytes();
-	}
 	public byte[] roots() {
 		var probe = expect(new ProbeTemplateKey()).unpack();
 		var candidate = expect(new CandidateTemplateKey()).unpack();

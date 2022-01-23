@@ -1,14 +1,10 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 package com.machinezoo.sourceafis.visualization;
 
-import static java.util.stream.Collectors.*;
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.types.*;
-import one.util.streamex.*;
 
 public class LegacyTransparencyMarkers {
 	/*
@@ -47,31 +43,6 @@ public class LegacyTransparencyMarkers {
 			.r(2.5)
 			.fill("red");
 	}
-	private static String colorEdgeShape(double length, double angle) {
-		double stretch = Math.min(1, Math.log1p(length) / Math.log1p(300));
-		int color = Color.HSBtoRGB((float)(angle / DoubleAnglesEx.PI2), 1.0f, (float)(1 - 0.5 * stretch));
-		return String.format("#%06x", color & 0xffffff);
-	}
-	private static DomContent markEdgeShape(EdgeShape shape, MinutiaPoint reference, MinutiaPoint neighbor, double width) {
-		DoublePoint referencePos = MinutiaPoints.center(reference);
-		DoublePoint neighborPos = MinutiaPoints.center(neighbor);
-		DoublePoint middle = DoublePoints.sum(DoublePoints.multiply(0.5, DoublePoints.difference(neighborPos, referencePos)), referencePos);
-		return new DomFragment()
-			.add(Svg.line()
-				.x1(referencePos.x())
-				.y1(referencePos.y())
-				.x2(middle.x())
-				.y2(middle.y())
-				.stroke(colorEdgeShape(shape.length(), shape.referenceAngle()))
-				.strokeWidth(width))
-			.add(Svg.line()
-				.x1(neighborPos.x())
-				.y1(neighborPos.y())
-				.x2(middle.x())
-				.y2(middle.y())
-				.stroke(colorEdgeShape(shape.length(), shape.neighborAngle()))
-				.strokeWidth(width));
-	}
 	private static DomElement markPairingEdge(EdgePair edge, MatchSide side, Template template) {
 		DoublePoint reference = MinutiaPoints.center(template.minutiae()[edge.from().side(side)]);
 		DoublePoint neighbor = MinutiaPoints.center(template.minutiae()[edge.to().side(side)]);
@@ -89,22 +60,6 @@ public class LegacyTransparencyMarkers {
 	public static DomContent markPairingSupportEdge(EdgePair edge, MatchSide side, Template template) {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
-	}
-	public static DomContent markIndexedEdge(IndexedEdge edge, Template template) {
-		return markEdgeShape(edge, template.minutiae()[edge.reference()], template.minutiae()[edge.neighbor()], 0.6);
-	}
-	public static DomContent markHash(EdgeHashEntry[] hash, Template template) {
-		DomFragment markers = new DomFragment();
-		List<IndexedEdge> edges = StreamEx.of(hash)
-			.flatArray(e -> e.edges())
-			.sorted(Comparator.comparing(e -> -e.length()))
-			.collect(toList());
-		for (IndexedEdge edge : edges)
-			if (edge.reference() < edge.neighbor())
-				markers.add(markIndexedEdge(edge, template));
-		for (var minutia : template.minutiae())
-			markers.add(markMinutiaPosition(minutia));
-		return markers;
 	}
 	public static DomContent markMinutiaPositions(Template template) {
 		DomFragment markers = new DomFragment();

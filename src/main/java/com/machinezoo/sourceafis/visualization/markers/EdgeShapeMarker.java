@@ -18,7 +18,7 @@ public record EdgeShapeMarker(EdgeShape shape, MinutiaPoint reference, MinutiaPo
 	public EdgeShapeMarker(IndexedEdge edge, Template template, double thickness) {
 		this(edge, template.minutiae()[edge.reference()], template.minutiae()[edge.neighbor()], thickness);
 	}
-	@DraftCode("")
+	@DraftCode("Drop dependency on java.desktop Color class.")
 	private static String color(double length, double angle) {
 		double stretch = Math.min(1, Math.log1p(length) / Math.log1p(300));
 		int color = Color.HSBtoRGB((float)(angle / DoubleAnglesEx.PI2), 1.0f, (float)(1 - 0.5 * stretch));

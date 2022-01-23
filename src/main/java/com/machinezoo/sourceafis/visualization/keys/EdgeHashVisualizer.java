@@ -21,7 +21,7 @@ public record EdgeHashVisualizer() implements VectorVisualizer {
 	}
 	@Override
 	public VectorImage visualize(TransparencyArchive archive) {
-		var template = archive.get(new OutputTemplateKey()).or(() -> archive.get(new InputTemplateKey())).orElseThrow().deserialize().unpack();
+		var template = archive.deserialize(new InputTemplateKey()).orElseThrow().unpack();
 		var buffer = new VectorBuffer(template.size())
 			.background(archive);
 		var hash = archive.deserialize(key()).orElseThrow();

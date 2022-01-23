@@ -61,27 +61,6 @@ public class LegacyTransparencyMarkers {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
 	}
-	public static DomContent markMinutiaPositions(Template template) {
-		DomFragment markers = new DomFragment();
-		for (var minutia : template.minutiae())
-			markers.add(markMinutiaPosition(minutia));
-		return markers;
-	}
-	public static DomContent markRoots(MinutiaPair[] roots, Template probe, Template candidate) {
-		LegacyTransparencySplit split = new LegacyTransparencySplit(probe.size(), candidate.size());
-		for (MinutiaPair pair : roots) {
-			DoublePoint probePos = MinutiaPoints.center(probe.minutiae()[pair.probe()]);
-			DoublePoint candidatePos = MinutiaPoints.center(candidate.minutiae()[pair.candidate()]);
-			split.add(Svg.line()
-				.x1(split.leftX(probePos.x()))
-				.y1(split.leftY(probePos.y()))
-				.x2(split.rightX(candidatePos.x()))
-				.y2(split.rightY(candidatePos.y()))
-				.stroke("green")
-				.strokeWidth(0.4));
-		}
-		return split.content();
-	}
 	public static DomContent markRoot(MinutiaPoint minutia) {
 		DoublePoint at = MinutiaPoints.center(minutia);
 		return Svg.circle()

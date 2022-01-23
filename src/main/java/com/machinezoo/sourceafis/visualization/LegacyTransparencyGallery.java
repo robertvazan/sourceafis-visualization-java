@@ -19,19 +19,6 @@ public class LegacyTransparencyGallery {
 	private <T> T nullable(TransparencyKey<T> key) {
 		return archive.deserialize(key).orElse(null);
 	}
-	public byte[] roots() {
-		var probe = expect(new ProbeTemplateKey()).unpack();
-		var candidate = expect(new CandidateTemplateKey()).unpack();
-		LegacyTransparencyImage left = new LegacyTransparencyImage(probe.size())
-			.image(nullable(new ProbeImageKey()));
-		LegacyTransparencyImage right = new LegacyTransparencyImage(candidate.size())
-			.image(nullable(new CandidateImageKey()));
-		return new LegacyTransparencySplit(left, right)
-			.add(markRoots(expect(new RootsKey()), probe, candidate))
-			.left(markMinutiaPositions(probe))
-			.right(markMinutiaPositions(candidate))
-			.bytes();
-	}
 	public byte[] pairing(int offset, MatchSide side) {
 		Template template;
 		byte[] image;

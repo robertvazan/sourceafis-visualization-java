@@ -29,6 +29,9 @@ public record BackgroundImageLayer(int width, int height, byte[] image) implemen
 			.or(() -> archive.deserialize(SideGrayscaleKey.of(side))
 				.map(g -> new BackgroundImageLayer(width, height, new GrayscaleFrame(g.width(), g.height(), g.array()).jpeg())));
 	}
+	public static Optional<BackgroundImageLayer> deserialize(IntPoint size, TransparencyArchive archive, MatchSide side) {
+		return deserialize(size.x(), size.y(), archive, side);
+	}
 	@Override
 	public ImageLayer render() {
 		return new LayerFrame(Svg.image()

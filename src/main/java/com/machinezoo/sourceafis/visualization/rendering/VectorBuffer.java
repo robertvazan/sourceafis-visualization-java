@@ -38,11 +38,8 @@ public class VectorBuffer implements VectorModel {
 	public VectorBuffer add(LayerModel model) {
 		return add(model != null ? model.render() : null);
 	}
-	public VectorBuffer background(MatchSide side, TransparencyArchive archive) {
-		return add(BackgroundImageLayer.deserialize(width, height, archive, side).orElse(null));
-	}
 	public VectorBuffer background(TransparencyArchive archive) {
-		return background(null, archive);
+		return add(BackgroundImageLayer.deserialize(width, height, archive, null).orElse(null));
 	}
 	public VectorBuffer embed(TransparencyImage image) {
 		return add(new EmbeddedImageLayer(image));

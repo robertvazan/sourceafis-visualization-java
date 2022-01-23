@@ -62,8 +62,7 @@ public interface TransparencyVisualizer {
 		all.addAll(List.of(
 			new DecodedImageVisualizer(),
 			new ScaledImageVisualizer(),
-			new PrimaryBlocksVisualizer(),
-			new SecondaryBlocksVisualizer(),
+			new BlocksVisualizer(),
 			new HistogramVisualizer(),
 			new SmoothedHistogramVisualizer(),
 			new ContrastVisualizer(),

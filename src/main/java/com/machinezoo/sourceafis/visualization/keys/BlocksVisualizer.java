@@ -8,7 +8,7 @@ import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.layers.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 
-public record SecondaryBlocksVisualizer() implements VectorVisualizer {
+public record BlocksVisualizer() implements VectorVisualizer {
 	@Override
 	public BlocksKey key() {
 		return new BlocksKey();
@@ -23,7 +23,8 @@ public record SecondaryBlocksVisualizer() implements VectorVisualizer {
 		return new VectorBuffer(blocks.pixels())
 			.padding(1)
 			.background(archive)
-			.add(new DoubleBlockGridLayer(blocks.pixels(), blocks.secondary(), blocks.primary(), "#080"))
+			.add(new BlockGridLayer(blocks.pixels(), blocks.secondary(), "#888", 0.1))
+			.add(new BlockGridLayer(blocks.pixels(), blocks.primary(), "#00c", 0.25))
 			.render();
 	}
 }

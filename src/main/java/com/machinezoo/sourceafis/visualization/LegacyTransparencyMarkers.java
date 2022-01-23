@@ -3,8 +3,6 @@ package com.machinezoo.sourceafis.visualization;
 
 import java.util.*;
 import com.machinezoo.pushmode.dom.*;
-import com.machinezoo.sourceafis.transparency.types.*;
-import com.machinezoo.sourceafis.visualization.types.*;
 
 public class LegacyTransparencyMarkers {
 	/*
@@ -34,51 +32,5 @@ public class LegacyTransparencyMarkers {
 			.width(pixmap.width)
 			.height(pixmap.height)
 			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
-	}
-	public static DomContent markMinutiaPosition(MinutiaPoint minutia) {
-		DoublePoint at = MinutiaPoints.center(minutia);
-		return Svg.circle()
-			.cx(at.x())
-			.cy(at.y())
-			.r(2.5)
-			.fill("red");
-	}
-	private static DomElement markPairingEdge(EdgePair edge, MatchSide side, Template template) {
-		DoublePoint reference = MinutiaPoints.center(template.minutiae()[edge.from().side(side)]);
-		DoublePoint neighbor = MinutiaPoints.center(template.minutiae()[edge.to().side(side)]);
-		return Svg.line()
-			.x1(reference.x())
-			.y1(reference.y())
-			.x2(neighbor.x())
-			.y2(neighbor.y());
-	}
-	public static DomContent markPairingTreeEdge(EdgePair edge, MatchSide side, Template template) {
-		return markPairingEdge(edge, side, template)
-			.strokeWidth(2)
-			.stroke("green");
-	}
-	public static DomContent markPairingSupportEdge(EdgePair edge, MatchSide side, Template template) {
-		return markPairingEdge(edge, side, template)
-			.stroke("yellow");
-	}
-	public static DomContent markRoot(MinutiaPoint minutia) {
-		DoublePoint at = MinutiaPoints.center(minutia);
-		return Svg.circle()
-			.cx(at.x())
-			.cy(at.y())
-			.r(3.5)
-			.fill("blue");
-	}
-	public static DomContent markPairing(PairingGraph pairing, MatchSide side, Template template) {
-		DomFragment markers = new DomFragment();
-		for (var edge : pairing.support())
-			markers.add(markPairingSupportEdge(edge, side, template));
-		for (var edge : pairing.tree())
-			markers.add(markPairingTreeEdge(edge, side, template));
-		for (var minutia : template.minutiae())
-			markers.add(markMinutiaPosition(minutia));
-		var root = template.minutiae()[pairing.root().side(side)];
-		markers.add(markRoot(root));
-		return markers;
 	}
 }

@@ -3,6 +3,8 @@ package com.machinezoo.sourceafis.visualization;
 
 import java.util.*;
 import com.machinezoo.sourceafis.transparency.*;
+import com.machinezoo.sourceafis.transparency.types.*;
+import com.machinezoo.sourceafis.visualization.keys.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
 
 public interface TransparencyVisualizer {
@@ -26,4 +28,51 @@ public interface TransparencyVisualizer {
 		return Set.of(key());
 	}
 	TransparencyImage visualize(TransparencyArchive archive);
+	static List<TransparencyVisualizer> all() {
+		var all = new ArrayList<TransparencyVisualizer>();
+		all.addAll(List.of(
+			new DecodedImageVisualizer(),
+			new ScaledImageVisualizer(),
+			new PrimaryBlocksVisualizer(),
+			new SecondaryBlocksVisualizer(),
+			new HistogramVisualizer(),
+			new SmoothedHistogramVisualizer(),
+			new ContrastVisualizer(),
+			new AbsoluteContrastMaskVisualizer(),
+			new RelativeContrastMaskVisualizer(),
+			new CombinedMaskVisualizer(),
+			new FilteredMaskVisualizer(),
+			new EqualizedImageVisualizer(),
+			new PixelwiseOrientationVisualizer(),
+			new BlockOrientationVisualizer(),
+			new SmoothedOrientationVisualizer(),
+			new ParallelSmoothingVisualizer(),
+			new OrthogonalSmoothingVisualizer(),
+			new BinarizedImageVisualizer(),
+			new FilteredBinaryImageVisualizer(),
+			new PixelMaskVisualizer(),
+			new InnerMaskVisualizer()));
+		for (var skeleton : SkeletonType.values()) {
+			all.addAll(List.of(
+				new BinarizedSkeletonVisualizer(skeleton),
+				new ThinnedSkeletonVisualizer(skeleton),
+				new TracedSkeletonVisualizer(skeleton),
+				new RemovedDotsVisualizer(skeleton),
+				new RemovedPoresVisualizer(skeleton),
+				new RemovedGapsVisualizer(skeleton),
+				new RemovedTailsVisualizer(skeleton),
+				new RemovedFragmentsVisualizer(skeleton)));
+		}
+		all.addAll(List.of(
+			new SkeletonMinutiaeVisualizer(),
+			new InnerMinutiaeVisualizer(),
+			new RemovedMinutiaCloudsVisualizer(),
+			new TopMinutiaeVisualizer(),
+			new ShuffledMinutiaeVisualizer(),
+			new EdgeTableVisualizer(),
+			new EdgeHashVisualizer(),
+			new RootsVisualizer(),
+			new PairingVisualizer()));
+		return Collections.unmodifiableList(all);
+	}
 }

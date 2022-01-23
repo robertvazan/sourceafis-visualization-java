@@ -3,7 +3,6 @@ package com.machinezoo.sourceafis.visualization;
 
 import static com.machinezoo.sourceafis.visualization.LegacyTransparencyMarkers.*;
 import java.util.*;
-import com.machinezoo.pushmode.dom.*;
 import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
@@ -19,15 +18,6 @@ public class LegacyTransparencyGallery {
 	}
 	private <T> T nullable(TransparencyKey<T> key) {
 		return archive.deserialize(key).orElse(null);
-	}
-	private byte[] overlay(DomContent content) {
-		return new LegacyTransparencyImage(expect(new BlocksKey()))
-			.image(nullable(new InputImageKey()))
-			.add(content)
-			.bytes();
-	}
-	public byte[] edges() {
-		return overlay(markEdges(expect(new EdgeTableKey()), expect(new OutputTemplateKey()).unpack()));
 	}
 	public byte[] hash() {
 		var template = expect(new InputTemplateKey()).unpack();

@@ -7,6 +7,7 @@ import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 import com.machinezoo.sourceafis.visualization.types.*;
+import com.machinezoo.stagean.*;
 
 public record PixelwiseOrientationVisualizer() implements RasterVisualizer {
 	@Override
@@ -14,6 +15,7 @@ public record PixelwiseOrientationVisualizer() implements RasterVisualizer {
 		return new PixelwiseOrientationKey();
 	}
 	@Override
+	@DraftCode("Drop dependency on java.desktop Color class.")
 	public RasterImage visualize(TransparencyArchive archive) {
 		var matrix = archive.deserialize(key()).orElseThrow();
 		var buffer = new RasterBuffer(matrix.size());

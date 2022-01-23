@@ -39,8 +39,6 @@ public class LegacyTransparencyMarkers {
 			.height(pixmap.height)
 			.href("data:image/jpeg;base64," + Base64.getEncoder().encodeToString(pixmap.jpeg()));
 	}
-	private static record EdgeLine(int reference, NeighborEdge edge) {
-	}
 	public static DomContent markMinutiaPosition(MinutiaPoint minutia) {
 		DoublePoint at = MinutiaPoints.center(minutia);
 		return Svg.circle()
@@ -74,9 +72,6 @@ public class LegacyTransparencyMarkers {
 				.stroke(colorEdgeShape(shape.length(), shape.neighborAngle()))
 				.strokeWidth(width));
 	}
-	public static DomContent markNeighborEdge(NeighborEdge edge, int reference, Template template, boolean symmetrical) {
-		return markEdgeShape(edge, template.minutiae()[reference], template.minutiae()[edge.neighbor()], symmetrical ? 1.2 : 0.8);
-	}
 	private static DomElement markPairingEdge(EdgePair edge, MatchSide side, Template template) {
 		DoublePoint reference = MinutiaPoints.center(template.minutiae()[edge.from().side(side)]);
 		DoublePoint neighbor = MinutiaPoints.center(template.minutiae()[edge.to().side(side)]);
@@ -94,20 +89,6 @@ public class LegacyTransparencyMarkers {
 	public static DomContent markPairingSupportEdge(EdgePair edge, MatchSide side, Template template) {
 		return markPairingEdge(edge, side, template)
 			.stroke("yellow");
-	}
-	public static DomContent markEdges(NeighborEdge[][] edges, Template template) {
-		DomFragment markers = new DomFragment();
-		List<EdgeLine> sorted = IntStreamEx.range(edges.length)
-			.flatMapToObj(n -> Arrays.stream(edges[n]).map(e -> new EdgeLine(n, e)))
-			.sorted(Comparator.comparing(e -> -e.edge().length()))
-			.collect(toList());
-		for (EdgeLine line : sorted) {
-			boolean symmetrical = Arrays.stream(edges[line.edge().neighbor()]).anyMatch(e -> e.neighbor() == line.reference());
-			markers.add(markNeighborEdge(line.edge(), line.reference(), template, symmetrical));
-		}
-		for (var minutia : template.minutiae())
-			markers.add(markMinutiaPosition(minutia));
-		return markers;
 	}
 	public static DomContent markIndexedEdge(IndexedEdge edge, Template template) {
 		return markEdgeShape(edge, template.minutiae()[edge.reference()], template.minutiae()[edge.neighbor()], 0.6);

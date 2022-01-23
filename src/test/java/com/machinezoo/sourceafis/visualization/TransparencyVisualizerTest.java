@@ -15,6 +15,12 @@ public class TransparencyVisualizerTest {
 		for (var visualizer : TransparencyVisualizer.all())
 			assertThat(visualizer.dependencies(), hasItem(visualizer.key()));
 	}
+	@Test
+	public void baselineInDependencies() {
+		for (var visualizer : TransparencyVisualizer.all())
+			if (visualizer instanceof TransparencyDiffVisualizer differ)
+				assertThat(differ.dependencies(), hasItem(differ.baseline()));
+	}
 	private static final List<Class<?>> NONVISUAL_KEYS = List.of(
 		ContextKey.class,
 		VersionKey.class,
@@ -59,5 +65,10 @@ public class TransparencyVisualizerTest {
 				}
 			}
 		}
+	}
+	@Test
+	public void predictableMime() {
+		for (var visualizer : TransparencyVisualizer.all())
+			assertEquals(visualizer.mime(), visualizer.visualize(TestArchives.full(visualizer.operation())).mime());
 	}
 }

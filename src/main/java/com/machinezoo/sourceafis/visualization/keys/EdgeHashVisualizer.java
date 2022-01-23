@@ -16,7 +16,7 @@ public record EdgeHashVisualizer() implements VectorVisualizer {
 		return new EdgeHashKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputTemplateKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

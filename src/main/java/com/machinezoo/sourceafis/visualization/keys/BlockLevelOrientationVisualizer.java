@@ -12,7 +12,7 @@ import com.machinezoo.sourceafis.visualization.rendering.*;
 public interface BlockLevelOrientationVisualizer extends VectorVisualizer {
 	SerializedObjectKey<DoublePointMatrix> key();
 	@Override
-	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	default Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new BlocksKey(), new FilteredMaskKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

@@ -7,7 +7,7 @@ import com.machinezoo.sourceafis.transparency.*;
 public interface TransparencyDiffVisualizer extends TransparencyVisualizer {
 	TransparencyKey<?> baseline();
 	@Override
-	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	default Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), baseline());
 	}
 }

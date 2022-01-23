@@ -14,7 +14,7 @@ public record SecondaryBlocksVisualizer() implements VectorVisualizer {
 		return new BlocksKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

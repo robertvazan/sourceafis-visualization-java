@@ -13,7 +13,7 @@ public interface BlockMaskVisualizer extends VectorVisualizer {
 	SerializedObjectKey<BooleanMatrix> key();
 	boolean inverted();
 	@Override
-	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	default Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new BlocksKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

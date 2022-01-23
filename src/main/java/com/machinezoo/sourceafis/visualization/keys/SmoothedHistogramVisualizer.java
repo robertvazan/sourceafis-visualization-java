@@ -14,7 +14,7 @@ public record SmoothedHistogramVisualizer() implements VectorVisualizer {
 		return new SmoothedHistogramKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new BlocksKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

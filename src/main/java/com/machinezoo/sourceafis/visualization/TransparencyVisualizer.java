@@ -6,9 +6,13 @@ import com.machinezoo.sourceafis.transparency.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.keys.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
+import one.util.streamex.*;
 
 public interface TransparencyVisualizer {
 	TransparencyKey<?> key();
+	/*
+	 * Just preferred operation. All relevant operations can be found on the key.
+	 */
 	default TransparentOperation operation() {
 		return key().operation();
 	}
@@ -24,8 +28,17 @@ public interface TransparencyVisualizer {
 	default String extension() {
 		return ImageMime.extension(mime());
 	}
-	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	/*
+	 * List of keys this visualizer can potentially use. Some of these are optional.
+	 * Some keys are operation-specific. Callers can filter them by looking at key operations.
+	 */
+	default Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key());
+	}
+	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+		return StreamEx.of(dependencies())
+			.filter(k -> k.operations().contains(operation))
+			.toSet();
 	}
 	TransparencyImage visualize(TransparencyArchive archive);
 	static List<TransparencyVisualizer> all() {

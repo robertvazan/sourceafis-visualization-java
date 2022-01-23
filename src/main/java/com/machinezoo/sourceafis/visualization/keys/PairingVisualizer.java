@@ -15,7 +15,7 @@ public record PairingVisualizer() implements VectorVisualizer {
 		return new PairingKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(
 			key(),
 			new ProbeTemplateKey(), new ProbeImageKey(), new ProbeGrayscaleKey(),

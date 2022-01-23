@@ -15,7 +15,7 @@ public record ContrastVisualizer() implements VectorVisualizer {
 		return new ContrastKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new BlocksKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

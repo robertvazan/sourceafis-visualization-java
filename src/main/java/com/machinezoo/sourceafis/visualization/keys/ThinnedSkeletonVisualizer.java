@@ -15,7 +15,7 @@ public record ThinnedSkeletonVisualizer(SkeletonType skeleton) implements Vector
 		return new ThinnedSkeletonKey(skeleton);
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

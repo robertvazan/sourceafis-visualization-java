@@ -15,7 +15,7 @@ public record BinarizedSkeletonVisualizer(SkeletonType skeleton) implements Vect
 		return new BinarizedSkeletonKey(skeleton);
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

@@ -14,7 +14,7 @@ public record BinarizedImageVisualizer() implements VectorVisualizer {
 		return new BinarizedImageKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

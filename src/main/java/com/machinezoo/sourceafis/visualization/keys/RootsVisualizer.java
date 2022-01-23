@@ -17,7 +17,7 @@ public record RootsVisualizer() implements VectorVisualizer {
 		return new RootsKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(
 			key(),
 			new ProbeTemplateKey(), new ProbeImageKey(), new ProbeGrayscaleKey(),

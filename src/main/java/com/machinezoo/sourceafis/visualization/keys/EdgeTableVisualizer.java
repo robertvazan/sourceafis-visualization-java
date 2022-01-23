@@ -17,7 +17,7 @@ public record EdgeTableVisualizer() implements VectorVisualizer {
 		return new EdgeTableKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new OutputTemplateKey(), new InputTemplateKey(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

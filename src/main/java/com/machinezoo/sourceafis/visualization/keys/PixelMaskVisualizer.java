@@ -14,7 +14,7 @@ public record PixelMaskVisualizer() implements VectorVisualizer {
 		return new PixelMaskKey();
 	}
 	@Override
-	public Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	public Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

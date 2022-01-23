@@ -16,7 +16,7 @@ public interface MinutiaFilterVisualizer extends TransparencyDiffVisualizer, Vec
 	SerializedObjectKey<Template> key();
 	SerializedObjectKey<Template> baseline();
 	@Override
-	default Set<TransparencyKey<?>> dependencies(TransparentOperation operation) {
+	default Set<TransparencyKey<?>> dependencies() {
 		return Set.of(key(), baseline(), new InputImageKey(), new InputGrayscaleKey());
 	}
 	@Override

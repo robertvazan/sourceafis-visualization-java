@@ -14,7 +14,9 @@ public interface VectorImage extends TransparencyImage {
 		return "image/svg+xml";
 	}
 	default String source() {
-		return tree().toString();
+		return DomFormatter.svg()
+			.format(tree())
+			.toString();
 	}
 	@Override
 	default byte[] bytes() {

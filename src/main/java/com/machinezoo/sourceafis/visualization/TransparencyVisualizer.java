@@ -7,6 +7,7 @@ import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.keys.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.stagean.*;
 import one.util.streamex.*;
 
 public interface TransparencyVisualizer {
@@ -56,6 +57,7 @@ public interface TransparencyVisualizer {
 			.filter(k -> k.operations().contains(operation))
 			.toSet();
 	}
+	@DraftApi("Allow visualizing pairing/scoring other than the first one.")
 	TransparencyImage visualize(TransparencyArchive archive);
 	static List<TransparencyVisualizer> all() {
 		var all = new ArrayList<TransparencyVisualizer>();

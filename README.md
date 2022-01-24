@@ -19,6 +19,8 @@ Experimental. [Stagean](https://stagean.machinezoo.com/) is used to track progre
 
 * [SourceAFIS algorithm transparency](https://sourceafis.machinezoo.com/transparency/)
 
+There is no javadoc yet. See [source code](src/main/java/com/machinezoo/sourceafis/visualization) for available APIs.
+
 ## Feedback
 
 Bug reports and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -8,6 +8,7 @@ import com.machinezoo.sourceafis.visualization.formats.*;
 import com.machinezoo.sourceafis.visualization.layers.*;
 import com.machinezoo.sourceafis.visualization.markers.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
+import it.unimi.dsi.fastutil.ints.*;
 import one.util.streamex.*;
 
 public record EdgeHashVisualizer() implements VectorVisualizer {
@@ -25,13 +26,15 @@ public record EdgeHashVisualizer() implements VectorVisualizer {
 		var buffer = new VectorBuffer(template.size())
 			.background(archive);
 		var hash = archive.deserialize(key()).orElseThrow();
+		var seen = new IntOpenHashSet();
 		var sorted = StreamEx.of(hash)
 			.flatArray(e -> e.edges())
+			.filter(e -> e.reference() < e.neighbor() && seen.add((e.reference() << 16) + e.neighbor()))
 			.sortedByInt(e -> -e.length())
 			.toList();
 		for (var edge : sorted)
 			if (edge.reference() < edge.neighbor())
-				buffer.add(new EdgeShapeMarker(edge, template, 0.5));
+				buffer.add(new EdgeShapeMarker(edge, template, 0.4));
 		return buffer
 			.add(new MinutiaPositionsLayer(template))
 			.render();

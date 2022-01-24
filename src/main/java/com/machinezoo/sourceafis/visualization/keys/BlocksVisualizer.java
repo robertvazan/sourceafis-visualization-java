@@ -23,7 +23,7 @@ public record BlocksVisualizer() implements VectorVisualizer {
 		return new VectorBuffer(blocks.pixels())
 			.padding(1)
 			.background(archive)
-			.add(new BlockGridLayer(blocks.pixels(), blocks.secondary(), "#888", 0.1))
+			.add(new BlockGridLayer(blocks.pixels(), blocks.secondary(), "#080", 0.1))
 			.add(new BlockGridLayer(blocks.pixels(), blocks.primary(), "#00c", 0.25))
 			.render();
 	}

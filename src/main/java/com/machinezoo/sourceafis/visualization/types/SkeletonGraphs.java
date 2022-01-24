@@ -18,9 +18,8 @@ public class SkeletonGraphs {
 	public static Object2IntMap<IntPoint> degrees(SkeletonGraph skeleton) {
 		var counts = new Object2IntOpenHashMap<IntPoint>();
 		for (var ridge : skeleton.ridges()) {
-			var minutia = skeleton.minutiae()[ridge.start()];
-			counts.putIfAbsent(minutia, 0);
-			counts.addTo(minutia, 1);
+			counts.addTo(skeleton.minutiae()[ridge.start()], 1);
+			counts.addTo(skeleton.minutiae()[ridge.end()], 1);
 		}
 		return counts;
 	}

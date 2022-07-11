@@ -9,6 +9,7 @@
 
 	<name>SourceAFIS Visualization</name>
 	<description>Visualizations of SourceAFIS templates and algorithm transparency data.</description>
+
 	<url>https://github.com/robertvazan/sourceafis-visualization-java</url>
 	<inceptionYear>2018</inceptionYear>
 

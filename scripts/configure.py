@@ -33,7 +33,7 @@ def documentation_links():
     yield 'SourceAFIS algorithm transparency', homepage()
 
 def dependencies():
-    use('com.machinezoo.sourceafis:sourceafis-transparency:0.11.0')
+    use('com.machinezoo.sourceafis:sourceafis-transparency:0.12.0')
     use_streamex()
     use_fastutil()
     use_commons_lang()

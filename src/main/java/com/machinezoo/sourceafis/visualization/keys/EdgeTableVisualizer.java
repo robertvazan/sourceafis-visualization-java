@@ -28,7 +28,7 @@ public record EdgeTableVisualizer() implements VectorVisualizer {
 		var edges = archive.deserialize(key()).orElseThrow();
 		var sorted = IntStreamEx.range(edges.length)
 			.flatMapToObj(r -> Arrays.stream(edges[r])
-				.map(e -> new IndexedEdge(e.length(), e.referenceAngle(), e.neighborAngle(), r, e.neighbor())))
+				.map(e -> new IndexedEdge(e.length(), e.referenceAngle(), e.neighborAngle(), (short)r, e.neighbor())))
 			.sortedByInt(e -> -e.length())
 			.toList();
 		for (var edge : sorted) {

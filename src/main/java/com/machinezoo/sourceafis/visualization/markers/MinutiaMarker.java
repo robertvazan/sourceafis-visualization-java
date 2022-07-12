@@ -39,7 +39,7 @@ public record MinutiaMarker(MinutiaPoint minutia, boolean removed) implements La
 				.stroke(color))
 			.transform(new SvgTransform()
 				.translate(at.x(), at.y())
-				.rotate(DoubleAngles.degrees(minutia.direction()))
+				.rotate(FloatAngles.degrees(minutia.direction()))
 				.toString()));
 	}
 }

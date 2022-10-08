@@ -9,11 +9,15 @@ import com.machinezoo.sourceafis.transparency.keys.*;
 import com.machinezoo.sourceafis.transparency.types.*;
 import com.machinezoo.sourceafis.visualization.rendering.*;
 import com.machinezoo.sourceafis.visualization.utils.*;
+import com.machinezoo.stagean.*;
 
 /*
  * Like EmbeddedImageLayer, but it enforces image/jpeg MIME and scaled image dimensions.
  */
 public record BackgroundImageLayer(int width, int height, byte[] image) implements LayerModel {
+	@CodeIssue("Support WSQ.")
+	@CodeIssue("Support all image decoders supported by SourceAFIS.")
+	@CodeIssue("Why are JPEG colors dull compared to PNG?")
 	public BackgroundImageLayer {
 		Validate.isTrue(width > 0 && height > 0);
 		Objects.requireNonNull(image);

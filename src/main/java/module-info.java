@@ -1,9 +1,9 @@
 // Part of SourceAFIS Visualization: https://sourceafis.machinezoo.com/transparency/
 import com.machinezoo.stagean.*;
 
-@NoDocs
+@NoDocs("Add javadoc and website.")
 @DraftTests("Reach 100% coverage.")
-@DraftCode("Use proper SVG library instead of pushmode.")
+@CodeIssue("Use proper SVG library instead of pushmode.")
 module com.machinezoo.sourceafis.visualization {
 	exports com.machinezoo.sourceafis.visualization;
 	exports com.machinezoo.sourceafis.visualization.formats;

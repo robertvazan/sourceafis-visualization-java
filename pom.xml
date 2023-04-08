@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>com.machinezoo.stagean</groupId>
 			<artifactId>stagean</artifactId>
-			<version>1.2.0</version>
+			<version>1.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.machinezoo.sourceafis</groupId>
@@ -135,6 +135,7 @@
 						<![CDATA[<!-- No copyright message. -->]]>
 					</bottom>
 					<links>
+						<link>https://stagean.machinezoo.com/javadoc/</link>
 						<link>https://sourceafis.machinezoo.com/javadoc/</link>
 					</links>
 				</configuration>

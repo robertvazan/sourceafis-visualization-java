@@ -5,7 +5,7 @@
 
 	<groupId>com.machinezoo.sourceafis</groupId>
 	<artifactId>sourceafis-visualization</artifactId>
-	<version>0.8.3</version>
+	<version>0.8.4</version>
 
 	<name>SourceAFIS Visualization</name>
 	<description>Visualizations of SourceAFIS templates and algorithm transparency data.</description>

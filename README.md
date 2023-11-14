@@ -3,7 +3,7 @@
 
 # SourceAFIS Visualization for Java
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.machinezoo.sourceafis/sourceafis-visualization)](https://search.maven.org/artifact/com.machinezoo.sourceafis/sourceafis-visualization)
+[![Maven Central](https://img.shields.io/maven-central/v/com.machinezoo.sourceafis/sourceafis-visualization)](https://central.sonatype.com/artifact/com.machinezoo.sourceafis/sourceafis-visualization)
 [![Build status](https://github.com/robertvazan/sourceafis-visualization-java/workflows/build/badge.svg)](https://github.com/robertvazan/sourceafis-visualization-java/actions/workflows/build.yml)
 [![Test coverage](https://codecov.io/gh/robertvazan/sourceafis-visualization-java/branch/master/graph/badge.svg)](https://codecov.io/gh/robertvazan/sourceafis-visualization-java)
 

@@ -28,7 +28,7 @@ class Project(scaffold.Java):
     
     def dependencies(self):
         yield from super().dependencies()
-        yield self.use('com.machinezoo.sourceafis:sourceafis-transparency:0.13.0')
+        yield self.use('com.machinezoo.sourceafis:sourceafis-transparency:0.13.1')
         yield self.use_streamex()
         yield self.use_fastutil()
         yield self.use_commons_lang()
